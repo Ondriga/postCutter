@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CutterActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:padding="20px" >
+
+        <ImageView
+            android:id="@+id/cutter_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_centerInParent="true"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/cutter_topView"
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:background="@color/red" />
+
+    <View
+        android:id="@+id/cutter_bottomView"
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:background="@color/red" />
+
+    <View
+        android:id="@+id/cutter_leftView"
+        android:layout_width="20px"
+        android:layout_height="match_parent"
+        android:background="@color/red" />
+
+    <View
+        android:id="@+id/cutter_rightView"
+        android:layout_width="20px"
+        android:layout_height="match_parent"
+        android:background="@color/red" />
+
+    <!--TODO
+        <View
+            android:id="@+id/cutter_topViewShadow"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/black"
+            app:layout_constraintTop_"parent" />
+
+        <View
+            android:id="@+id/cutter_bottomViewShadow"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/black"
+            tools:ignore="MissingConstraints" />
+
+        <View
+            android:id="@+id/cutter_leftViewShadow"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            tools:ignore="MissingConstraints" />
+
+        <View
+            android:id="@+id/cutter_rightViewShadow"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            tools:ignore="MissingConstraints" />
+    -->
+</RelativeLayout>
