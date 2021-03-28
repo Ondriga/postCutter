@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.postcutter.cutter.CutterGui;
 
@@ -100,15 +101,16 @@ public class CutterActivity extends AppCompatActivity {
         Utils.matToBitmap(imageMat, bitmap);
 
         File file = Environment.getExternalStorageDirectory();
-        File dir = new File(file.getAbsolutePath() + "/PostCutterPics");
+        File dir = new File(file.getAbsolutePath() + "/PostCutterPics/");
         dir.mkdirs();
 
-        String fileName = String.format("picture_%d", System.currentTimeMillis());
+        String fileName = String.format("picture_%d.png", System.currentTimeMillis());
         File outFile = new File(dir, fileName);
 
         try {
             outputStream = new FileOutputStream(outFile);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            Toast.makeText(getApplicationContext(), "Image saved!", Toast.LENGTH_LONG).show();
             outputStream.flush();
             outputStream.close();
         } catch (FileNotFoundException e) {
