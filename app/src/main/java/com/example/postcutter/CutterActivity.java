@@ -8,7 +8,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.ViewTreeObserver;
@@ -35,6 +34,7 @@ import postCutter.geometricShapes.rectangle.MyRectangle;
 public class CutterActivity extends AppCompatActivity {
     private CutterGui cutterGui;
     private Cutter cutter;
+    private final LoadingDialog loadingDialog = new LoadingDialog(CutterActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,8 @@ public class CutterActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cutter);
+
+        this.loadingDialog.startLoadingDialog();
 
         this.cutter = new Cutter();
         cutterGui = new CutterGui(this);
@@ -72,7 +74,9 @@ public class CutterActivity extends AppCompatActivity {
 
                 Mat mat = new Mat();
                 Utils.bitmapToMat(bitmap, mat);
-                cutter.loadPicture(mat);
+
+                this.cutter.loadPicture(mat);
+                this.loadingDialog.stopLoadingDialog();
 
                 imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     public void onGlobalLayout() {

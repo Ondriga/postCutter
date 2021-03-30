@@ -40,12 +40,15 @@ public class HorizontalLinesHandler extends LinesHandler {
         super.loadImage(cutRectangle, imageRectangle);
         this.originalHeight = originalHeight;
 
+        float tmp = -100000;
         for(MyLine line : horizontalLines){
-            breakPoints.add(
-                    (float) mapping(this.originalHeight,
-                            this.imageRectangle.getHeight(),
-                            line.getStartPoint().getY()) + this.imageRectangle.getCornerA().getY()
-            );
+            float breakPoint = (float) mapping(this.originalHeight,
+                    this.imageRectangle.getHeight(),
+                    line.getStartPoint().getY()) + this.imageRectangle.getCornerA().getY();
+            if(Math.abs(tmp - breakPoint) > this.lineArea){
+                breakPoints.add(breakPoint);
+            }
+            tmp = breakPoint;
         }
 
         this.downTopY = mapping(this.originalHeight, this.imageRectangle.getHeight(), this.cutRectangle.getCornerA().getY())
@@ -58,7 +61,7 @@ public class HorizontalLinesHandler extends LinesHandler {
     }
 
     private void setTop(float newY){
-        if(newY < this.imageRectangle.getCornerA().getY() - this.lineWidth){
+        if(newY < this.imageRectangle.getCornerA().getY() - this.lineWidth + this.lineArea){
             newY = this.imageRectangle.getCornerA().getY() - this.lineWidth;
         }else if(this.bottomLine.getY() - newY < MIN_CUT_SIDE){
             newY = this.bottomLine.getY() - MIN_CUT_SIDE;
@@ -94,7 +97,7 @@ public class HorizontalLinesHandler extends LinesHandler {
     }
 
     private void setBottom(float newY){
-        if(newY > this.imageRectangle.getCornerB().getY()){
+        if(newY > this.imageRectangle.getCornerB().getY() - this.lineArea){
             newY = this.imageRectangle.getCornerB().getY();
         }else if(newY - this.topLine.getY() < MIN_CUT_SIDE){
             newY = this.topLine.getY() + MIN_CUT_SIDE;

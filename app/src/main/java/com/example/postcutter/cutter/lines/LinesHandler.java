@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import postCutter.geometricShapes.line.MyLine;
 import postCutter.geometricShapes.rectangle.MyRectangle;
 
 public class LinesHandler {
     protected static final int MIN_CUT_SIDE = 100;
 
     protected final int lineWidth;
+    protected final int lineArea;
 
     protected final View topLine;
     protected final View bottomLine;
@@ -32,6 +34,7 @@ public class LinesHandler {
         this.rightLine = activity.findViewById(R.id.cutter_rightView);
 
         this.lineWidth = this.leftLine.getLayoutParams().width;
+        this.lineArea = this.lineWidth * 2;
     }
 
     public int mapping(int from, int to, int value){
@@ -66,7 +69,7 @@ public class LinesHandler {
 
     protected float nearBreakPoint(float value, List<Float> breakPoints){
         for(float breakPoint : breakPoints){
-            if (Math.abs(breakPoint - value) < this.lineWidth * 2) {
+            if (Math.abs(breakPoint - value) < this.lineArea) {
                 return breakPoint;
             }
         }
