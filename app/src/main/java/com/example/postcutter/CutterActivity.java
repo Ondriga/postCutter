@@ -85,7 +85,7 @@ public class CutterActivity extends AppCompatActivity {
                         Coordinate coordinateB = new Coordinate(imageView.getRight(),  imageView.getBottom());
                         MyRectangle imageRectangle = MyRectangle.createRectangle(coordinateA, coordinateB);
 
-                        cutterGui.prepare(cutter.getRectangle(), imageRectangle, imageView.getDrawable().getIntrinsicWidth(), imageView.getDrawable().getIntrinsicHeight());
+                        cutterGui.loadImage(cutter, imageRectangle, imageView.getDrawable().getIntrinsicWidth(), imageView.getDrawable().getIntrinsicHeight());
                     }
                 });
             } catch (FileNotFoundException e) {
