@@ -45,6 +45,11 @@ public class LinesHandler {
     protected void loadImage(MyRectangle cutRectangle, MyRectangle imageRectangle){
         this.cutRectangle = cutRectangle;
         this.imageRectangle = imageRectangle;
+
+        topLine.setVisibility(View.VISIBLE);
+        bottomLine.setVisibility(View.VISIBLE);
+        leftLine.setVisibility(View.VISIBLE);
+        rightLine.setVisibility(View.VISIBLE);
     }
 
     protected void setCutRectangleHeight(){

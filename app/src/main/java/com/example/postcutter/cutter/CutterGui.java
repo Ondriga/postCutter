@@ -9,7 +9,7 @@ import postCutter.Cutter;
 import postCutter.geometricShapes.rectangle.MyRectangle;
 
 
-public class CutterGui {
+public class CutterGui{
 
     private final HorizontalLinesHandler horizontalLines;
     private final VerticalLinesHandler verticalLines;

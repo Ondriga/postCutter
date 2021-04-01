@@ -36,27 +36,32 @@ public class CutterActivity extends AppCompatActivity {
     private Cutter cutter;
     private final LoadingDialog loadingDialog = new LoadingDialog(CutterActivity.this);
 
+    private ImageView imageView;
+    private ImageButton cutButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         OpenCVLoader.initDebug();
+        System.loadLibrary("opencv_java3");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cutter);
 
-        this.loadingDialog.startLoadingDialog();
+        ActivityCompat.requestPermissions(CutterActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        ActivityCompat.requestPermissions(CutterActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+
+        imageView = findViewById(R.id.cutter_image);
+        cutButton = findViewById(R.id.cutter_imageButton);
 
         this.cutter = new Cutter();
         cutterGui = new CutterGui(this);
         loadImage();
-        ImageButton cutButton = findViewById(R.id.cutter_imageButton);
-
-        ActivityCompat.requestPermissions(CutterActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        ActivityCompat.requestPermissions(CutterActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
 
         cutButton.setOnClickListener(e -> saveImageToGallery());
     }
 
     private void loadImage(){
+        this.loadingDialog.startLoadingDialog();//Start loading screen
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(Intent.createChooser(intent, "Pick an image"), 1);
@@ -69,29 +74,25 @@ public class CutterActivity extends AppCompatActivity {
             try {
                 InputStream inputStream = getContentResolver().openInputStream(data.getData());
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                ImageView imageView = findViewById(R.id.cutter_image);
                 imageView.setImageBitmap(bitmap);
 
                 Mat mat = new Mat();
                 Utils.bitmapToMat(bitmap, mat);
 
-                this.cutter.loadPicture(mat);
-                this.loadingDialog.stopLoadingDialog();
-
                 imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     public void onGlobalLayout() {
-                        System.loadLibrary("opencv_java3");
-
-                        ImageView imageView = findViewById(R.id.cutter_image);
                         imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
                         Coordinate coordinateA = new Coordinate(imageView.getLeft(), imageView.getTop());
                         Coordinate coordinateB = new Coordinate(imageView.getRight(),  imageView.getBottom());
                         MyRectangle imageRectangle = MyRectangle.createRectangle(coordinateA, coordinateB);
 
-                        cutterGui.loadImage(cutter, imageRectangle, imageView.getDrawable().getIntrinsicWidth(), imageView.getDrawable().getIntrinsicHeight());
+                        ImageProcess imageProcess = new ImageProcess(mat, imageRectangle);
+                        imageProcess.start();
                     }
                 });
+
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -121,6 +122,29 @@ public class CutterActivity extends AppCompatActivity {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private class ImageProcess extends Thread{
+        private final Mat picture;
+        private final MyRectangle imageRectangle;
+
+        private ImageProcess(Mat picture, MyRectangle imageRectangle) {
+            this.picture = picture;
+            this.imageRectangle = imageRectangle;
+        }
+
+        @Override
+        public void run() {
+            cutter.loadPicture(this.picture);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    cutterGui.loadImage(cutter, imageRectangle, imageView.getDrawable().getIntrinsicWidth(), imageView.getDrawable().getIntrinsicHeight());
+                }
+            });
+            
+            loadingDialog.stopLoadingDialog();
         }
     }
 }

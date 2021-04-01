@@ -26,25 +26,29 @@
         android:id="@+id/cutter_topView"
         android:layout_width="match_parent"
         android:layout_height="20px"
-        android:background="@color/red" />
+        android:background="@color/red"
+        android:visibility="invisible"/>
 
     <View
         android:id="@+id/cutter_bottomView"
         android:layout_width="match_parent"
         android:layout_height="20px"
-        android:background="@color/red" />
+        android:background="@color/red"
+        android:visibility="invisible"/>
 
     <View
         android:id="@+id/cutter_leftView"
         android:layout_width="20px"
         android:layout_height="match_parent"
-        android:background="@color/red" />
+        android:background="@color/red"
+        android:visibility="invisible"/>
 
     <View
         android:id="@+id/cutter_rightView"
         android:layout_width="20px"
         android:layout_height="match_parent"
-        android:background="@color/red" />
+        android:background="@color/red"
+        android:visibility="invisible"/>
 
     <!--TODO
     <View
