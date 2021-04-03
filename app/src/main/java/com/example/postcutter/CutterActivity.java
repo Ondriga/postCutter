@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -96,6 +97,10 @@ public class CutterActivity extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+        }else{
+            loadingDialog.stopLoadingDialog();
+
+            finish();
         }
     }
 
@@ -123,6 +128,8 @@ public class CutterActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        finish();
     }
 
     private class ImageProcess extends Thread{

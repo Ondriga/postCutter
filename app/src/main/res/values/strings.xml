@@ -2,4 +2,7 @@
     <string name="app_name">PostCutter</string>
     <string name="button_main_choose">choose picture</string>
     <string name="loading_text">Loading...</string>
+    <string name="dialogButton">Cancel</string>
+    <string name="settingsBarTitle">Settings</string>
+    <string name="settingsSuggestionLines">suggestion lines</string>
 </resources>

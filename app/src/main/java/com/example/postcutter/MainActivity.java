@@ -1,13 +1,12 @@
 package com.example.postcutter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,17 +15,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button button_choose = findViewById(R.id.main_B_choose);
-        button_choose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity();
-            }
-        });
+        Button buttonChoose = findViewById(R.id.main_B_choose);
+        buttonChoose.setOnClickListener(e -> startCutterActivity());
+
+        ImageButton buttonSettings = findViewById(R.id.main_settings);
+        buttonSettings.setOnClickListener(e -> startSettingsActivity());
     }
 
-    private void startActivity(){
+    private void startCutterActivity(){
         Intent intent = new Intent(this, CutterActivity.class);
+        startActivity(intent);
+    }
+
+    private void startSettingsActivity(){
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 }

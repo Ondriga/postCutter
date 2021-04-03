@@ -3,10 +3,11 @@ package com.example.postcutter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.widget.Button;
 
 public class LoadingDialog {
 
-    private Activity activity;
+    private final Activity activity;
     private AlertDialog dialog;
 
     public LoadingDialog(Activity activity){
@@ -22,9 +23,17 @@ public class LoadingDialog {
 
         dialog = builder.create();
         dialog.show();
+
+        Button cancelButton = dialog.findViewById(R.id.dialog_button);
+        cancelButton.setOnClickListener(e -> cancelProcessing());
     }
 
     public void stopLoadingDialog(){
         dialog.dismiss();
+    }
+
+    private void cancelProcessing(){
+        stopLoadingDialog();
+        activity.finish();
     }
 }

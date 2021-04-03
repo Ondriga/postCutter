@@ -1,16 +1,15 @@
 package com.example.postcutter.cutter.lines;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.postcutter.R;
+import com.example.postcutter.SettingsActivity;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import postCutter.geometricShapes.line.MyLine;
 import postCutter.geometricShapes.rectangle.MyRectangle;
 
 public class LinesHandler {
@@ -27,6 +26,8 @@ public class LinesHandler {
     protected MyRectangle cutRectangle;
     protected MyRectangle imageRectangle;
 
+    protected boolean suggestLine;
+
     public LinesHandler(Activity activity) {
         this.topLine = activity.findViewById(R.id.cutter_topView);
         this.bottomLine = activity.findViewById(R.id.cutter_bottomView);
@@ -35,6 +36,9 @@ public class LinesHandler {
 
         this.lineWidth = this.leftLine.getLayoutParams().width;
         this.lineArea = this.lineWidth * 2;
+
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(SettingsActivity.SHARED_PREFS, activity.MODE_PRIVATE);
+        suggestLine = sharedPreferences.getBoolean(SettingsActivity.SUGGESTION_SWITCH, SettingsActivity.SWITCH_DEFAULT);
     }
 
     public int mapping(int from, int to, int value){

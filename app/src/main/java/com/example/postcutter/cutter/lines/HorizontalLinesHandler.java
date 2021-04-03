@@ -40,15 +40,13 @@ public class HorizontalLinesHandler extends LinesHandler {
         super.loadImage(cutRectangle, imageRectangle);
         this.originalHeight = originalHeight;
 
-        float tmp = -100000;
-        for(MyLine line : horizontalLines){
-            float breakPoint = (float) mapping(this.originalHeight,
-                    this.imageRectangle.getHeight(),
-                    line.getStartPoint().getY()) + this.imageRectangle.getCornerA().getY();
-            if(Math.abs(tmp - breakPoint) > this.lineArea){
+        if(suggestLine) {
+            for (MyLine line : horizontalLines) {
+                float breakPoint = (float) mapping(this.originalHeight,
+                        this.imageRectangle.getHeight(),
+                        line.getStartPoint().getY()) + this.imageRectangle.getCornerA().getY();
                 breakPoints.add(breakPoint);
             }
-            tmp = breakPoint;
         }
 
         this.downTopY = mapping(this.originalHeight, this.imageRectangle.getHeight(), this.cutRectangle.getCornerA().getY())
@@ -61,7 +59,9 @@ public class HorizontalLinesHandler extends LinesHandler {
     }
 
     private void setTop(float newY){
-        if(newY < this.imageRectangle.getCornerA().getY() - this.lineWidth + this.lineArea){
+        if(newY < this.imageRectangle.getCornerA().getY() - this.lineWidth) {
+            newY = this.imageRectangle.getCornerA().getY() - this.lineWidth;
+        }else if(suggestLine && newY < this.imageRectangle.getCornerA().getY() - this.lineWidth + this.lineArea){
             newY = this.imageRectangle.getCornerA().getY() - this.lineWidth;
         }else if(this.bottomLine.getY() - newY < MIN_CUT_SIDE){
             newY = this.bottomLine.getY() - MIN_CUT_SIDE;
@@ -82,9 +82,11 @@ public class HorizontalLinesHandler extends LinesHandler {
                 float movedY = event.getY();
                 float distanceY = movedY - this.downTopY;
                 float newY = this.topLine.getY() + distanceY;
-                float tmp = this.nearBreakPoint(newY, this.breakPoints);
-                if(tmp != newY){
-                    newY = tmp - this.lineWidth;
+                if(suggestLine) {
+                    float tmp = this.nearBreakPoint(newY, this.breakPoints);
+                    if (tmp != newY) {
+                        newY = tmp - this.lineWidth;
+                    }
                 }
                 setTop(newY);
                 break;
@@ -97,7 +99,9 @@ public class HorizontalLinesHandler extends LinesHandler {
     }
 
     private void setBottom(float newY){
-        if(newY > this.imageRectangle.getCornerB().getY() - this.lineArea){
+        if(newY > this.imageRectangle.getCornerB().getY()) {
+            newY = this.imageRectangle.getCornerB().getY();
+        }else if(suggestLine && newY > this.imageRectangle.getCornerB().getY() - this.lineArea){
             newY = this.imageRectangle.getCornerB().getY();
         }else if(newY - this.topLine.getY() < MIN_CUT_SIDE){
             newY = this.topLine.getY() + MIN_CUT_SIDE;
@@ -116,7 +120,9 @@ public class HorizontalLinesHandler extends LinesHandler {
                 float movedY = event.getY();
                 float distanceY = movedY - this.downBottomY;
                 float newY = this.bottomLine.getY() + distanceY;
-                newY = this.nearBreakPoint(newY, this.breakPoints);
+                if(suggestLine) {
+                    newY = this.nearBreakPoint(newY, this.breakPoints);
+                }
                 setBottom(newY);
                 break;
             case MotionEvent.ACTION_UP:
