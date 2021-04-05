@@ -23,6 +23,11 @@ public class LinesHandler {
     protected final View leftLine;
     protected final View rightLine;
 
+    protected final View topShadow;
+    protected final View bottomShadow;
+    protected final View leftShadow;
+    protected final View rightShadow;
+
     protected MyRectangle cutRectangle;
     protected MyRectangle imageRectangle;
 
@@ -33,6 +38,11 @@ public class LinesHandler {
         this.bottomLine = activity.findViewById(R.id.cutter_bottomView);
         this.leftLine = activity.findViewById(R.id.cutter_leftView);
         this.rightLine = activity.findViewById(R.id.cutter_rightView);
+
+        this.topShadow = activity.findViewById(R.id.cutter_topViewShadow);
+        this.bottomShadow = activity.findViewById(R.id.cutter_bottomViewShadow);
+        this.leftShadow = activity.findViewById(R.id.cutter_leftViewShadow);
+        this.rightShadow = activity.findViewById(R.id.cutter_rightViewShadow);
 
         this.lineWidth = this.leftLine.getLayoutParams().width;
         this.lineArea = this.lineWidth * 2;
@@ -50,10 +60,26 @@ public class LinesHandler {
         this.cutRectangle = cutRectangle;
         this.imageRectangle = imageRectangle;
 
-        topLine.setVisibility(View.VISIBLE);
-        bottomLine.setVisibility(View.VISIBLE);
-        leftLine.setVisibility(View.VISIBLE);
-        rightLine.setVisibility(View.VISIBLE);
+        this.topLine.setVisibility(View.VISIBLE);
+        this.bottomLine.setVisibility(View.VISIBLE);
+        this.leftLine.setVisibility(View.VISIBLE);
+        this.rightLine.setVisibility(View.VISIBLE);
+
+        setUpShadow();
+    }
+
+    private void setUpShadow(){
+        this.topShadow.setX(this.imageRectangle.getCornerA().getX());
+        this.bottomShadow.setX(this.imageRectangle.getCornerA().getX());
+
+        int shadowWidth = this.imageRectangle.getWidth();
+
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) this.topShadow.getLayoutParams();
+        params.width = shadowWidth;
+        this.topShadow.setLayoutParams(params);
+        params = (RelativeLayout.LayoutParams) this.bottomShadow.getLayoutParams();
+        params.width = shadowWidth;
+        this.bottomShadow.setLayoutParams(params);
     }
 
     protected void setCutRectangleHeight(){
@@ -64,6 +90,13 @@ public class LinesHandler {
         params = (RelativeLayout.LayoutParams) this.rightLine.getLayoutParams();
         params.height = newHeight;
         this.rightLine.setLayoutParams(params);
+
+        params = (RelativeLayout.LayoutParams) this.leftShadow.getLayoutParams();
+        params.height = newHeight;
+        this.leftShadow.setLayoutParams(params);
+        params = (RelativeLayout.LayoutParams) this.rightShadow.getLayoutParams();
+        params.height = newHeight;
+        this.rightShadow.setLayoutParams(params);
     }
 
     protected void setCutRectangleWidth(){

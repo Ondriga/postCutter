@@ -4,13 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsActivity">
+    tools:context=".SettingsActivity"
+    android:background="@drawable/activity_background">
 
     <Switch
         android:id="@+id/settings_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settingsSuggestionLines"
+        android:textStyle="bold"
+        android:switchPadding="20dp"
+        android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

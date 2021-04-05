@@ -3,6 +3,7 @@ package com.example.postcutter.cutter.lines;
 import android.app.Activity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +68,12 @@ public class HorizontalLinesHandler extends LinesHandler {
             newY = this.bottomLine.getY() - MIN_CUT_SIDE;
         }
         this.topLine.setY(newY);
+        setShadow(this.imageRectangle.getCornerA().getY(), (int) newY, this.topShadow);
 
         this.leftLine.setY(newY);
         this.rightLine.setY(newY);
+        this.leftShadow.setY(newY);
+        this.rightShadow.setY(newY);
         setCutRectangleHeight();
     }
 
@@ -107,6 +111,7 @@ public class HorizontalLinesHandler extends LinesHandler {
             newY = this.topLine.getY() + MIN_CUT_SIDE;
         }
         this.bottomLine.setY(newY);
+        setShadow((int) newY + this.lineWidth, this.imageRectangle.getCornerB().getY(), this.bottomShadow);
 
         setCutRectangleHeight();
     }
@@ -131,6 +136,18 @@ public class HorizontalLinesHandler extends LinesHandler {
                         mapping(this.imageRectangle.getHeight(), this.originalHeight, cutPosition)
                 );
         }
+    }
+
+    private void setShadow(int start, int end, View shadow){
+        if(start >= end){
+            shadow.setVisibility(View.INVISIBLE);
+            return;
+        }
+        shadow.setY(start);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) shadow.getLayoutParams();
+        params.height = end - start;
+        shadow.setLayoutParams(params);
+        shadow.setVisibility(View.VISIBLE);
     }
 
 }

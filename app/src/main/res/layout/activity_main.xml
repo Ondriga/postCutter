@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/activity_background">
 
     <ImageButton
         android:id="@+id/main_settings"
@@ -14,16 +15,20 @@
         android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_settings" />
+        app:srcCompat="@drawable/settings_icon"
+        android:padding="10dp"
+        android:background="@drawable/icon_background"/>
 
-    <Button
+    <android.widget.Button
         android:id="@+id/main_B_choose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textStyle="bold"
+        android:textSize="20dp"
         android:text="@string/button_main_choose"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/picture_choose_button"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="150dp"
+        android:layout_marginHorizontal="90dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

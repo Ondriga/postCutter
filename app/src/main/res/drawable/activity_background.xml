@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!--TODO delete
+    <gradient
+        android:startColor="#1adb4b"
+        android:centerColor="#fcfc21"
+        android:endColor="#faba2f"
+        android:angle="45" />-->
+
+    <gradient
+        android:startColor="#c7c7c7"
+        android:centerColor="#c23511"
+        android:endColor="#c23511"
+        android:angle="225" />
+
+</shape>

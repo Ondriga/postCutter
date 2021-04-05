@@ -3,6 +3,7 @@ package com.example.postcutter.cutter.lines;
 import android.app.Activity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,7 @@ public class VerticalLinesHandler extends LinesHandler {
             newX = this.rightLine.getX() - MIN_CUT_SIDE;
         }
         this.leftLine.setX(newX);
+        setShadow(this.imageRectangle.getCornerA().getX(), (int) newX, this.leftShadow);
 
         this.topLine.setX(newX);
         this.bottomLine.setX(newX);
@@ -107,6 +109,7 @@ public class VerticalLinesHandler extends LinesHandler {
             newX = this.leftLine.getX() + MIN_CUT_SIDE;
         }
         this.rightLine.setX(newX);
+        setShadow((int) newX + this.lineWidth, this.imageRectangle.getCornerB().getX(), this.rightShadow);
 
         setCutRectangleWidth();
     }
@@ -131,5 +134,17 @@ public class VerticalLinesHandler extends LinesHandler {
                         mapping(this.imageRectangle.getWidth(), this.originalWidth, cutPosition)
                 );
         }
+    }
+
+    private void setShadow(int start, int end, View shadow){
+        if(start >= end){
+            shadow.setVisibility(View.INVISIBLE);
+            return;
+        }
+        shadow.setX(start);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) shadow.getLayoutParams();
+        params.width = end - start;
+        shadow.setLayoutParams(params);
+        shadow.setVisibility(View.VISIBLE);
     }
 }
