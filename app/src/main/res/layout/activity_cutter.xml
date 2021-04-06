@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.5"
-        android:padding="10dp" >
+        android:padding="@dimen/cropping_line_size" >
 
         <ImageView
             android:id="@+id/cutter_image"
@@ -24,59 +24,59 @@
     </RelativeLayout>
 
     <View
-        android:id="@+id/cutter_topView"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@drawable/top_cropping_line"
-        android:visibility="invisible"/>
-
-    <View
-        android:id="@+id/cutter_bottomView"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@drawable/bottom_cropping_line"
-        android:visibility="invisible"/>
-
-    <View
-        android:id="@+id/cutter_leftView"
-        android:layout_width="10dp"
-        android:layout_height="match_parent"
-        android:background="@drawable/left_cropping_line"
-        android:visibility="invisible"/>
-
-    <View
-        android:id="@+id/cutter_rightView"
-        android:layout_width="10dp"
-        android:layout_height="match_parent"
-        android:background="@drawable/right_cropping_line"
-        android:visibility="invisible"/>
-
-    <View
         android:id="@+id/cutter_topViewShadow"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="@dimen/cropping_line_size"
         android:background="@color/cropping_line_shadow"
         android:visibility="invisible"/>
 
     <View
         android:id="@+id/cutter_bottomViewShadow"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="@dimen/cropping_line_size"
         android:background="@color/cropping_line_shadow"
         android:visibility="invisible"/>
 
     <View
         android:id="@+id/cutter_leftViewShadow"
-        android:layout_width="10dp"
+        android:layout_width="@dimen/cropping_line_size"
         android:layout_height="match_parent"
         android:background="@color/cropping_line_shadow"
         android:visibility="invisible"/>
 
     <View
         android:id="@+id/cutter_rightViewShadow"
-        android:layout_width="10dp"
+        android:layout_width="@dimen/cropping_line_size"
         android:layout_height="match_parent"
         android:background="@color/cropping_line_shadow"
+        android:visibility="invisible"/>
+
+    <View
+        android:id="@+id/cutter_topView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/cropping_line_size"
+        android:background="@drawable/top_cropping_line"
+        android:visibility="invisible"/>
+
+    <View
+        android:id="@+id/cutter_bottomView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/cropping_line_size"
+        android:background="@drawable/bottom_cropping_line"
+        android:visibility="invisible"/>
+
+    <View
+        android:id="@+id/cutter_leftView"
+        android:layout_width="@dimen/cropping_line_size"
+        android:layout_height="match_parent"
+        android:background="@drawable/left_cropping_line"
+        android:visibility="invisible"/>
+
+    <View
+        android:id="@+id/cutter_rightView"
+        android:layout_width="@dimen/cropping_line_size"
+        android:layout_height="match_parent"
+        android:background="@drawable/right_cropping_line"
         android:visibility="invisible"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout

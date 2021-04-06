@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#ff0000</color>
     <color name="cropping_line_shadow">#90000000</color>
-    <color name="cropping_line">#ff0000</color>
+    <color name="cropping_line_secondary">#00FFFFFF</color>
+    <color name="cropping_line_primary">#ff0000</color>
 </resources>

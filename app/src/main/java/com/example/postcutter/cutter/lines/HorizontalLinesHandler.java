@@ -68,12 +68,12 @@ public class HorizontalLinesHandler extends LinesHandler {
             newY = this.bottomLine.getY() - MIN_CUT_SIDE;
         }
         this.topLine.setY(newY);
-        setShadow(this.imageRectangle.getCornerA().getY(), (int) newY, this.topShadow);
+        setShadow(this.imageRectangle.getCornerA().getY(), (int) newY + this.lineWidth, this.topShadow);
 
         this.leftLine.setY(newY);
         this.rightLine.setY(newY);
-        this.leftShadow.setY(newY);
-        this.rightShadow.setY(newY);
+        this.leftShadow.setY(newY + this.lineWidth);
+        this.rightShadow.setY(newY + this.lineWidth);
         setCutRectangleHeight();
     }
 
@@ -111,7 +111,7 @@ public class HorizontalLinesHandler extends LinesHandler {
             newY = this.topLine.getY() + MIN_CUT_SIDE;
         }
         this.bottomLine.setY(newY);
-        setShadow((int) newY + this.lineWidth, this.imageRectangle.getCornerB().getY(), this.bottomShadow);
+        setShadow((int) newY, this.imageRectangle.getCornerB().getY(), this.bottomShadow);
 
         setCutRectangleHeight();
     }

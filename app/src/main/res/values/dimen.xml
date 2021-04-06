@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cropping_line_size">10dp</dimen>
+    <dimen name="cropping_line_size_primary">3dp</dimen>
+    <dimen name="cropping_line_size_secondary">7dp</dimen>
+</resources>

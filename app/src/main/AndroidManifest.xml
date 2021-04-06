@@ -16,7 +16,7 @@
         <activity android:name=".SettingsActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:parentActivityName=".MainActivity"
-            android:label="@string/settingsBarTitle"></activity>
+            android:label="@string/settings_bar_title"></activity>
         <activity android:name=".CutterActivity">
             android:configChanges="orientation"
             android:screenOrientation="portrait"

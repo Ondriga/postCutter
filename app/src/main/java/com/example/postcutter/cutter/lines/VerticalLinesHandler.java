@@ -68,7 +68,7 @@ public class VerticalLinesHandler extends LinesHandler {
             newX = this.rightLine.getX() - MIN_CUT_SIDE;
         }
         this.leftLine.setX(newX);
-        setShadow(this.imageRectangle.getCornerA().getX(), (int) newX, this.leftShadow);
+        setShadow(this.imageRectangle.getCornerA().getX(), (int) newX + this.lineWidth, this.leftShadow);
 
         this.topLine.setX(newX);
         this.bottomLine.setX(newX);
@@ -109,7 +109,7 @@ public class VerticalLinesHandler extends LinesHandler {
             newX = this.leftLine.getX() + MIN_CUT_SIDE;
         }
         this.rightLine.setX(newX);
-        setShadow((int) newX + this.lineWidth, this.imageRectangle.getCornerB().getX(), this.rightShadow);
+        setShadow((int) newX, this.imageRectangle.getCornerB().getX(), this.rightShadow);
 
         setCutRectangleWidth();
     }

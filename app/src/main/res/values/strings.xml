@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">PostCutter</string>
     <string name="button_main_choose">choose picture</string>
-    <string name="loading_text">Loading...</string>
-    <string name="dialogButton">Cancel</string>
-    <string name="settingsBarTitle">Settings</string>
-    <string name="settingsSuggestionLines">suggestion lines</string>
+    <string name="loading_text">Image is processing.</string>
+    <string name="dialog_button">Cancel</string>
+    <string name="settings_bar_title">Settings</string>
+    <string name="settings_suggestion_lines">suggestion lines</string>
 </resources>

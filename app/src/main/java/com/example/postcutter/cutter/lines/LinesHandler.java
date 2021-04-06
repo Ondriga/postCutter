@@ -92,10 +92,10 @@ public class LinesHandler {
         this.rightLine.setLayoutParams(params);
 
         params = (RelativeLayout.LayoutParams) this.leftShadow.getLayoutParams();
-        params.height = newHeight;
+        params.height = newHeight - 2 * this.lineWidth;
         this.leftShadow.setLayoutParams(params);
         params = (RelativeLayout.LayoutParams) this.rightShadow.getLayoutParams();
-        params.height = newHeight;
+        params.height = newHeight - 2 * this.lineWidth;
         this.rightShadow.setLayoutParams(params);
     }
 

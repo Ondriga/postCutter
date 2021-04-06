@@ -11,7 +11,7 @@
         android:id="@+id/settings_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/settingsSuggestionLines"
+        android:text="@string/settings_suggestion_lines"
         android:textStyle="bold"
         android:switchPadding="20dp"
         android:textAllCaps="true"
