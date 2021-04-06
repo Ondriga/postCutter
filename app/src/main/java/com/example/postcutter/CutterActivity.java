@@ -1,6 +1,5 @@
 package com.example.postcutter;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -8,10 +7,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -31,6 +30,8 @@ import java.io.InputStream;
 import postCutter.Cutter;
 import postCutter.geometricShapes.Coordinate;
 import postCutter.geometricShapes.rectangle.MyRectangle;
+
+import static com.example.postcutter.MainActivity.IMAGE_DATA;
 
 public class CutterActivity extends AppCompatActivity {
     private CutterGui cutterGui;
@@ -53,54 +54,42 @@ public class CutterActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.cutter_image);
         cutButton = findViewById(R.id.cutter_imageButton);
-
-        this.cutter = new Cutter();
-        cutterGui = new CutterGui(this);
-        loadImage();
-
         cutButton.setOnClickListener(e -> saveImageToGallery());
-    }
+        this.cutter = new Cutter();
+        this.cutterGui = new CutterGui(this);
 
-    private void loadImage(){
         this.loadingDialog.startLoadingDialog();//Start loading screen
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Pick an image"), 1);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == 1) {
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(data.getData());
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                imageView.setImageBitmap(bitmap);
+        Intent intent = getIntent();
+        try {
+            InputStream inputStream;
+            if (Intent.ACTION_SEND.equals(intent.getAction()) && intent.getType() != null) {
+                Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                inputStream = getContentResolver().openInputStream(imageUri);
 
-                Mat mat = new Mat();
-                Utils.bitmapToMat(bitmap, mat);
-
-                imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    public void onGlobalLayout() {
-                        imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-                        Coordinate coordinateA = new Coordinate(imageView.getLeft(), imageView.getTop());
-                        Coordinate coordinateB = new Coordinate(imageView.getRight(),  imageView.getBottom());
-                        MyRectangle imageRectangle = MyRectangle.createRectangle(coordinateA, coordinateB);
-
-                        ImageProcess imageProcess = new ImageProcess(mat, imageRectangle);
-                        imageProcess.start();
-                    }
-                });
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+            }else{
+                Uri imageUri = Uri.parse(intent.getStringExtra(IMAGE_DATA));
+                inputStream = getContentResolver().openInputStream(imageUri);
             }
-        }else{
-            loadingDialog.stopLoadingDialog();
+            Mat mat = new Mat();
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            imageView.setImageBitmap(bitmap);
+            Utils.bitmapToMat(bitmap, mat);
 
-            finish();
+            imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                public void onGlobalLayout() {
+                    imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                    Coordinate coordinateA = new Coordinate(imageView.getLeft(), imageView.getTop());
+                    Coordinate coordinateB = new Coordinate(imageView.getRight(),  imageView.getBottom());
+                    MyRectangle imageRectangle = MyRectangle.createRectangle(coordinateA, coordinateB);
+
+                    ImageProcess imageProcess = new ImageProcess(mat, imageRectangle);
+                    imageProcess.start();
+                }
+            });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

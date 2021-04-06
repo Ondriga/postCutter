@@ -45,7 +45,7 @@ public class LinesHandler {
         this.rightShadow = activity.findViewById(R.id.cutter_rightViewShadow);
 
         this.lineWidth = this.leftLine.getLayoutParams().width;
-        this.lineArea = this.lineWidth * 2;
+        this.lineArea = this.lineWidth;
 
         SharedPreferences sharedPreferences = activity.getSharedPreferences(SettingsActivity.SHARED_PREFS, activity.MODE_PRIVATE);
         suggestLine = sharedPreferences.getBoolean(SettingsActivity.SUGGESTION_SWITCH, SettingsActivity.SWITCH_DEFAULT);
