@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadImage(){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Pick an image"), 1);//TODO string file
+        startActivityForResult(Intent.createChooser(intent, "Pick an image"), 1);
     }
 
     @Override
