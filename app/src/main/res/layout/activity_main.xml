@@ -7,28 +7,9 @@
     tools:context=".MainActivity"
     android:background="@drawable/activity_background">
 
-    <ImageButton
-        android:id="@+id/main_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/settings_icon"
-        android:padding="10dp"
-        android:background="@drawable/icon_background"/>
-
-    <android.widget.Button
-        android:id="@+id/main_B_choose"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/main_RVImages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:text="@string/button_main_choose"
-        android:background="@drawable/picture_choose_button"
-        android:layout_marginTop="200dp"
-        android:layout_marginBottom="150dp"
-        android:layout_marginHorizontal="90dp"/>
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,10 +17,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.postcutter.cutter.CutterGui;
+import com.squareup.picasso.Picasso;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,6 +42,8 @@ public class CutterActivity extends AppCompatActivity {
     private ImageView imageView;
     private ImageButton cutButton;
 
+    private String imagePath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         OpenCVLoader.initDebug();
@@ -49,7 +53,8 @@ public class CutterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cutter);
 
         ActivityCompat.requestPermissions(CutterActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        ActivityCompat.requestPermissions(CutterActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+
+        imagePath = getIntent().getStringExtra("imagePath");
 
         imageView = findViewById(R.id.cutter_image);
         cutButton = findViewById(R.id.cutter_imageButton);
@@ -61,50 +66,28 @@ public class CutterActivity extends AppCompatActivity {
         cutButton.setOnClickListener(e -> saveImageToGallery());
     }
 
-    private void loadImage(){
+    private void loadImage() {
         this.loadingDialog.startLoadingDialog();//Start loading screen
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Pick an image"), 1);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == 1) {
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(data.getData());
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                imageView.setImageBitmap(bitmap);
+        Picasso.get().load("file:" + imagePath).into(imageView);
 
-                Mat mat = new Mat();
-                Utils.bitmapToMat(bitmap, mat);
+        Mat mat = Imgcodecs.imread(imagePath);
 
-                imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    public void onGlobalLayout() {
-                        imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+        imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            public void onGlobalLayout() {
+                imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-                        Coordinate coordinateA = new Coordinate(imageView.getLeft(), imageView.getTop());
-                        Coordinate coordinateB = new Coordinate(imageView.getRight(),  imageView.getBottom());
-                        MyRectangle imageRectangle = MyRectangle.createRectangle(coordinateA, coordinateB);
+                Coordinate coordinateA = new Coordinate(imageView.getLeft(), imageView.getTop());
+                Coordinate coordinateB = new Coordinate(imageView.getRight(), imageView.getBottom());
+                MyRectangle imageRectangle = MyRectangle.createRectangle(coordinateA, coordinateB);
 
-                        ImageProcess imageProcess = new ImageProcess(mat, imageRectangle);
-                        imageProcess.start();
-                    }
-                });
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                ImageProcess imageProcess = new ImageProcess(mat, imageRectangle);
+                imageProcess.start();
             }
-        }else{
-            loadingDialog.stopLoadingDialog();
-
-            finish();
-        }
+        });
     }
 
-    private void saveImageToGallery(){
+    private void saveImageToGallery() {
         FileOutputStream outputStream = null;
         Mat imageMat = cutter.getCroppedImage();
         Bitmap bitmap = Bitmap.createBitmap(imageMat.width(), imageMat.height(), Bitmap.Config.ARGB_8888);
@@ -132,7 +115,7 @@ public class CutterActivity extends AppCompatActivity {
         finish();
     }
 
-    private class ImageProcess extends Thread{
+    private class ImageProcess extends Thread {
         private final Mat picture;
         private final MyRectangle imageRectangle;
 
@@ -150,7 +133,7 @@ public class CutterActivity extends AppCompatActivity {
                     cutterGui.loadImage(cutter, imageRectangle, imageView.getDrawable().getIntrinsicWidth(), imageView.getDrawable().getIntrinsicHeight());
                 }
             });
-            
+
             loadingDialog.stopLoadingDialog();
         }
     }
