@@ -25,10 +25,19 @@ public class ImageDetaylActivity extends AppCompatActivity {
 
         ImageButton buttonCutter = findViewById(R.id.imageDetail_cutter);
         buttonCutter.setOnClickListener(e -> openCutterActivity(imagePath));
+
+        ImageButton buttonTextErase = findViewById(R.id.imageDetail_textDelete);
+        buttonTextErase.setOnClickListener(e -> openTextEraseActivity(imagePath));
     }
 
-    private void openCutterActivity(String imagePath){
+    private void openCutterActivity(String imagePath) {
         Intent i = new Intent(this, CutterActivity.class);
+        i.putExtra("imagePath", imagePath);
+        startActivity(i);
+    }
+
+    private void openTextEraseActivity(String imagePath) {
+        Intent i = new Intent(this, TextEraseActivity.class);
         i.putExtra("imagePath", imagePath);
         startActivity(i);
     }
