@@ -7,12 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".TextEraseActivity">
 
-    <com.example.postcutter.customViews.RectangleView
-        android:id="@+id/textErase_rectangle"
-        android:layout_width="300px"
-        android:layout_height="300px"
+    <com.example.postcutter.customViews.EraseView
+        android:id="@+id/textErase_eraseView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
