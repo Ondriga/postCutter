@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
 import com.example.postcutter.R;
 
@@ -13,15 +12,22 @@ import postCutter.geometricShapes.rectangle.MyRectangle;
 
 public class RectangleView extends FrameLayout {
 
-    private MyRectangle rectangle = null;
+    private static final int MIN_RECTANGLE_SIDE = 80;
 
-    private Component innerRectangle;
+    private MyRectangle rectangle;
+
+    private InnerComponent innerRectangle;
     private Component topLeftCorner;
     private Component topRightCorner;
     private Component bottomLeftCorner;
     private Component bottomRightCorner;
 
     public static int SHIFT;
+
+    private int realImageWidth;
+    private int realImageHeight;
+    private int showedImageWidth;
+    private int showedImageHeight;
 
     public RectangleView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -40,13 +46,17 @@ public class RectangleView extends FrameLayout {
         this.rectangle.getCornerB().setY(this.getHeight() - SHIFT);
     }
 
-    public void setRectangle() {
+    public void prepare(int realImageWidth, int realImageHeight, int showedImageWidth, int showedImageHeight) {
+        this.realImageWidth = realImageWidth;
+        this.realImageHeight = realImageHeight;
+        this.showedImageWidth = showedImageWidth;
+        this.showedImageHeight = showedImageHeight;
         updateRectangle();
         prepairViews();
     }
 
     private void prepairViews() {
-        innerRectangle = new Component(findViewById(R.id.rectangle_innerRectangle));
+        innerRectangle = new InnerComponent(findViewById(R.id.rectangle_innerRectangle));
         topLeftCorner = new Component(findViewById(R.id.rectangle_topLeftCorner));
         topRightCorner = new Component(findViewById(R.id.rectangle_topRightCorner));
         bottomLeftCorner = new Component(findViewById(R.id.rectangle_bottomLeftCorner));
@@ -54,43 +64,67 @@ public class RectangleView extends FrameLayout {
     }
 
     public void changeInnerRectanglePosition(CoordinateFloat newCoordinate) {
-        this.setX(newCoordinate.getX());
-        this.setY(newCoordinate.getY());
-        updateRectangle();
-        int diffX = (int) (this.rectangle.getCornerA().getX() - newCoordinate.getX());
-        int diffY = (int) (this.rectangle.getCornerA().getY() - newCoordinate.getY());
-        this.rectangle.getCornerA().setX((int) newCoordinate.getX() + SHIFT);
-        this.rectangle.getCornerA().setY((int) newCoordinate.getY() + SHIFT);
-        this.rectangle.getCornerB().setX(this.rectangle.getCornerB().getX() + diffX);
-        this.rectangle.getCornerB().setY(this.rectangle.getCornerB().getY() + diffY);
+        this.rectangle.move((int) newCoordinate.getX(), (int) newCoordinate.getY());
         changeViewDimensions();
     }
 
     public void changeTopLeftPosition(CoordinateFloat newCoordinate) {
-        this.rectangle.getCornerA().setX((int) newCoordinate.getX() + SHIFT);
-        this.rectangle.getCornerA().setY((int) newCoordinate.getY() + SHIFT);
+        int newX = (this.rectangle.getCornerB().getX() - SHIFT) - newCoordinate.getX() < MIN_RECTANGLE_SIDE ?
+                (int) (this.rectangle.getCornerB().getX() - MIN_RECTANGLE_SIDE) :
+                (int) newCoordinate.getX() + SHIFT;
+
+        int newY = (this.rectangle.getCornerB().getY() - SHIFT) - newCoordinate.getY() < MIN_RECTANGLE_SIDE ?
+                (int) (this.rectangle.getCornerB().getY() - MIN_RECTANGLE_SIDE) :
+                (int) newCoordinate.getY() + SHIFT;
+
+        this.rectangle.getCornerA().setX(newX);
+        this.rectangle.getCornerA().setY(newY);
         changeViewDimensions();
     }
 
     public void changeBottomLeftPosition(CoordinateFloat newCoordinate) {
-        this.rectangle.getCornerA().setX((int) newCoordinate.getX() + SHIFT);
-        this.rectangle.getCornerB().setY((int) newCoordinate.getY() - SHIFT);
+        int newX = (this.rectangle.getCornerB().getX() - SHIFT) - newCoordinate.getX() < MIN_RECTANGLE_SIDE ?
+                (int) (this.rectangle.getCornerB().getX() - MIN_RECTANGLE_SIDE) :
+                (int) newCoordinate.getX() + SHIFT;
+
+        int newY = newCoordinate.getY() - (this.rectangle.getCornerA().getY() + SHIFT) < MIN_RECTANGLE_SIDE ?
+                (int) (this.rectangle.getCornerA().getY() + MIN_RECTANGLE_SIDE) :
+                (int) newCoordinate.getY() - SHIFT;
+
+        this.rectangle.getCornerA().setX(newX);
+        this.rectangle.getCornerB().setY(newY);
         changeViewDimensions();
     }
 
     public void changeTopRightPosition(CoordinateFloat newCoordinate) {
-        this.rectangle.getCornerB().setX((int) newCoordinate.getX() - SHIFT);
-        this.rectangle.getCornerA().setY((int) newCoordinate.getY() + SHIFT);
+        int newX = newCoordinate.getX() - (this.rectangle.getCornerA().getX() + SHIFT) < MIN_RECTANGLE_SIDE ?
+                (int) (this.rectangle.getCornerA().getX() + MIN_RECTANGLE_SIDE) :
+                (int) newCoordinate.getX() - SHIFT;
+
+        int newY = (this.rectangle.getCornerB().getY() - SHIFT) - newCoordinate.getY() < MIN_RECTANGLE_SIDE ?
+                (int) (this.rectangle.getCornerB().getY() - MIN_RECTANGLE_SIDE) :
+                (int) newCoordinate.getY() + SHIFT;
+
+        this.rectangle.getCornerB().setX(newX);
+        this.rectangle.getCornerA().setY(newY);
         changeViewDimensions();
     }
 
     public void changeBottomRightPosition(CoordinateFloat newCoordinate) {
-        this.rectangle.getCornerB().setX((int) newCoordinate.getX() - SHIFT);
-        this.rectangle.getCornerB().setY((int) newCoordinate.getY() - SHIFT);
+        int newX = newCoordinate.getX() - (this.rectangle.getCornerA().getX() + SHIFT) < MIN_RECTANGLE_SIDE ?
+                (int) (this.rectangle.getCornerA().getX() + MIN_RECTANGLE_SIDE) :
+                (int) newCoordinate.getX() - SHIFT;
+
+        int newY = newCoordinate.getY() - (this.rectangle.getCornerA().getY() + SHIFT) < MIN_RECTANGLE_SIDE ?
+                (int) (this.rectangle.getCornerA().getY() + MIN_RECTANGLE_SIDE) :
+                (int) newCoordinate.getY() - SHIFT;
+
+        this.rectangle.getCornerB().setX(newX);
+        this.rectangle.getCornerB().setY(newY);
         changeViewDimensions();
     }
 
-    private void changeViewDimensions() {
+    public void changeViewDimensions() {
         System.out.println(this.rectangle);//TODO debug
         this.setX(this.rectangle.getCornerA().getX() - SHIFT);
         this.setY(this.rectangle.getCornerA().getY() - SHIFT);
@@ -99,6 +133,11 @@ public class RectangleView extends FrameLayout {
         params.height = this.rectangle.getHeight() + 2 * SHIFT;
         params.width = this.rectangle.getWidth() + 2 * SHIFT;
         this.setLayoutParams(params);
+    }
+
+    private int mapping(int from, int to, int value){
+        double ration = (double) from / to;
+        return (int) Math.round(value / ration);
     }
 
     public MyRectangle getRectangle() {
@@ -123,5 +162,15 @@ public class RectangleView extends FrameLayout {
 
     public Component getBottomRightCorner() {
         return bottomRightCorner;
+    }
+
+    public MyRectangle getRectangleInNormalSize() {
+        int x = mapping(showedImageWidth, realImageWidth, rectangle.getCornerA().getX());
+        int y = mapping(showedImageHeight, realImageHeight, rectangle.getCornerA().getY());
+        Coordinate cornerA = new Coordinate(x, y);
+        x = mapping(showedImageWidth, realImageWidth, rectangle.getCornerB().getX());
+        y = mapping(showedImageHeight, realImageHeight, rectangle.getCornerB().getY());
+        Coordinate cornerB = new Coordinate(x, y);
+        return MyRectangle.createRectangle(cornerA, cornerB);
     }
 }

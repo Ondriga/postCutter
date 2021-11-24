@@ -3,11 +3,17 @@ package com.example.postcutter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class ImageDetaylActivity extends AppCompatActivity {
     private String imagePath;
@@ -17,6 +23,23 @@ public class ImageDetaylActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detayl);
+
+//        TODO zdielanie obrazka
+//        Intent intent = getIntent();
+//        try {
+//            InputStream inputStream;
+//            if (Intent.ACTION_SEND.equals(intent.getAction()) && intent.getType() != null) {
+//                Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+//                inputStream = getContentResolver().openInputStream(imageUri);
+//
+//            } else {
+//                inputStream = getContentResolver().openInputStream(Uri.parse(imagePath));
+//            }
+//            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//            eraseView.getImageView().setImageBitmap(bitmap);
+//        }catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
         imagePath = getIntent().getStringExtra("imagePath");
 

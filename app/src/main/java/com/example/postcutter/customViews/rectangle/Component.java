@@ -5,7 +5,7 @@ import android.view.View;
 
 public class Component {
     private final View view;
-    private CoordinateFloat coordinate = new CoordinateFloat(0, 0);
+    protected CoordinateFloat coordinate = new CoordinateFloat(0, 0);
 
     public Component(View view) {
         this.view = view;
@@ -25,11 +25,11 @@ public class Component {
         return null;
     }
 
-    private float getXDistance(float movedX) {
+    protected float getXDistance(float movedX) {
         return movedX - this.coordinate.getX();
     }
 
-    private float getYDistance(float movedY) {
+    protected float getYDistance(float movedY) {
         return movedY - this.coordinate.getY();
     }
 
