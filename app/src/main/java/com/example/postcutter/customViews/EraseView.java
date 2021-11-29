@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import com.example.postcutter.R;
 import com.example.postcutter.customViews.rectangle.CoordinateFloat;
 import com.example.postcutter.customViews.rectangle.RectangleView;
+import com.squareup.picasso.Picasso;
 
 import postCutter.geometricShapes.rectangle.MyRectangle;
 
@@ -22,6 +23,11 @@ public class EraseView extends FrameLayout {
     private final RectangleView rectangleView;
     private final RelativeLayout mainLayout;
     private final ImageView imageView;
+
+    private final View shadowTop;
+    private final View shadowLeft;
+    private final View shadowBottom;
+    private final View shadowRight;
 
     public EraseView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -31,11 +37,17 @@ public class EraseView extends FrameLayout {
         mainLayout = findViewById(R.id.erase_view_mainLayout);
         imageView = findViewById(R.id.erase_view_image);
 
+        shadowTop = findViewById(R.id.erase_top_shadow);
+        shadowLeft = findViewById(R.id.erase_left_shadow);
+        shadowBottom = findViewById(R.id.erase_bottom_shadow);
+        shadowRight = findViewById(R.id.erase_right_shadow);
+
         imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             public void onGlobalLayout() {
                 if (imageView.getDrawable() != null) {
                     imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
+                    setShadows();
                     rectangleView.prepare(
                             imageView.getDrawable().getIntrinsicWidth(),
                             imageView.getDrawable().getIntrinsicHeight(),
@@ -45,6 +57,10 @@ public class EraseView extends FrameLayout {
                 }
             }
         });
+    }
+
+    public void loadPicture(String imagePath) {
+        Picasso.get().load("file:" + imagePath).into(this.imageView);
     }
 
     private void makeRectangleInLayout(CoordinateFloat newCoordinate) {
@@ -137,13 +153,50 @@ public class EraseView extends FrameLayout {
                 return true;
             }
         });
+        rectangleView.addOnLayoutChangeListener( new View.OnLayoutChangeListener()
+        {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                setShadows();
+            }
+        });
     }
 
-    public ImageView getImageView() {
-        return imageView;
+    private void setViewHeight(View view, int height) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
+        params.height = height;
+        view.setLayoutParams(params);
+    }
+
+    private void setViewWidth(View view, int width) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
+        params.width = width;
+        view.setLayoutParams(params);
+    }
+
+    private void setShadows() {
+        MyRectangle rectangle = rectangleView.getRectangle();
+
+        setViewHeight(shadowTop, rectangle.getCornerA().getY());
+
+        shadowLeft.setY(rectangle.getCornerA().getY());
+        setViewWidth(shadowLeft, rectangle.getCornerA().getX());
+        setViewHeight(shadowLeft, rectangle.getHeight());
+
+        shadowBottom.setY(rectangle.getCornerB().getY() + 1);
+        setViewHeight(shadowBottom, this.getHeight() - rectangle.getCornerB().getY() - 1);
+
+        shadowRight.setX(rectangle.getCornerB().getX());
+        shadowRight.setY(rectangle.getCornerA().getY());
+        setViewWidth(shadowRight, this.getWidth() - rectangle.getCornerB().getX());
+        setViewHeight(shadowRight, rectangle.getHeight());
     }
 
     public MyRectangle getRectangle() {
-        return rectangleView.getRectangleInNormalSize();
+        return this.rectangleView.getRectangleInNormalSize();
+    }
+
+    public void setRectangle(MyRectangle rectangle) {
+        this.rectangleView.setRectangleInNormalSize(rectangle);
     }
 }

@@ -124,8 +124,7 @@ public class RectangleView extends FrameLayout {
         changeViewDimensions();
     }
 
-    public void changeViewDimensions() {
-        System.out.println(this.rectangle);//TODO debug
+    private void changeViewDimensions() {
         this.setX(this.rectangle.getCornerA().getX() - SHIFT);
         this.setY(this.rectangle.getCornerA().getY() - SHIFT);
 
@@ -172,5 +171,16 @@ public class RectangleView extends FrameLayout {
         y = mapping(showedImageHeight, realImageHeight, rectangle.getCornerB().getY());
         Coordinate cornerB = new Coordinate(x, y);
         return MyRectangle.createRectangle(cornerA, cornerB);
+    }
+
+    public void setRectangleInNormalSize(MyRectangle rectangle) {
+        int x = mapping(realImageWidth, showedImageWidth, rectangle.getCornerA().getX());
+        int y = mapping(realImageHeight, showedImageHeight, rectangle.getCornerA().getY());
+        Coordinate cornerA = new Coordinate(x, y);
+        x = mapping(realImageWidth, showedImageWidth, rectangle.getCornerB().getX());
+        y = mapping(realImageHeight, showedImageHeight, rectangle.getCornerB().getY());
+        Coordinate cornerB = new Coordinate(x, y);
+        this.rectangle = MyRectangle.createRectangle(cornerA, cornerB);
+        changeViewDimensions();
     }
 }

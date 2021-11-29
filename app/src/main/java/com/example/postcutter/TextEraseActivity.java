@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.postcutter.customViews.EraseView;
-import com.squareup.picasso.Picasso;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
@@ -44,7 +43,7 @@ public class TextEraseActivity extends AppCompatActivity {
         button.setOnClickListener(e -> doClick());
 
         originalImage = Imgcodecs.imread(imagePath, Imgcodecs.CV_LOAD_IMAGE_COLOR);
-        Picasso.get().load("file:" + imagePath).into(eraseView.getImageView());
+        eraseView.loadPicture(imagePath);
     }
 
     private void doClick() {

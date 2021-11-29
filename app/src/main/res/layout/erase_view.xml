@@ -11,6 +11,30 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/rectangle_innerRectangleMargin" />
 
+    <View
+        android:id="@+id/erase_top_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:background="@color/transparent_black"/>
+
+    <View
+        android:id="@+id/erase_left_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:background="@color/transparent_black"/>
+
+    <View
+        android:id="@+id/erase_bottom_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:background="@color/transparent_black"/>
+
+    <View
+        android:id="@+id/erase_right_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:background="@color/transparent_black" />
+
     <com.example.postcutter.customViews.rectangle.RectangleView
         android:id="@+id/erase_view_rectangleView"
         android:layout_width="300px"
