@@ -31,30 +31,18 @@ public class EraseView extends FrameLayout {
         mainLayout = findViewById(R.id.erase_view_mainLayout);
         imageView = findViewById(R.id.erase_view_image);
 
-        mainLayout.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        mainLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-//                        rectangleView.setRectangle();
-//                        prepareComponentsForMove();
-                    }
-                }
-        );
-
         imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             public void onGlobalLayout() {
-                imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                if (imageView.getDrawable() != null) {
+                    imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-                //TODO not working
-                rectangleView.prepare(0, 0, 0, 0);
-//                rectangleView.prepare(
-//                        imageView.getDrawable().getIntrinsicWidth(),
-//                        imageView.getDrawable().getIntrinsicHeight(),
-//                        imageView.getWidth(),
-//                        imageView.getHeight());
-                prepareComponentsForMove();
+                    rectangleView.prepare(
+                            imageView.getDrawable().getIntrinsicWidth(),
+                            imageView.getDrawable().getIntrinsicHeight(),
+                            imageView.getWidth(),
+                            imageView.getHeight());
+                    prepareComponentsForMove();
+                }
             }
         });
     }

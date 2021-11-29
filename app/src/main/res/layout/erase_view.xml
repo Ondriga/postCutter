@@ -9,7 +9,7 @@
         android:id="@+id/erase_view_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/rectangle_innerRectangleMargin" />
+        android:padding="@dimen/rectangle_innerRectangleMargin" />
 
     <com.example.postcutter.customViews.rectangle.RectangleView
         android:id="@+id/erase_view_rectangleView"
