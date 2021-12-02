@@ -1,24 +1,16 @@
 package com.example.postcutter;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.postcutter.cutter.CutterGui;
-import com.squareup.picasso.Picasso;
+import com.example.postcutter.customViews.EraseView;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
@@ -29,19 +21,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import postCutter.Cutter;
-import postCutter.geometricShapes.Coordinate;
-import postCutter.geometricShapes.rectangle.MyRectangle;
 
 public class CutterActivity extends AppCompatActivity {
-    private CutterGui cutterGui;
     private Cutter cutter;
     private final LoadingDialog loadingDialog = new LoadingDialog(CutterActivity.this);
 
-    private ImageView imageView;
-    private ImageButton cutButton;
+    private EraseView eraseView;
 
     private String imagePath;
 
@@ -57,39 +44,29 @@ public class CutterActivity extends AppCompatActivity {
 
         imagePath = getIntent().getStringExtra("imagePath");
 
-        imageView = findViewById(R.id.cutter_image);
-        cutButton = findViewById(R.id.cutter_imageButton);
+        eraseView = findViewById(R.id.cutter_eraseView);
+        ImageButton cutButton = findViewById(R.id.cutter_imageButton);
+        cutButton.setOnClickListener(e -> saveImageToGallery());
 
         this.cutter = new Cutter();
-        cutterGui = new CutterGui(this);
         loadImage();
-
-        cutButton.setOnClickListener(e -> saveImageToGallery());
     }
 
     private void loadImage() {
         this.loadingDialog.startLoadingDialog();//Start loading screen
 
-        Picasso.get().load("file:" + imagePath).into(imageView);
-
+        eraseView.loadPicture(imagePath);
         Mat mat = Imgcodecs.imread(imagePath);
-
-        imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            public void onGlobalLayout() {
-                imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-                Coordinate coordinateA = new Coordinate(imageView.getLeft(), imageView.getTop());
-                Coordinate coordinateB = new Coordinate(imageView.getRight(), imageView.getBottom());
-                MyRectangle imageRectangle = MyRectangle.createRectangle(coordinateA, coordinateB);
-
-                ImageProcess imageProcess = new ImageProcess(mat, imageRectangle);
-                imageProcess.start();
-            }
-        });
+        ImageProcess imageProcess = new ImageProcess(mat);
+        imageProcess.start();
     }
 
     private void saveImageToGallery() {
         FileOutputStream outputStream = null;
+        //TODO change BE
+        cutter.getRectangle().setCornerA(eraseView.getRectangle().getCornerA());
+        cutter.getRectangle().setCornerB(eraseView.getRectangle().getCornerB());
+        //TODO change BE
         Mat imageMat = cutter.getCroppedImage();
         Bitmap bitmap = Bitmap.createBitmap(imageMat.width(), imageMat.height(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(imageMat, bitmap);
@@ -118,11 +95,9 @@ public class CutterActivity extends AppCompatActivity {
 
     private class ImageProcess extends Thread {
         private final Mat picture;
-        private final MyRectangle imageRectangle;
 
-        private ImageProcess(Mat picture, MyRectangle imageRectangle) {
+        private ImageProcess(Mat picture) {
             this.picture = picture;
-            this.imageRectangle = imageRectangle;
         }
 
         @Override
@@ -131,10 +106,9 @@ public class CutterActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    cutterGui.loadImage(cutter, imageRectangle, imageView.getDrawable().getIntrinsicWidth(), imageView.getDrawable().getIntrinsicHeight());
+                    eraseView.setRectangle(cutter.getRectangle());
                 }
             });
-
             loadingDialog.stopLoadingDialog();
         }
     }

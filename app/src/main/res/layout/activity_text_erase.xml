@@ -5,12 +5,13 @@
     android:id="@+id/textErase_mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".TextEraseActivity">
 
     <com.example.postcutter.customViews.EraseView
         android:id="@+id/textErase_eraseView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,8 +21,8 @@
         android:id="@+id/textErase_button"
         android:layout_width="200px"
         android:layout_height="200px"
-        android:text="O"
         android:layout_margin="80px"
+        android:text="O"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

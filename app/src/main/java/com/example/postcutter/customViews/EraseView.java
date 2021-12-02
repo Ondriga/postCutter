@@ -1,6 +1,8 @@
-package com.example.postcutter.customViews;
+ package com.example.postcutter.customViews;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,12 +19,16 @@ import com.example.postcutter.customViews.rectangle.CoordinateFloat;
 import com.example.postcutter.customViews.rectangle.RectangleView;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+
+import postCutter.geometricShapes.Coordinate;
 import postCutter.geometricShapes.rectangle.MyRectangle;
 
 public class EraseView extends FrameLayout {
     private final RectangleView rectangleView;
     private final RelativeLayout mainLayout;
     private final ImageView imageView;
+    private MyRectangle imgOnScreen;
 
     private final View shadowTop;
     private final View shadowLeft;
@@ -41,11 +47,23 @@ public class EraseView extends FrameLayout {
         shadowLeft = findViewById(R.id.erase_left_shadow);
         shadowBottom = findViewById(R.id.erase_bottom_shadow);
         shadowRight = findViewById(R.id.erase_right_shadow);
+    }
+
+    public void loadPicture(String imagePath) {
+        Picasso.get().load("file:" + imagePath).into(this.imageView);
 
         imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             public void onGlobalLayout() {
                 if (imageView.getDrawable() != null) {
-                    imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    Coordinate cornerA = new Coordinate(
+                            imageView.getLeft(),
+                            imageView.getTop()
+                    );
+                    Coordinate cornerB = new Coordinate(
+                            imageView.getRight(),
+                            imageView.getBottom()
+                    );
+                    imgOnScreen = MyRectangle.createRectangle(cornerA, cornerB);
 
                     setShadows();
                     rectangleView.prepare(
@@ -54,27 +72,25 @@ public class EraseView extends FrameLayout {
                             imageView.getWidth(),
                             imageView.getHeight());
                     prepareComponentsForMove();
+
+                    imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
             }
         });
     }
 
-    public void loadPicture(String imagePath) {
-        Picasso.get().load("file:" + imagePath).into(this.imageView);
-    }
-
     private void makeRectangleInLayout(CoordinateFloat newCoordinate) {
-        if (RectangleView.SHIFT > rectangleView.getRectangle().getCornerA().getX() + newCoordinate.getX()) {
-            newCoordinate.setX(RectangleView.SHIFT - rectangleView.getRectangle().getCornerA().getX());
+        if (imgOnScreen.getCornerA().getX() > rectangleView.getRectangle().getCornerA().getX() + newCoordinate.getX()) {
+            newCoordinate.setX(imgOnScreen.getCornerA().getX() - rectangleView.getRectangle().getCornerA().getX());
         }
-        if (RectangleView.SHIFT > rectangleView.getRectangle().getCornerA().getY() + newCoordinate.getY()) {
-            newCoordinate.setY(RectangleView.SHIFT - rectangleView.getRectangle().getCornerA().getY());
+        if (imgOnScreen.getCornerA().getY() > rectangleView.getRectangle().getCornerA().getY() + newCoordinate.getY()) {
+            newCoordinate.setY(imgOnScreen.getCornerA().getY() - rectangleView.getRectangle().getCornerA().getY());
         }
-        if (mainLayout.getWidth() - RectangleView.SHIFT < rectangleView.getRectangle().getCornerB().getX() + newCoordinate.getX()) {
-            newCoordinate.setX(mainLayout.getWidth() - RectangleView.SHIFT - rectangleView.getRectangle().getCornerB().getX());
+        if (imgOnScreen.getCornerB().getX() < rectangleView.getRectangle().getCornerB().getX() + newCoordinate.getX()) {
+            newCoordinate.setX(imgOnScreen.getCornerB().getX() - rectangleView.getRectangle().getCornerB().getX());
         }
-        if (mainLayout.getHeight() - RectangleView.SHIFT < rectangleView.getRectangle().getCornerB().getY() + newCoordinate.getY()) {
-            newCoordinate.setY(mainLayout.getHeight() - RectangleView.SHIFT - rectangleView.getRectangle().getCornerB().getY());
+        if (imgOnScreen.getCornerB().getY() < rectangleView.getRectangle().getCornerB().getY() + newCoordinate.getY()) {
+            newCoordinate.setY(imgOnScreen.getCornerB().getY() - rectangleView.getRectangle().getCornerB().getY());
         }
     }
 
@@ -101,8 +117,8 @@ public class EraseView extends FrameLayout {
                         rectangleView.getRectangle().getCornerA().getY() - RectangleView.SHIFT);
                 CoordinateFloat newCoordinate = rectangleView.getTopLeftCorner().moveAction(event, oldCoordinate);
                 if (newCoordinate != null) {
-                    newCoordinate.setX(Math.max(newCoordinate.getX(), 0));
-                    newCoordinate.setY(Math.max(newCoordinate.getY(), 0));
+                    newCoordinate.setX(Math.max(newCoordinate.getX(), imgOnScreen.getCornerA().getX() - RectangleView.SHIFT));
+                    newCoordinate.setY(Math.max(newCoordinate.getY(), imgOnScreen.getCornerA().getY() - RectangleView.SHIFT));
                     rectangleView.changeTopLeftPosition(newCoordinate);
                 }
                 return true;
@@ -116,8 +132,8 @@ public class EraseView extends FrameLayout {
                         rectangleView.getRectangle().getCornerB().getY() + RectangleView.SHIFT);
                 CoordinateFloat newCoordinate = rectangleView.getBottomLeftCorner().moveAction(event, oldCoordinate);
                 if (newCoordinate != null) {
-                    newCoordinate.setX(Math.max(newCoordinate.getX(), 0));
-                    newCoordinate.setY(Math.min(newCoordinate.getY(), mainLayout.getHeight()));
+                    newCoordinate.setX(Math.max(newCoordinate.getX(), imgOnScreen.getCornerA().getX() - RectangleView.SHIFT));
+                    newCoordinate.setY(Math.min(newCoordinate.getY(), imgOnScreen.getCornerB().getY() + RectangleView.SHIFT));
                     rectangleView.changeBottomLeftPosition(newCoordinate);
                 }
                 return true;
@@ -131,8 +147,8 @@ public class EraseView extends FrameLayout {
                         rectangleView.getRectangle().getCornerA().getY() - RectangleView.SHIFT);
                 CoordinateFloat newCoordinate = rectangleView.getTopRightCorner().moveAction(event, oldCoordinate);
                 if (newCoordinate != null) {
-                    newCoordinate.setX(Math.min(newCoordinate.getX(), mainLayout.getWidth()));
-                    newCoordinate.setY(Math.max(newCoordinate.getY(), 0));
+                    newCoordinate.setX(Math.min(newCoordinate.getX(), imgOnScreen.getCornerB().getX() + RectangleView.SHIFT));
+                    newCoordinate.setY(Math.max(newCoordinate.getY(), imgOnScreen.getCornerA().getY() - RectangleView.SHIFT));
                     rectangleView.changeTopRightPosition(newCoordinate);
                 }
                 return true;
@@ -146,8 +162,8 @@ public class EraseView extends FrameLayout {
                         rectangleView.getRectangle().getCornerB().getY() + RectangleView.SHIFT);
                 CoordinateFloat newCoordinate = rectangleView.getBottomLeftCorner().moveAction(event, oldCoordinate);
                 if (newCoordinate != null) {
-                    newCoordinate.setX(Math.min(newCoordinate.getX(), mainLayout.getWidth()));
-                    newCoordinate.setY(Math.min(newCoordinate.getY(), mainLayout.getHeight()));
+                    newCoordinate.setX(Math.min(newCoordinate.getX(), imgOnScreen.getCornerB().getX() + RectangleView.SHIFT));
+                    newCoordinate.setY(Math.min(newCoordinate.getY(), imgOnScreen.getCornerB().getY() + RectangleView.SHIFT));
                     rectangleView.changeBottomRightPosition(newCoordinate);
                 }
                 return true;
@@ -178,6 +194,7 @@ public class EraseView extends FrameLayout {
         MyRectangle rectangle = rectangleView.getRectangle();
 
         setViewHeight(shadowTop, rectangle.getCornerA().getY());
+        setViewWidth(shadowTop, this.getWidth());
 
         shadowLeft.setY(rectangle.getCornerA().getY());
         setViewWidth(shadowLeft, rectangle.getCornerA().getX());
@@ -185,6 +202,7 @@ public class EraseView extends FrameLayout {
 
         shadowBottom.setY(rectangle.getCornerB().getY() + 1);
         setViewHeight(shadowBottom, this.getHeight() - rectangle.getCornerB().getY() - 1);
+        setViewWidth(shadowBottom, this.getWidth());
 
         shadowRight.setX(rectangle.getCornerB().getX());
         shadowRight.setY(rectangle.getCornerA().getY());

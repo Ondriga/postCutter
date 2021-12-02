@@ -1,37 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/erase_view_mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent">
 
-    <ImageView
-        android:id="@+id/erase_view_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/rectangle_innerRectangleMargin" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/rectangle_innerRectangleMargin">
+
+        <ImageView
+            android:id="@+id/erase_view_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            android:background="@color/red"/>
+
+    </RelativeLayout>
+
 
     <View
         android:id="@+id/erase_top_shadow"
-        android:layout_width="match_parent"
+        android:layout_width="200px"
         android:layout_height="200px"
-        android:background="@color/transparent_black"/>
+        android:background="@color/transparent_black" />
 
     <View
         android:id="@+id/erase_left_shadow"
-        android:layout_width="match_parent"
+        android:layout_width="200px"
         android:layout_height="200px"
-        android:background="@color/transparent_black"/>
+        android:background="@color/transparent_black" />
 
     <View
         android:id="@+id/erase_bottom_shadow"
-        android:layout_width="match_parent"
+        android:layout_width="200px"
         android:layout_height="200px"
-        android:background="@color/transparent_black"/>
+        android:background="@color/transparent_black" />
 
     <View
         android:id="@+id/erase_right_shadow"
-        android:layout_width="match_parent"
+        android:layout_width="200px"
         android:layout_height="200px"
         android:background="@color/transparent_black" />
 
