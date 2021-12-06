@@ -26,8 +26,7 @@ public class RectangleView extends FrameLayout {
 
     private int realImageWidth;
     private int realImageHeight;
-    private int showedImageWidth;
-    private int showedImageHeight;
+    private MyRectangle showedImage;
 
     public RectangleView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -40,17 +39,22 @@ public class RectangleView extends FrameLayout {
     }
 
     private void updateRectangle() {
-        this.rectangle.getCornerA().setX((int) this.getX() + SHIFT);
-        this.rectangle.getCornerA().setY((int) this.getY() + SHIFT);
-        this.rectangle.getCornerB().setX(this.getWidth() - SHIFT);
-        this.rectangle.getCornerB().setY(this.getHeight() - SHIFT);
+        int centerX = this.showedImage.getWidth()/2 + this.showedImage.getCornerA().getX();
+        int centerY = this.showedImage.getHeight()/2 + this.showedImage.getCornerA().getY();
+
+        this.rectangle.getCornerA().setX(centerX - MIN_RECTANGLE_SIDE*2);
+        this.rectangle.getCornerA().setY(centerY - MIN_RECTANGLE_SIDE);
+        this.rectangle.getCornerB().setX(centerX + MIN_RECTANGLE_SIDE*2);
+        this.rectangle.getCornerB().setY(centerY + MIN_RECTANGLE_SIDE);
+
+        this.changeViewDimensions();
     }
 
-    public void prepare(int realImageWidth, int realImageHeight, int showedImageWidth, int showedImageHeight) {
+    public void prepare(int realImageWidth, int realImageHeight, MyRectangle showedImage) {
         this.realImageWidth = realImageWidth;
         this.realImageHeight = realImageHeight;
-        this.showedImageWidth = showedImageWidth;
-        this.showedImageHeight = showedImageHeight;
+        this.showedImage = showedImage;
+
         updateRectangle();
         prepairViews();
     }
@@ -164,21 +168,49 @@ public class RectangleView extends FrameLayout {
     }
 
     public MyRectangle getRectangleInNormalSize() {
-        int x = mapping(showedImageWidth, realImageWidth, rectangle.getCornerA().getX());
-        int y = mapping(showedImageHeight, realImageHeight, rectangle.getCornerA().getY());
+        int x = mapping(
+                showedImage.getWidth(),
+                realImageWidth,
+                rectangle.getCornerA().getX() - showedImage.getCornerA().getX()
+        );
+        int y = mapping(
+                showedImage.getHeight(),
+                realImageHeight,
+                rectangle.getCornerA().getY() - showedImage.getCornerA().getY()
+        );
         Coordinate cornerA = new Coordinate(x, y);
-        x = mapping(showedImageWidth, realImageWidth, rectangle.getCornerB().getX());
-        y = mapping(showedImageHeight, realImageHeight, rectangle.getCornerB().getY());
+        x = mapping(
+                showedImage.getWidth(),
+                realImageWidth,
+                rectangle.getCornerB().getX() - showedImage.getCornerA().getX()
+        );
+        y = mapping(
+                showedImage.getHeight(),
+                realImageHeight,
+                rectangle.getCornerB().getY() - showedImage.getCornerA().getY()
+        );
         Coordinate cornerB = new Coordinate(x, y);
         return MyRectangle.createRectangle(cornerA, cornerB);
     }
 
     public void setRectangleInNormalSize(MyRectangle rectangle) {
-        int x = mapping(realImageWidth, showedImageWidth, rectangle.getCornerA().getX());
-        int y = mapping(realImageHeight, showedImageHeight, rectangle.getCornerA().getY());
+        int x = mapping(
+                realImageWidth,
+                showedImage.getWidth(),
+                rectangle.getCornerA().getX()) + showedImage.getCornerA().getX();
+        int y = mapping(
+                realImageHeight,
+                showedImage.getHeight(),
+                rectangle.getCornerA().getY()) + showedImage.getCornerA().getY();
         Coordinate cornerA = new Coordinate(x, y);
-        x = mapping(realImageWidth, showedImageWidth, rectangle.getCornerB().getX());
-        y = mapping(realImageHeight, showedImageHeight, rectangle.getCornerB().getY());
+        x = mapping(
+                realImageWidth,
+                showedImage.getWidth(),
+                rectangle.getCornerB().getX()) + showedImage.getCornerA().getX();
+        y = mapping(
+                realImageHeight,
+                showedImage.getHeight(),
+                rectangle.getCornerB().getY()) + showedImage.getCornerA().getY();
         Coordinate cornerB = new Coordinate(x, y);
         this.rectangle = MyRectangle.createRectangle(cornerA, cornerB);
         changeViewDimensions();

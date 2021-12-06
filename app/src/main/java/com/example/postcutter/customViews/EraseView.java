@@ -1,8 +1,6 @@
  package com.example.postcutter.customViews;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -69,10 +67,10 @@ public class EraseView extends FrameLayout {
                     rectangleView.prepare(
                             imageView.getDrawable().getIntrinsicWidth(),
                             imageView.getDrawable().getIntrinsicHeight(),
-                            imageView.getWidth(),
-                            imageView.getHeight());
+                            imgOnScreen);
                     prepareComponentsForMove();
 
+                    // remove listener for image change
                     imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
             }
