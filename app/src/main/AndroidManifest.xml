@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PostCutter">
         <activity android:name=".TextEraseActivity"></activity>
-        <activity android:name=".ImageDetaylActivity">
+        <activity android:name=".ImageDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />

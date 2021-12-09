@@ -40,7 +40,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     }
 
     private void openPicture(int position) {
-        Intent i = new Intent(context, ImageDetaylActivity.class);
+        Intent i = new Intent(context, ImageDetailActivity.class);
         i.putExtra("imagePath", imagePathArrayList.get(position));
         context.startActivity(i);
     }

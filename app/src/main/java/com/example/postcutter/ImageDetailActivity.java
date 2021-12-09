@@ -2,7 +2,6 @@ package com.example.postcutter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,7 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ImageDetaylActivity extends AppCompatActivity {
+public class ImageDetailActivity extends AppCompatActivity {
     private static final String IMAGE_FILE = "selectedPicture";
 
     private SubsamplingScaleImageView imageView;
