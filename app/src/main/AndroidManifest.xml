@@ -15,7 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PostCutter">
         <activity android:name=".TextEraseActivity"></activity>
-        <activity android:name=".ImageDetaylActivity" />
+        <activity android:name=".ImageDetaylActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/settings_bar_title"
@@ -25,13 +31,7 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="image/*" />
-            </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>

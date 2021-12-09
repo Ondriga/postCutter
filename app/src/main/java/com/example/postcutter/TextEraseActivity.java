@@ -3,6 +3,7 @@ package com.example.postcutter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Button;
@@ -13,7 +14,6 @@ import com.example.postcutter.customViews.EraseView;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
@@ -24,7 +24,7 @@ import java.io.IOException;
 import inpainting.Inpainter;
 
 public class TextEraseActivity extends AppCompatActivity {
-    private String imagePath;
+    private Bitmap imageBitmap;
     private EraseView eraseView;
     private Mat originalImage;
 
@@ -36,14 +36,18 @@ public class TextEraseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_erase);
 
-        imagePath = getIntent().getStringExtra("imagePath");
+        String path = getIntent().getStringExtra("imgCachePath");
+        File file = new File(path);
+        imageBitmap = BitmapFactory.decodeFile(file.getPath());
+
         eraseView = findViewById(R.id.textErase_eraseView);
 
         Button button = findViewById(R.id.textErase_button);
         button.setOnClickListener(e -> doClick());
 
-        originalImage = Imgcodecs.imread(imagePath, Imgcodecs.CV_LOAD_IMAGE_COLOR);
-        eraseView.loadPicture(imagePath);
+        originalImage = new Mat();
+        Utils.bitmapToMat(this.imageBitmap, this.originalImage);
+        eraseView.loadPicture(this.imageBitmap);
     }
 
     private void doClick() {

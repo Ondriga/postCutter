@@ -1,6 +1,7 @@
  package com.example.postcutter.customViews;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,8 +48,8 @@ public class EraseView extends FrameLayout {
         shadowRight = findViewById(R.id.erase_right_shadow);
     }
 
-    public void loadPicture(String imagePath) {
-        Picasso.get().load("file:" + imagePath).into(this.imageView);
+    public void loadPicture(Bitmap imageBitmap) {
+        this.imageView.setImageBitmap(imageBitmap);
 
         imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             public void onGlobalLayout() {

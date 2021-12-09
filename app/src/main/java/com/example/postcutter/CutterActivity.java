@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.ImageButton;
@@ -15,7 +16,6 @@ import com.example.postcutter.customViews.EraseView;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,7 +30,7 @@ public class CutterActivity extends AppCompatActivity {
 
     private EraseView eraseView;
 
-    private String imagePath;
+    private Bitmap imageBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,9 @@ public class CutterActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(CutterActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
-        imagePath = getIntent().getStringExtra("imagePath");
+        String path = getIntent().getStringExtra("imgCachePath");
+        File file = new File(path);
+        imageBitmap = BitmapFactory.decodeFile(file.getPath());
 
         eraseView = findViewById(R.id.cutter_eraseView);
         ImageButton cutButton = findViewById(R.id.cutter_imageButton);
@@ -55,8 +57,9 @@ public class CutterActivity extends AppCompatActivity {
     private void loadImage() {
         this.loadingDialog.startLoadingDialog();//Start loading screen
 
-        eraseView.loadPicture(imagePath);
-        Mat mat = Imgcodecs.imread(imagePath);
+        eraseView.loadPicture(imageBitmap);
+        Mat mat = new Mat();
+        Utils.bitmapToMat(imageBitmap, mat);
         ImageProcess imageProcess = new ImageProcess(mat);
         imageProcess.start();
     }
