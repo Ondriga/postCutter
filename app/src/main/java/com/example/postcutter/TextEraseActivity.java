@@ -51,10 +51,10 @@ public class TextEraseActivity extends AppCompatActivity {
     }
 
     private void doClick() {
-        Mat inpaingingMat = Inpainter.inpainging(originalImage, eraseView.getRectangle());
+        Mat convertMat = new Mat();
+        Imgproc.cvtColor(originalImage, convertMat, Imgproc.COLOR_RGBA2RGB);
 
-        Mat imageMat = new Mat();
-        Imgproc.cvtColor(inpaingingMat, imageMat, Imgproc.COLOR_BGR2RGB);
+        Mat imageMat = Inpainter.inpainging(convertMat, eraseView.getRectangle());
 
         FileOutputStream outputStream = null;
         Bitmap bitmap = Bitmap.createBitmap(imageMat.width(), imageMat.height(), Bitmap.Config.ARGB_8888);

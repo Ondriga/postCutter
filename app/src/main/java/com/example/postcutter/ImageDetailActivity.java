@@ -21,7 +21,6 @@ import java.io.InputStream;
 public class ImageDetailActivity extends AppCompatActivity {
     private static final String IMAGE_FILE = "selectedPicture";
 
-    private SubsamplingScaleImageView imageView;
     private String tmpPictureFilePath;
 
     @Override
@@ -29,7 +28,7 @@ public class ImageDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detayl);
 
-        imageView = findViewById(R.id.idIVImage);
+        SubsamplingScaleImageView imageView = findViewById(R.id.idIVImage);
 
         Bitmap imageBitmap;
         Intent intent = getIntent();
