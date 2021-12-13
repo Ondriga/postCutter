@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_scissors"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/imageDetail_textDelete"
+            app:layout_constraintEnd_toStartOf="@id/imageDetail_textDelete"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,8 +39,9 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_text_delete"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/imageDetail_share"
-            app:layout_constraintStart_toStartOf="@id/imageDetail_cutter"
+            app:layout_constraintEnd_toStartOf="@+id/imageDetail_share"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageDetail_cutter"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
@@ -48,9 +49,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_share"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/imageDetail_imgDelete"
-            app:layout_constraintStart_toStartOf="@id/imageDetail_textDelete"
+            app:layout_constraintEnd_toStartOf="@id/imageDetail_imgDelete"
+            app:layout_constraintStart_toEndOf="@id/imageDetail_textDelete"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
@@ -58,9 +60,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_img_delete"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/imageDetail_share"
+            app:layout_constraintStart_toEndOf="@id/imageDetail_share"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

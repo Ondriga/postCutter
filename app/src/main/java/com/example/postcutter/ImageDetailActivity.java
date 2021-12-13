@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.ImageButton;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -29,12 +30,20 @@ public class ImageDetailActivity extends AppCompatActivity {
     private String tmpPictureFilePath;
     private String imagePath;
 
+    private ImageButton buttonShare;
+    private ImageButton buttonImgDelete;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detayl);
 
         SubsamplingScaleImageView imageView = findViewById(R.id.idIVImage);
+
+        ImageButton buttonCutter = findViewById(R.id.imageDetail_cutter);
+        ImageButton buttonTextErase = findViewById(R.id.imageDetail_textDelete);
+        buttonShare = findViewById(R.id.imageDetail_share);
+        buttonImgDelete = findViewById(R.id.imageDetail_imgDelete);
 
         Bitmap imageBitmap;
         Intent intent = getIntent();
@@ -43,14 +52,17 @@ public class ImageDetailActivity extends AppCompatActivity {
                 Uri imageUri = (Uri) intent.getData();
                 InputStream inputStream = getContentResolver().openInputStream(imageUri);
                 imageBitmap = BitmapFactory.decodeStream(inputStream);
+                setVisibilityShareDelete(View.GONE);
             } else if (Intent.ACTION_SEND.equals(intent.getAction()) && intent.getType() != null) {
                 Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 InputStream inputStream = getContentResolver().openInputStream(imageUri);
                 imageBitmap = BitmapFactory.decodeStream(inputStream);
+                setVisibilityShareDelete(View.GONE);
             } else {
                 imagePath = intent.getStringExtra("imagePath");
                 File imgFile = new File(imagePath);
                 imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                setVisibilityShareDelete(View.VISIBLE);
             }
             imageView.setImage(ImageSource.bitmap(imageBitmap));
             temporaryStorePicture(imageBitmap);
@@ -58,17 +70,16 @@ public class ImageDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        ImageButton buttonCutter = findViewById(R.id.imageDetail_cutter);
+
         buttonCutter.setOnClickListener(e -> openCutterActivity());
-
-        ImageButton buttonTextErase = findViewById(R.id.imageDetail_textDelete);
         buttonTextErase.setOnClickListener(e -> openTextEraseActivity());
-
-        ImageButton buttonShare = findViewById(R.id.imageDetail_share);
         buttonShare.setOnClickListener(e -> shareImage());
-
-        ImageButton buttonImgDelete = findViewById(R.id.imageDetail_imgDelete);
         buttonImgDelete.setOnClickListener(e -> deleteImage());
+    }
+
+    private void setVisibilityShareDelete(int visibility) {
+        buttonShare.setVisibility(visibility);
+        buttonImgDelete.setVisibility(visibility);
     }
 
     private void temporaryStorePicture(Bitmap bitmap) {
@@ -111,7 +122,7 @@ public class ImageDetailActivity extends AppCompatActivity {
     }
 
     private void deleteImage() {
-        String[] retCol = { MediaStore.Images.Media._ID };
+        String[] retCol = {MediaStore.Images.Media._ID};
         Cursor cur = getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 retCol,
