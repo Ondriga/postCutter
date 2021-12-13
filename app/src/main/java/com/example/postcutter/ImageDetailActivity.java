@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.widget.ImageButton;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -22,6 +23,7 @@ public class ImageDetailActivity extends AppCompatActivity {
     private static final String IMAGE_FILE = "selectedPicture";
 
     private String tmpPictureFilePath;
+    private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +40,8 @@ public class ImageDetailActivity extends AppCompatActivity {
                 InputStream inputStream = getContentResolver().openInputStream(imageUri);
                 imageBitmap = BitmapFactory.decodeStream(inputStream);
             } else {
-                String imagePath = intent.getStringExtra("imagePath");
-                File imgFile = new  File(imagePath);
+                imagePath = intent.getStringExtra("imagePath");
+                File imgFile = new File(imagePath);
                 imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             }
             imageView.setImage(ImageSource.bitmap(imageBitmap));
@@ -53,6 +55,9 @@ public class ImageDetailActivity extends AppCompatActivity {
 
         ImageButton buttonTextErase = findViewById(R.id.imageDetail_textDelete);
         buttonTextErase.setOnClickListener(e -> openTextEraseActivity());
+
+        ImageButton buttonShare = findViewById(R.id.imageDetail_share);
+        buttonShare.setOnClickListener(e -> shareImage());
     }
 
     private void temporaryStorePicture(Bitmap bitmap) {
@@ -78,5 +83,19 @@ public class ImageDetailActivity extends AppCompatActivity {
         Intent i = new Intent(this, TextEraseActivity.class);
         i.putExtra("imgCachePath", this.tmpPictureFilePath);
         startActivity(i);
+    }
+
+    private void shareImage() {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        File photoFile = new File(imagePath);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(photoFile));
+        shareIntent.setType("image/jpg");
+
+        startActivity(Intent.createChooser(shareIntent, null));
     }
 }
