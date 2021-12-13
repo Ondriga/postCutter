@@ -35,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
         requestPermissions();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        imagePaths.clear();
+        getImagePath();
+    }
+
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(MainActivity.this, READ_EXTERNAL_STORAGE);
         return result == PackageManager.PERMISSION_GRANTED;

@@ -2,12 +2,15 @@ package com.example.postcutter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentUris;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.widget.ImageButton;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -108,9 +111,24 @@ public class ImageDetailActivity extends AppCompatActivity {
     }
 
     private void deleteImage() {
-        File photoFile = new File(imagePath);
-        if (photoFile.delete()) {
-            finish();
+        String[] retCol = { MediaStore.Images.Media._ID };
+        Cursor cur = getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                retCol,
+                MediaStore.MediaColumns.DATA + "='" + imagePath + "'", null, null
+        );
+        if (cur.getCount() == 0) {
+            return;
         }
+        cur.moveToFirst();
+        int id = cur.getInt(cur.getColumnIndex(MediaStore.MediaColumns._ID));
+        cur.close();
+
+        Uri uri = ContentUris.withAppendedId(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id
+        );
+        getContentResolver().delete(uri, null, null);
+
+        finish();
     }
 }

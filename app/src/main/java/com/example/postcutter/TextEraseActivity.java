@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -56,28 +57,11 @@ public class TextEraseActivity extends AppCompatActivity {
 
         Mat imageMat = Inpainter.inpainging(convertMat, eraseView.getRectangle());
 
-        FileOutputStream outputStream = null;
         Bitmap bitmap = Bitmap.createBitmap(imageMat.width(), imageMat.height(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(imageMat, bitmap);
 
-        File file = Environment.getExternalStorageDirectory();
-        File dir = new File(file.getAbsolutePath() + "/PostCutterPics/");
-        dir.mkdirs();
-
-        String fileName = String.format("picture_%d.png", System.currentTimeMillis());
-        File outFile = new File(dir, fileName);
-
-        try {
-            outputStream = new FileOutputStream(outFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-            Toast.makeText(getApplicationContext(), "Image saved!", Toast.LENGTH_LONG).show();
-            outputStream.flush();
-            outputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String fileName = String.format("picture_%d", System.currentTimeMillis());
+        MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, fileName, "");
 
         finish();
     }
