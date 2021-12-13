@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.postcutter">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -15,8 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PostCutter">
         <activity android:name=".TextEraseActivity"></activity>
-        <activity android:name=".ImageDetailActivity">
-            <intent-filter>
+        <activity android:name=".ImageDetailActivity"
+            tools:ignore="AppLinkUrlError">
+            <intent-filter android:scheme="http">
+                <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="image/*" />

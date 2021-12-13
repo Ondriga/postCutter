@@ -35,7 +35,9 @@ public class ImageDetailActivity extends AppCompatActivity {
         Bitmap imageBitmap;
         Intent intent = getIntent();
         try {
-            if (Intent.ACTION_SEND.equals(intent.getAction()) && intent.getType() != null) {
+            if (Intent.ACTION_VIEW.equals(intent.getAction()) ||
+                    Intent.ACTION_SEND.equals(intent.getAction()) &&
+                            intent.getType() != null) {
                 Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 InputStream inputStream = getContentResolver().openInputStream(imageUri);
                 imageBitmap = BitmapFactory.decodeStream(inputStream);
