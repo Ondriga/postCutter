@@ -42,7 +42,7 @@ public class CutterActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(CutterActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
-        String path = getIntent().getStringExtra("imgCachePath");
+        String path = getIntent().getStringExtra(ImageDetailActivity.IMG_CACHE_FILE_NAME);
         File file = new File(path);
         imageBitmap = BitmapFactory.decodeFile(file.getPath());
 

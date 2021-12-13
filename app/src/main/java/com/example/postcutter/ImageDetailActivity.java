@@ -21,6 +21,7 @@ import java.io.InputStream;
 
 public class ImageDetailActivity extends AppCompatActivity {
     private static final String IMAGE_FILE = "selectedPicture";
+    public static final String IMG_CACHE_FILE_NAME = "imgCachePath";
 
     private String tmpPictureFilePath;
     private String imagePath;
@@ -35,9 +36,11 @@ public class ImageDetailActivity extends AppCompatActivity {
         Bitmap imageBitmap;
         Intent intent = getIntent();
         try {
-            if (Intent.ACTION_VIEW.equals(intent.getAction()) ||
-                    Intent.ACTION_SEND.equals(intent.getAction()) &&
-                            intent.getType() != null) {
+            if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getType() != null) {
+                Uri imageUri = (Uri) intent.getData();
+                InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                imageBitmap = BitmapFactory.decodeStream(inputStream);
+            } else if (Intent.ACTION_SEND.equals(intent.getAction()) && intent.getType() != null) {
                 Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 InputStream inputStream = getContentResolver().openInputStream(imageUri);
                 imageBitmap = BitmapFactory.decodeStream(inputStream);
@@ -60,6 +63,9 @@ public class ImageDetailActivity extends AppCompatActivity {
 
         ImageButton buttonShare = findViewById(R.id.imageDetail_share);
         buttonShare.setOnClickListener(e -> shareImage());
+
+        ImageButton buttonImgDelete = findViewById(R.id.imageDetail_imgDelete);
+        buttonImgDelete.setOnClickListener(e -> deleteImage());
     }
 
     private void temporaryStorePicture(Bitmap bitmap) {
@@ -77,13 +83,13 @@ public class ImageDetailActivity extends AppCompatActivity {
 
     private void openCutterActivity() {
         Intent i = new Intent(this, CutterActivity.class);
-        i.putExtra("imgCachePath", this.tmpPictureFilePath);
+        i.putExtra(IMG_CACHE_FILE_NAME, this.tmpPictureFilePath);
         startActivity(i);
     }
 
     private void openTextEraseActivity() {
         Intent i = new Intent(this, TextEraseActivity.class);
-        i.putExtra("imgCachePath", this.tmpPictureFilePath);
+        i.putExtra(IMG_CACHE_FILE_NAME, this.tmpPictureFilePath);
         startActivity(i);
     }
 
@@ -99,5 +105,12 @@ public class ImageDetailActivity extends AppCompatActivity {
         shareIntent.setType("image/jpg");
 
         startActivity(Intent.createChooser(shareIntent, null));
+    }
+
+    private void deleteImage() {
+        File photoFile = new File(imagePath);
+        if (photoFile.delete()) {
+            finish();
+        }
     }
 }

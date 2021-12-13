@@ -36,7 +36,7 @@ public class TextEraseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_erase);
 
-        String path = getIntent().getStringExtra("imgCachePath");
+        String path = getIntent().getStringExtra(ImageDetailActivity.IMG_CACHE_FILE_NAME);
         File file = new File(path);
         imageBitmap = BitmapFactory.decodeFile(file.getPath());
 
