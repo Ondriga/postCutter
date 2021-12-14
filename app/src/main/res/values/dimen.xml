@@ -4,6 +4,10 @@
     <dimen name="cropping_line_size_primary">3dp</dimen>
     <dimen name="cropping_line_size_secondary">7dp</dimen>
     <dimen name="rectangle_corner">53px</dimen>
+    <dimen name="rectangle_longSide">106px</dimen>
+    <dimen name="rectangle_shortSide">53px</dimen>
     <dimen name="rectangle_innerRectangleMargin">25px</dimen>
     <dimen name="rectangle_border_width">3px</dimen>
+    <dimen name="rectangle_sideRadius">10px</dimen>
+    <dimen name="rectangle_sidePadding">8px</dimen>
 </resources>

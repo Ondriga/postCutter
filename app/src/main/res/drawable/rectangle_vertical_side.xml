@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:left="@dimen/rectangle_sidePadding"
+        android:right="@dimen/rectangle_sidePadding">
+
+        <shape android:shape="rectangle">
+
+            <padding
+                android:left="@dimen/rectangle_sidePadding"
+                android:right="@dimen/rectangle_sidePadding" />
+
+            <solid android:color="@color/white" />
+
+            <size
+                android:width="@dimen/rectangle_shortSide"
+                android:height="@dimen/rectangle_longSide" />
+
+            <stroke
+                android:width="@dimen/rectangle_border_width"
+                android:color="@color/black" />
+
+            <corners android:radius="@dimen/rectangle_sideRadius" />
+        </shape>
+    </item>
+</layer-list>

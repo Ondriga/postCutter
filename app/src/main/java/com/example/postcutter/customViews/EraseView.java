@@ -25,7 +25,6 @@ import postCutter.geometricShapes.rectangle.MyRectangle;
 
 public class EraseView extends FrameLayout {
     private final RectangleView rectangleView;
-    private final RelativeLayout mainLayout;
     private final ImageView imageView;
     private MyRectangle imgOnScreen;
 
@@ -39,7 +38,6 @@ public class EraseView extends FrameLayout {
         inflate(getContext(), R.layout.erase_view, this);
 
         rectangleView = findViewById(R.id.erase_view_rectangleView);
-        mainLayout = findViewById(R.id.erase_view_mainLayout);
         imageView = findViewById(R.id.erase_view_image);
 
         shadowTop = findViewById(R.id.erase_top_shadow);
@@ -164,6 +162,62 @@ public class EraseView extends FrameLayout {
                     newCoordinate.setX(Math.min(newCoordinate.getX(), imgOnScreen.getCornerB().getX() + RectangleView.SHIFT));
                     newCoordinate.setY(Math.min(newCoordinate.getY(), imgOnScreen.getCornerB().getY() + RectangleView.SHIFT));
                     rectangleView.changeBottomRightPosition(newCoordinate);
+                }
+                return true;
+            }
+        });
+        rectangleView.getTopSide().getView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                CoordinateFloat oldCoordinate = new CoordinateFloat(
+                        0,
+                        rectangleView.getRectangle().getCornerA().getY() - RectangleView.SHIFT);
+                CoordinateFloat newCoordinate = rectangleView.getTopSide().moveAction(event, oldCoordinate);
+                if (newCoordinate != null) {
+                    float y = Math.max(newCoordinate.getY(), imgOnScreen.getCornerA().getY() - RectangleView.SHIFT);
+                    rectangleView.changeTopPosition(y);
+                }
+                return true;
+            }
+        });
+        rectangleView.getLeftSide().getView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                CoordinateFloat oldCoordinate = new CoordinateFloat(
+                        rectangleView.getRectangle().getCornerA().getX() - RectangleView.SHIFT,
+                        0);
+                CoordinateFloat newCoordinate = rectangleView.getLeftSide().moveAction(event, oldCoordinate);
+                if (newCoordinate != null) {
+                    float x = Math.max(newCoordinate.getX(), imgOnScreen.getCornerA().getX() - RectangleView.SHIFT);
+                    rectangleView.changeLeftPosition(x);
+                }
+                return true;
+            }
+        });
+        rectangleView.getBottomSide().getView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                CoordinateFloat oldCoordinate = new CoordinateFloat(
+                        0,
+                        rectangleView.getRectangle().getCornerB().getY() + RectangleView.SHIFT);
+                CoordinateFloat newCoordinate = rectangleView.getBottomSide().moveAction(event, oldCoordinate);
+                if (newCoordinate != null) {
+                    float y = Math.min(newCoordinate.getY(), imgOnScreen.getCornerB().getY() + RectangleView.SHIFT);
+                    rectangleView.changeBottomPosition(y);
+                }
+                return true;
+            }
+        });
+        rectangleView.getRightSide().getView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                CoordinateFloat oldCoordinate = new CoordinateFloat(
+                        rectangleView.getRectangle().getCornerB().getX() + RectangleView.SHIFT,
+                        0);
+                CoordinateFloat newCoordinate = rectangleView.getRightSide().moveAction(event, oldCoordinate);
+                if (newCoordinate != null) {
+                    float x = Math.min(newCoordinate.getX(), imgOnScreen.getCornerB().getX() + RectangleView.SHIFT);
+                    rectangleView.changeRightPosition(x);
                 }
                 return true;
             }

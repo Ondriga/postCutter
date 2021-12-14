@@ -66,10 +66,8 @@ public class CutterActivity extends AppCompatActivity {
     }
 
     private void saveImageToGallery() {
-        //TODO change BE
-        cutter.getRectangle().setCornerA(eraseView.getRectangle().getCornerA());
-        cutter.getRectangle().setCornerB(eraseView.getRectangle().getCornerB());
-        //TODO change BE
+        cutter.setRectangle(eraseView.getRectangle());
+
         Mat imageMat = cutter.getCroppedImage();
         Bitmap bitmap = Bitmap.createBitmap(imageMat.width(), imageMat.height(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(imageMat, bitmap);

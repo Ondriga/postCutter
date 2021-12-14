@@ -48,4 +48,40 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <View
+        android:id="@+id/rectangle_topSide"
+        android:layout_width="@dimen/rectangle_longSide"
+        android:layout_height="@dimen/rectangle_corner"
+        android:background="@drawable/rectangle_horizontal_side"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/rectangle_leftSide"
+        android:layout_width="@dimen/rectangle_corner"
+        android:layout_height="@dimen/rectangle_longSide"
+        android:background="@drawable/rectangle_vertical_side"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/rectangle_bottomSide"
+        android:layout_width="@dimen/rectangle_longSide"
+        android:layout_height="@dimen/rectangle_corner"
+        android:background="@drawable/rectangle_horizontal_side"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/rectangle_rightSide"
+        android:layout_width="@dimen/rectangle_corner"
+        android:layout_height="@dimen/rectangle_longSide"
+        android:background="@drawable/rectangle_vertical_side"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
