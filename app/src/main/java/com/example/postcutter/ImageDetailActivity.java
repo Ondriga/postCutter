@@ -3,6 +3,7 @@ package com.example.postcutter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -26,6 +27,8 @@ import java.io.InputStream;
 public class ImageDetailActivity extends AppCompatActivity {
     private static final String IMAGE_FILE = "selectedPicture";
     public static final String IMG_CACHE_FILE_NAME = "imgCachePath";
+    public static final String IMG_RETURN_PATH = "returnImgPath";
+    public static final int RETURN_REQUEST_CODE = 5;
 
     private String tmpPictureFilePath;
     private String imagePath;
@@ -33,12 +36,14 @@ public class ImageDetailActivity extends AppCompatActivity {
     private ImageButton buttonShare;
     private ImageButton buttonImgDelete;
 
+    private SubsamplingScaleImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detayl);
 
-        SubsamplingScaleImageView imageView = findViewById(R.id.idIVImage);
+        imageView = findViewById(R.id.idIVImage);
 
         ImageButton buttonCutter = findViewById(R.id.imageDetail_cutter);
         ImageButton buttonTextErase = findViewById(R.id.imageDetail_textDelete);
@@ -50,9 +55,10 @@ public class ImageDetailActivity extends AppCompatActivity {
         try {
             if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getType() != null) {
                 Uri imageUri = (Uri) intent.getData();
-                InputStream inputStream = getContentResolver().openInputStream(imageUri);
-                imageBitmap = BitmapFactory.decodeStream(inputStream);
-                setVisibilityShareDelete(View.GONE);
+                imagePath = getRealPathFromURI(imageUri);
+                File imgFile = new File(imagePath);
+                imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                setVisibilityShareDelete(View.VISIBLE);
             } else if (Intent.ACTION_SEND.equals(intent.getAction()) && intent.getType() != null) {
                 Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 InputStream inputStream = getContentResolver().openInputStream(imageUri);
@@ -98,13 +104,27 @@ public class ImageDetailActivity extends AppCompatActivity {
     private void openCutterActivity() {
         Intent i = new Intent(this, CutterActivity.class);
         i.putExtra(IMG_CACHE_FILE_NAME, this.tmpPictureFilePath);
-        startActivity(i);
+        startActivityForResult(i, RETURN_REQUEST_CODE);
     }
 
     private void openTextEraseActivity() {
         Intent i = new Intent(this, TextEraseActivity.class);
         i.putExtra(IMG_CACHE_FILE_NAME, this.tmpPictureFilePath);
-        startActivity(i);
+        startActivityForResult(i, RETURN_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RETURN_REQUEST_CODE && data != null) {
+            imagePath = getRealPathFromURI(Uri.parse(data.getStringExtra(IMG_RETURN_PATH)));
+
+            File imgFile = new File(imagePath);
+            Bitmap imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            setVisibilityShareDelete(View.VISIBLE);
+            imageView.setImage(ImageSource.bitmap(imageBitmap));
+            temporaryStorePicture(imageBitmap);
+        }
     }
 
     private void shareImage() {
@@ -141,5 +161,18 @@ public class ImageDetailActivity extends AppCompatActivity {
         getContentResolver().delete(uri, null, null);
 
         finish();
+    }
+
+    private String getRealPathFromURI(Uri contentUri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String path = cursor.getString(column_index);
+
+        cursor.close();
+
+        return path;
+
     }
 }

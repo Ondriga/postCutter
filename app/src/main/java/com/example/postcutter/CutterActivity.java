@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -73,8 +74,11 @@ public class CutterActivity extends AppCompatActivity {
         Utils.matToBitmap(imageMat, bitmap);
 
         String fileName = String.format("picture_%d", System.currentTimeMillis());
-        MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, fileName, "");
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, fileName, "");
 
+        Intent intent = new Intent();
+        intent.putExtra(ImageDetailActivity.IMG_RETURN_PATH, path);
+        setResult(ImageDetailActivity.RETURN_REQUEST_CODE, intent);
         finish();
     }
 
