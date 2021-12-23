@@ -51,40 +51,21 @@ public class ImageDetailActivity extends AppCompatActivity {
 
         Bitmap imageBitmap;
         Intent intent = getIntent();
-        try {
-            if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getType() != null) {
-                Uri imageUri = (Uri) intent.getData();
-                imagePath = getRealPathFromURI(imageUri);
-                File imgFile = new File(imagePath);
-                imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                setVisibilityShareDelete(View.VISIBLE);
-            } else if (Intent.ACTION_SEND.equals(intent.getAction()) && intent.getType() != null) {
-                Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                InputStream inputStream = getContentResolver().openInputStream(imageUri);
-                imageBitmap = BitmapFactory.decodeStream(inputStream);
-                setVisibilityShareDelete(View.GONE);
-            } else {
-                imagePath = intent.getStringExtra("imagePath");
-                File imgFile = new File(imagePath);
-                imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                setVisibilityShareDelete(View.VISIBLE);
-            }
-            imageView.setImage(ImageSource.bitmap(imageBitmap));
-            temporaryStorePicture(imageBitmap);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getType() != null) {
+            Uri imageUri = (Uri) intent.getData();
+            imagePath = getRealPathFromURI(imageUri);
+        } else {
+            imagePath = intent.getStringExtra("imagePath");
         }
-
+        File imgFile = new File(imagePath);
+        imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        imageView.setImage(ImageSource.bitmap(imageBitmap));
+        temporaryStorePicture(imageBitmap);
 
         buttonCutter.setOnClickListener(e -> openCutterActivity());
         buttonTextErase.setOnClickListener(e -> openTextEraseActivity());
         buttonShare.setOnClickListener(e -> shareImage());
         buttonImgDelete.setOnClickListener(e -> deleteImage());
-    }
-
-    private void setVisibilityShareDelete(int visibility) {
-        buttonShare.setVisibility(visibility);
-        buttonImgDelete.setVisibility(visibility);
     }
 
     private void temporaryStorePicture(Bitmap bitmap) {
@@ -120,7 +101,6 @@ public class ImageDetailActivity extends AppCompatActivity {
 
             File imgFile = new File(imagePath);
             Bitmap imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            setVisibilityShareDelete(View.VISIBLE);
             imageView.setImage(ImageSource.bitmap(imageBitmap));
             temporaryStorePicture(imageBitmap);
         }

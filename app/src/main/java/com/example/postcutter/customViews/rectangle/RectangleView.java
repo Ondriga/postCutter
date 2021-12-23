@@ -128,8 +128,7 @@ public class RectangleView extends FrameLayout {
                 this.rectangle.getCornerB().getY() - MIN_RECTANGLE_SIDE :
                 newY + SHIFT;
 
-        SharedPreferences sharedPreferences = activity.getSharedPreferences(SettingDialog.SHARED_PREFS, MODE_PRIVATE);
-        if (this.useBreakpoints && sharedPreferences.getBoolean(SettingDialog.SUGGESTION_SWITCH, SettingDialog.SWITCH_DEFAULT)) {
+        if (this.useBreakpoints) {
             newY = getYNearBreakpoint(newY);
         }
 
@@ -144,8 +143,7 @@ public class RectangleView extends FrameLayout {
                 this.rectangle.getCornerB().getX() - MIN_RECTANGLE_SIDE :
                 newX + SHIFT;
 
-        SharedPreferences sharedPreferences = activity.getSharedPreferences(SettingDialog.SHARED_PREFS, MODE_PRIVATE);
-        if (this.useBreakpoints && sharedPreferences.getBoolean(SettingDialog.SUGGESTION_SWITCH, SettingDialog.SWITCH_DEFAULT)) {
+        if (this.useBreakpoints) {
             newX = getXNearBreakpoint(newX);
         }
 
@@ -160,8 +158,7 @@ public class RectangleView extends FrameLayout {
                 this.rectangle.getCornerA().getY() + MIN_RECTANGLE_SIDE :
                 newY - SHIFT;
 
-        SharedPreferences sharedPreferences = activity.getSharedPreferences(SettingDialog.SHARED_PREFS, MODE_PRIVATE);
-        if (this.useBreakpoints && sharedPreferences.getBoolean(SettingDialog.SUGGESTION_SWITCH, SettingDialog.SWITCH_DEFAULT)) {
+        if (this.useBreakpoints) {
             newY = getYNearBreakpoint(newY);
         }
 
@@ -176,8 +173,7 @@ public class RectangleView extends FrameLayout {
                 this.rectangle.getCornerA().getX() + MIN_RECTANGLE_SIDE :
                 newX - SHIFT;
 
-        SharedPreferences sharedPreferences = activity.getSharedPreferences(SettingDialog.SHARED_PREFS, MODE_PRIVATE);
-        if (this.useBreakpoints && sharedPreferences.getBoolean(SettingDialog.SUGGESTION_SWITCH, SettingDialog.SWITCH_DEFAULT)) {
+        if (this.useBreakpoints) {
             newX = getXNearBreakpoint(newX);
         }
 
@@ -191,28 +187,35 @@ public class RectangleView extends FrameLayout {
     }
 
     private int getYNearBreakpoint(int y) {
-        for (MyLine line : this.horizontalBreakpoints) {
-            int lineYInShowedImg = mapping(
-                    this.realImageHeight,
-                    this.showedImage.getHeight(),
-                    line.getStartPoint().getY()) + showedImage.getCornerA().getY();
-            if (isInBreakpointInterval(y, lineYInShowedImg)) {
-                return lineYInShowedImg;
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(SettingDialog.SHARED_PREFS, MODE_PRIVATE);
+        if (sharedPreferences.getBoolean(SettingDialog.SUGGESTION_SWITCH, SettingDialog.SWITCH_DEFAULT)) {
+            for (MyLine line : this.horizontalBreakpoints) {
+                int lineYInShowedImg = mapping(
+                        this.realImageHeight,
+                        this.showedImage.getHeight(),
+                        line.getStartPoint().getY()) + showedImage.getCornerA().getY();
+                if (isInBreakpointInterval(y, lineYInShowedImg)) {
+                    return lineYInShowedImg;
+                }
             }
         }
         return y;
     }
 
     private int getXNearBreakpoint(int x) {
-        for (MyLine line : this.verticalBreakpoints) {
-            int lineXInShowedImg = mapping(
-                    this.realImageWidth,
-                    this.showedImage.getWidth(),
-                    line.getStartPoint().getX()) + showedImage.getCornerA().getX();
-            if (isInBreakpointInterval(x, lineXInShowedImg)) {
-                return lineXInShowedImg;
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(SettingDialog.SHARED_PREFS, MODE_PRIVATE);
+        if (sharedPreferences.getBoolean(SettingDialog.SUGGESTION_SWITCH, SettingDialog.SWITCH_DEFAULT)) {
+            for (MyLine line : this.verticalBreakpoints) {
+                int lineXInShowedImg = mapping(
+                        this.realImageWidth,
+                        this.showedImage.getWidth(),
+                        line.getStartPoint().getX()) + showedImage.getCornerA().getX();
+                if (isInBreakpointInterval(x, lineXInShowedImg)) {
+                    return lineXInShowedImg;
+                }
             }
         }
+
         return x;
     }
 
