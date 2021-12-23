@@ -5,13 +5,12 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.postcutter.customViews.EraseView;
 
@@ -20,9 +19,6 @@ import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import postCutter.Cutter;
 
@@ -52,7 +48,21 @@ public class CutterActivity extends AppCompatActivity {
         ImageButton cutButton = findViewById(R.id.cutter_imageButton);
         cutButton.setOnClickListener(e -> saveImageToGallery());
 
+        ImageButton settingsButton = findViewById(R.id.cutter_settingsButton);
+        settingsButton.setOnClickListener(e -> startSettingDialog());
+
         this.cutter = new Cutter();
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingDialog.SHARED_PREFS, MODE_PRIVATE);
+        boolean[] methodsPermissions = {false, false, false, false};
+        for(int i=0; i<sharedPreferences.getInt(SettingDialog.SUGGESTION_ACCURACY, SettingDialog.ACCURACY_DEFAULT); i++) {
+            methodsPermissions[i] = true;
+        }
+        this.cutter.setMethodsPermission(
+                methodsPermissions[3],
+                methodsPermissions[2],
+                methodsPermissions[1],
+                methodsPermissions[0]
+        );
         loadImage();
     }
 
@@ -82,6 +92,10 @@ public class CutterActivity extends AppCompatActivity {
         finish();
     }
 
+    private void startSettingDialog() {
+        new SettingDialog(CutterActivity.this);
+    }
+
     private class ImageProcess extends Thread {
         private final Mat picture;
 
@@ -96,6 +110,7 @@ public class CutterActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     eraseView.setRectangle(cutter.getRectangle());
+                    eraseView.activateBreakpoints(cutter.getHorizontalLines(), cutter.getVerticalLines(), CutterActivity.this);
                 }
             });
             loadingDialog.stopLoadingDialog();

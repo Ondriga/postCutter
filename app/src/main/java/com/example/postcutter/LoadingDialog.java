@@ -7,8 +7,8 @@ import android.widget.Button;
 
 public class LoadingDialog {
 
-    private final Activity activity;
-    private AlertDialog dialog;
+        private final Activity activity;
+        private AlertDialog dialog;
 
     public LoadingDialog(Activity activity){
         this.activity = activity;

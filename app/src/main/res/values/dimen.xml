@@ -10,4 +10,5 @@
     <dimen name="rectangle_border_width">3px</dimen>
     <dimen name="rectangle_sideRadius">10px</dimen>
     <dimen name="rectangle_sidePadding">8px</dimen>
+    <dimen name="setting_button_margin">20dp</dimen>
 </resources>

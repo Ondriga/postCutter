@@ -5,4 +5,8 @@
     <string name="dialog_button">Cancel</string>
     <string name="settings_bar_title">Settings</string>
     <string name="settings_suggestion_lines">suggestion lines</string>
+    <string name="save">save</string>
+    <string name="cancel">cancel</string>
+    <string name="settings_dialog_title">settings</string>
+    <string name="settings_dialog_text">Choose suggestion accuracy.</string>
 </resources>

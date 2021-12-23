@@ -1,5 +1,6 @@
- package com.example.postcutter.customViews;
+package com.example.postcutter.customViews;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
@@ -19,8 +20,10 @@ import com.example.postcutter.customViews.rectangle.RectangleView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.List;
 
 import postCutter.geometricShapes.Coordinate;
+import postCutter.geometricShapes.line.MyLine;
 import postCutter.geometricShapes.rectangle.MyRectangle;
 
 public class EraseView extends FrameLayout {
@@ -66,7 +69,8 @@ public class EraseView extends FrameLayout {
                     rectangleView.prepare(
                             imageView.getDrawable().getIntrinsicWidth(),
                             imageView.getDrawable().getIntrinsicHeight(),
-                            imgOnScreen);
+                            imgOnScreen
+                    );
                     prepareComponentsForMove();
 
                     // remove listener for image change
@@ -222,8 +226,7 @@ public class EraseView extends FrameLayout {
                 return true;
             }
         });
-        rectangleView.addOnLayoutChangeListener( new View.OnLayoutChangeListener()
-        {
+        rectangleView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 setShadows();
@@ -269,5 +272,12 @@ public class EraseView extends FrameLayout {
 
     public void setRectangle(MyRectangle rectangle) {
         this.rectangleView.setRectangleInNormalSize(rectangle);
+    }
+
+    public void activateBreakpoints(
+            List<MyLine> horizontalBreakpoints,
+            List<MyLine> verticalBreakpoints,
+            Activity activity) {
+        this.rectangleView.activateBreakpoints(horizontalBreakpoints, verticalBreakpoints, activity);
     }
 }

@@ -1,19 +1,28 @@
 package com.example.postcutter.customViews.rectangle;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.example.postcutter.R;
+import com.example.postcutter.SettingDialog;
+
+import java.util.List;
 
 import postCutter.geometricShapes.Coordinate;
+import postCutter.geometricShapes.line.MyLine;
 import postCutter.geometricShapes.rectangle.MyRectangle;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class RectangleView extends FrameLayout {
 
     private static final int MIN_RECTANGLE_SIDE = 80;
+    private static final int MAX_BREAK_POINT_DISTANCE = 20;
 
     private MyRectangle rectangle;
 
@@ -34,6 +43,12 @@ public class RectangleView extends FrameLayout {
     private int realImageWidth;
     private int realImageHeight;
     private MyRectangle showedImage;
+
+    private List<MyLine> horizontalBreakpoints = null;
+    private List<MyLine> verticalBreakpoints = null;
+    private boolean useBreakpoints = false;
+
+    private Activity activity;
 
     public RectangleView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -58,7 +73,7 @@ public class RectangleView extends FrameLayout {
     }
 
     public void prepare(int realImageWidth, int realImageHeight, MyRectangle showedImage) {
-        prepairViews();
+        prepareViews();
 
         this.realImageWidth = realImageWidth;
         this.realImageHeight = realImageHeight;
@@ -67,7 +82,7 @@ public class RectangleView extends FrameLayout {
         updateRectangle();
     }
 
-    private void prepairViews() {
+    private void prepareViews() {
         innerRectangle = new InnerComponent(findViewById(R.id.rectangle_innerRectangle));
 
         topLeftCorner = new Component(findViewById(R.id.rectangle_topLeftCorner));
@@ -87,95 +102,118 @@ public class RectangleView extends FrameLayout {
     }
 
     public void changeTopLeftPosition(CoordinateFloat newCoordinate) {
-        int newX = (this.rectangle.getCornerB().getX() - SHIFT) - newCoordinate.getX() < MIN_RECTANGLE_SIDE ?
-                (int) (this.rectangle.getCornerB().getX() - MIN_RECTANGLE_SIDE) :
-                (int) newCoordinate.getX() + SHIFT;
-
-        int newY = (this.rectangle.getCornerB().getY() - SHIFT) - newCoordinate.getY() < MIN_RECTANGLE_SIDE ?
-                (int) (this.rectangle.getCornerB().getY() - MIN_RECTANGLE_SIDE) :
-                (int) newCoordinate.getY() + SHIFT;
-
-        this.rectangle.getCornerA().setX(newX);
-        this.rectangle.getCornerA().setY(newY);
-        changeViewDimensions();
+        changeTopPosition(newCoordinate.getY());
+        changeLeftPosition(newCoordinate.getX());
     }
 
     public void changeBottomLeftPosition(CoordinateFloat newCoordinate) {
-        int newX = (this.rectangle.getCornerB().getX() - SHIFT) - newCoordinate.getX() < MIN_RECTANGLE_SIDE ?
-                (int) (this.rectangle.getCornerB().getX() - MIN_RECTANGLE_SIDE) :
-                (int) newCoordinate.getX() + SHIFT;
-
-        int newY = newCoordinate.getY() - (this.rectangle.getCornerA().getY() + SHIFT) < MIN_RECTANGLE_SIDE ?
-                (int) (this.rectangle.getCornerA().getY() + MIN_RECTANGLE_SIDE) :
-                (int) newCoordinate.getY() - SHIFT;
-
-        this.rectangle.getCornerA().setX(newX);
-        this.rectangle.getCornerB().setY(newY);
-        changeViewDimensions();
+        changeBottomPosition(newCoordinate.getY());
+        changeLeftPosition(newCoordinate.getX());
     }
 
     public void changeTopRightPosition(CoordinateFloat newCoordinate) {
-        int newX = newCoordinate.getX() - (this.rectangle.getCornerA().getX() + SHIFT) < MIN_RECTANGLE_SIDE ?
-                (int) (this.rectangle.getCornerA().getX() + MIN_RECTANGLE_SIDE) :
-                (int) newCoordinate.getX() - SHIFT;
-
-        int newY = (this.rectangle.getCornerB().getY() - SHIFT) - newCoordinate.getY() < MIN_RECTANGLE_SIDE ?
-                (int) (this.rectangle.getCornerB().getY() - MIN_RECTANGLE_SIDE) :
-                (int) newCoordinate.getY() + SHIFT;
-
-        this.rectangle.getCornerB().setX(newX);
-        this.rectangle.getCornerA().setY(newY);
-        changeViewDimensions();
+        changeTopPosition(newCoordinate.getY());
+        changeRightPosition(newCoordinate.getX());
     }
 
     public void changeBottomRightPosition(CoordinateFloat newCoordinate) {
-        int newX = newCoordinate.getX() - (this.rectangle.getCornerA().getX() + SHIFT) < MIN_RECTANGLE_SIDE ?
-                (int) (this.rectangle.getCornerA().getX() + MIN_RECTANGLE_SIDE) :
-                (int) newCoordinate.getX() - SHIFT;
-
-        int newY = newCoordinate.getY() - (this.rectangle.getCornerA().getY() + SHIFT) < MIN_RECTANGLE_SIDE ?
-                (int) (this.rectangle.getCornerA().getY() + MIN_RECTANGLE_SIDE) :
-                (int) newCoordinate.getY() - SHIFT;
-
-        this.rectangle.getCornerB().setX(newX);
-        this.rectangle.getCornerB().setY(newY);
-        changeViewDimensions();
+        changeBottomPosition(newCoordinate.getY());
+        changeRightPosition(newCoordinate.getX());
     }
 
     public void changeTopPosition(float y) {
-        int newY = (this.rectangle.getCornerB().getY() - SHIFT) - y < MIN_RECTANGLE_SIDE ?
-                (int) (this.rectangle.getCornerB().getY() - MIN_RECTANGLE_SIDE) :
-                (int) (y + SHIFT);
+        int newY = (int) y;
+
+        newY = (this.rectangle.getCornerB().getY() - SHIFT) - newY < MIN_RECTANGLE_SIDE ?
+                this.rectangle.getCornerB().getY() - MIN_RECTANGLE_SIDE :
+                newY + SHIFT;
+
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(SettingDialog.SHARED_PREFS, MODE_PRIVATE);
+        if (this.useBreakpoints && sharedPreferences.getBoolean(SettingDialog.SUGGESTION_SWITCH, SettingDialog.SWITCH_DEFAULT)) {
+            newY = getYNearBreakpoint(newY);
+        }
 
         this.rectangle.getCornerA().setY(newY);
         changeViewDimensions();
     }
 
     public void changeLeftPosition(float x) {
-        int newX = (this.rectangle.getCornerB().getX() - SHIFT) - x < MIN_RECTANGLE_SIDE ?
-                (int) (this.rectangle.getCornerB().getX() - MIN_RECTANGLE_SIDE) :
-                (int) (x + SHIFT);
+        int newX = (int) x;
+
+        newX = (this.rectangle.getCornerB().getX() - SHIFT) - newX < MIN_RECTANGLE_SIDE ?
+                this.rectangle.getCornerB().getX() - MIN_RECTANGLE_SIDE :
+                newX + SHIFT;
+
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(SettingDialog.SHARED_PREFS, MODE_PRIVATE);
+        if (this.useBreakpoints && sharedPreferences.getBoolean(SettingDialog.SUGGESTION_SWITCH, SettingDialog.SWITCH_DEFAULT)) {
+            newX = getXNearBreakpoint(newX);
+        }
 
         this.rectangle.getCornerA().setX(newX);
         changeViewDimensions();
     }
 
     public void changeBottomPosition(float y) {
-        int newY = y - (this.rectangle.getCornerA().getY() + SHIFT) < MIN_RECTANGLE_SIDE ?
-                (int) (this.rectangle.getCornerA().getY() + MIN_RECTANGLE_SIDE) :
-                (int) (y - SHIFT);
+        int newY = (int) y;
+
+        newY = newY - (this.rectangle.getCornerA().getY() + SHIFT) < MIN_RECTANGLE_SIDE ?
+                this.rectangle.getCornerA().getY() + MIN_RECTANGLE_SIDE :
+                newY - SHIFT;
+
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(SettingDialog.SHARED_PREFS, MODE_PRIVATE);
+        if (this.useBreakpoints && sharedPreferences.getBoolean(SettingDialog.SUGGESTION_SWITCH, SettingDialog.SWITCH_DEFAULT)) {
+            newY = getYNearBreakpoint(newY);
+        }
 
         this.rectangle.getCornerB().setY(newY);
         changeViewDimensions();
     }
 
     public void changeRightPosition(float x) {
-        int newX = x - (this.rectangle.getCornerA().getX() + SHIFT) < MIN_RECTANGLE_SIDE ?
-                (int) (this.rectangle.getCornerA().getX() + MIN_RECTANGLE_SIDE) :
-                (int) (x - SHIFT);
+        int newX = (int) x;
+
+        newX = newX - (this.rectangle.getCornerA().getX() + SHIFT) < MIN_RECTANGLE_SIDE ?
+                this.rectangle.getCornerA().getX() + MIN_RECTANGLE_SIDE :
+                newX - SHIFT;
+
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(SettingDialog.SHARED_PREFS, MODE_PRIVATE);
+        if (this.useBreakpoints && sharedPreferences.getBoolean(SettingDialog.SUGGESTION_SWITCH, SettingDialog.SWITCH_DEFAULT)) {
+            newX = getXNearBreakpoint(newX);
+        }
 
         this.rectangle.getCornerB().setX(newX);
         changeViewDimensions();
+    }
+
+    private boolean isInBreakpointInterval(int value, int breakpointValue) {
+        return breakpointValue - MAX_BREAK_POINT_DISTANCE <= value &&
+                value <= breakpointValue + MAX_BREAK_POINT_DISTANCE;
+    }
+
+    private int getYNearBreakpoint(int y) {
+        for (MyLine line : this.horizontalBreakpoints) {
+            int lineYInShowedImg = mapping(
+                    this.realImageHeight,
+                    this.showedImage.getHeight(),
+                    line.getStartPoint().getY()) + showedImage.getCornerA().getY();
+            if (isInBreakpointInterval(y, lineYInShowedImg)) {
+                return lineYInShowedImg;
+            }
+        }
+        return y;
+    }
+
+    private int getXNearBreakpoint(int x) {
+        for (MyLine line : this.verticalBreakpoints) {
+            int lineXInShowedImg = mapping(
+                    this.realImageWidth,
+                    this.showedImage.getWidth(),
+                    line.getStartPoint().getX()) + showedImage.getCornerA().getX();
+            if (isInBreakpointInterval(x, lineXInShowedImg)) {
+                return lineXInShowedImg;
+            }
+        }
+        return x;
     }
 
     private void changeViewDimensions() {
@@ -305,5 +343,15 @@ public class RectangleView extends FrameLayout {
         Coordinate cornerB = new Coordinate(x, y);
         this.rectangle = MyRectangle.createRectangle(cornerA, cornerB);
         changeViewDimensions();
+    }
+
+    public void activateBreakpoints(
+            List<MyLine> horizontalBreakpoints,
+            List<MyLine> verticalBreakpoints,
+            Activity activity) {
+        this.horizontalBreakpoints = horizontalBreakpoints;
+        this.verticalBreakpoints = verticalBreakpoints;
+        this.useBreakpoints = true;
+        this.activity = activity;
     }
 }

@@ -3,7 +3,6 @@ package com.example.postcutter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -171,8 +170,6 @@ public class ImageDetailActivity extends AppCompatActivity {
         String path = cursor.getString(column_index);
 
         cursor.close();
-
         return path;
-
     }
 }
