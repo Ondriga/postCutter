@@ -1,9 +1,11 @@
-package com.example.postcutter;
+package com.example.postcutter.dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.widget.Button;
+
+import com.example.postcutter.R;
 
 public class LoadingDialog {
 

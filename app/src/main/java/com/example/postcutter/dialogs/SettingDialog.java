@@ -1,4 +1,4 @@
-package com.example.postcutter;
+package com.example.postcutter.dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.widget.SeekBar;
 
+import com.example.postcutter.R;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class SettingDialog {

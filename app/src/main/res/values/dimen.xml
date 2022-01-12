@@ -11,4 +11,5 @@
     <dimen name="rectangle_sideRadius">10px</dimen>
     <dimen name="rectangle_sidePadding">8px</dimen>
     <dimen name="setting_button_margin">20dp</dimen>
+    <dimen name="dialog_button_margin">10dp</dimen>
 </resources>

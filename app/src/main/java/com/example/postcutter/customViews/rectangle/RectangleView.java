@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.example.postcutter.R;
-import com.example.postcutter.SettingDialog;
+import com.example.postcutter.dialogs.SettingDialog;
 
 import java.util.List;
 

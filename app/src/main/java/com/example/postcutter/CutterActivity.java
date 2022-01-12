@@ -13,6 +13,9 @@ import android.provider.MediaStore;
 import android.widget.ImageButton;
 
 import com.example.postcutter.customViews.EraseView;
+import com.example.postcutter.dialogs.LoadingDialog;
+import com.example.postcutter.dialogs.SettingDialog;
+import com.example.postcutter.functions.ImageAction;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
@@ -40,7 +43,7 @@ public class CutterActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(CutterActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
-        String path = getIntent().getStringExtra(ImageDetailActivity.IMG_CACHE_FILE_NAME);
+        String path = getIntent().getStringExtra(ImageDetailActivity.IMG_PATH);
         File file = new File(path);
         imageBitmap = BitmapFactory.decodeFile(file.getPath());
 
@@ -83,8 +86,7 @@ public class CutterActivity extends AppCompatActivity {
         Bitmap bitmap = Bitmap.createBitmap(imageMat.width(), imageMat.height(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(imageMat, bitmap);
 
-        String fileName = String.format("picture_%d", System.currentTimeMillis());
-        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, fileName, "");
+        String path = ImageAction.saveAsNew(CutterActivity.this, bitmap);
 
         Intent intent = new Intent();
         intent.putExtra(ImageDetailActivity.IMG_RETURN_PATH, path);

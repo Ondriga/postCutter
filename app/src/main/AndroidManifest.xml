@@ -15,12 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PostCutter">
-        <activity android:name=".TextEraseActivity"></activity>
-        <activity android:name=".ImageDetailActivity"
+        <activity android:name=".TextEraseActivity" />
+        <activity
+            android:name=".ImageDetailActivity"
             tools:ignore="AppLinkUrlError">
             <intent-filter android:scheme="http">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
@@ -28,7 +31,6 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity">
-
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RadioGroup
+        android:id="@+id/textEraseDialog_radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_button_margin"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/textEraseDialog_button_saveAsNew"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/textEraseDialog_radioButton_Telea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dialog_button_margin"
+            android:layout_weight="1"
+            android:background="@drawable/radio_button_background_selector"
+            android:button="@null"
+            android:checked="true"
+            android:drawableBottom="@drawable/settings_icon"
+            android:gravity="center"
+            android:text="@string/telea_method" />
+
+        <RadioButton
+            android:id="@+id/textEraseDialog_radioButton_NS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dialog_button_margin"
+            android:background="@drawable/radio_button_background_selector"
+            android:button="@null"
+            android:drawableBottom="@drawable/settings_icon"
+            android:gravity="center"
+            android:text="@string/ns_method" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/textEraseDialog_button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_button_margin"
+        android:text="@string/replace"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textEraseDialog_button_saveAsNew"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/textEraseDialog_button_saveAsNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_button_margin"
+        android:text="@string/save_as_new"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textEraseDialog_button_cancel"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textEraseDialog_button_save" />
+
+    <Button
+        android:id="@+id/textEraseDialog_button_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_button_margin"
+        android:text="@string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textEraseDialog_button_saveAsNew" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

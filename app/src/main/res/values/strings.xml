@@ -8,4 +8,11 @@
     <string name="cancel">cancel</string>
     <string name="settings_dialog_title">settings</string>
     <string name="settings_dialog_text">Choose suggestion accuracy.</string>
+    <string name="text_erase_dialog_title">Choose method for text erase.</string>
+    <string name="telea_method">Telea method</string>
+    <string name="ns_method">NS method</string>
+    <string name="replace">replace</string>
+    <string name="save_as_new">save as new</string>
+    <string name="delete_dialog_title">Are you sure you want to delete this image?</string>
+    <string name="delte">delte</string>
 </resources>
