@@ -3,17 +3,13 @@ package com.example.postcutter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.provider.MediaStore;
-import android.view.View;
 import android.widget.ImageButton;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -21,17 +17,12 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.postcutter.functions.ImageAction;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class ImageDetailActivity extends AppCompatActivity {
     public static final String IMG_PATH = "imgPathSend";
     public static final String IMG_RETURN_PATH = "returnImgPath";
     public static final int RETURN_REQUEST_CODE = 5;
 
-    private String tmpPictureFilePath;
     private String imagePath;
 
     private SubsamplingScaleImageView imageView;

@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.widget.ImageButton;
 
 import com.example.postcutter.customViews.EraseView;
+import com.example.postcutter.dialogs.CutterSaveDialog;
 import com.example.postcutter.dialogs.LoadingDialog;
 import com.example.postcutter.dialogs.SettingDialog;
 import com.example.postcutter.functions.ImageAction;
@@ -29,6 +30,8 @@ public class CutterActivity extends AppCompatActivity {
     private Cutter cutter;
     private final LoadingDialog loadingDialog = new LoadingDialog(CutterActivity.this);
 
+    private String path;
+
     private EraseView eraseView;
 
     private Bitmap imageBitmap;
@@ -43,7 +46,7 @@ public class CutterActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(CutterActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
-        String path = getIntent().getStringExtra(ImageDetailActivity.IMG_PATH);
+        path = getIntent().getStringExtra(ImageDetailActivity.IMG_PATH);
         File file = new File(path);
         imageBitmap = BitmapFactory.decodeFile(file.getPath());
 
@@ -86,12 +89,7 @@ public class CutterActivity extends AppCompatActivity {
         Bitmap bitmap = Bitmap.createBitmap(imageMat.width(), imageMat.height(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(imageMat, bitmap);
 
-        String path = ImageAction.saveAsNew(CutterActivity.this, bitmap);
-
-        Intent intent = new Intent();
-        intent.putExtra(ImageDetailActivity.IMG_RETURN_PATH, path);
-        setResult(ImageDetailActivity.RETURN_REQUEST_CODE, intent);
-        finish();
+        new CutterSaveDialog(CutterActivity.this, bitmap, path);
     }
 
     private void startSettingDialog() {

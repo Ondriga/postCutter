@@ -15,4 +15,5 @@
     <string name="save_as_new">save as new</string>
     <string name="delete_dialog_title">Are you sure you want to delete this image?</string>
     <string name="delte">delte</string>
+    <string name="cutter_save_dialog_title">How do you want to save?</string>
 </resources>
