@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.widget.Button;
 
+import com.example.postcutter.CutterActivity;
 import com.example.postcutter.R;
 
 public class LoadingDialog {
@@ -16,7 +17,7 @@ public class LoadingDialog {
         this.activity = activity;
     }
 
-    public void startLoadingDialog(){
+    public void startLoadingDialog(CutterActivity.ImageProcess thread){
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -27,15 +28,15 @@ public class LoadingDialog {
         dialog.show();
 
         Button cancelButton = dialog.findViewById(R.id.dialog_button);
-        cancelButton.setOnClickListener(e -> cancelProcessing());
+        cancelButton.setOnClickListener(e -> cancelProcessing(thread));
     }
 
     public void stopLoadingDialog(){
         dialog.dismiss();
     }
 
-    private void cancelProcessing(){
-        stopLoadingDialog();
-        activity.finish();
+    private void cancelProcessing(CutterActivity.ImageProcess thread){
+        thread.stopThread();
+        dialog.dismiss();
     }
 }
