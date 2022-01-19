@@ -1,7 +1,14 @@
 package com.example.postcutter;
 
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +17,12 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.postcutter.functions.ImageAction;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.RecyclerViewHolder> {
-
     private final Context context;
     private final List<String> imagePathArrayList;
     private final Picasso picasso;
@@ -35,7 +42,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-        picasso.load("file:" + imagePathArrayList.get(position)).into(holder.imageIV);
+        long id = ContentUris.parseId(ImageAction.getUriFromRealPath(context, imagePathArrayList.get(position)));
+        ContentResolver cr = context.getContentResolver();
+        Bitmap miniThumb = MediaStore.Images.Thumbnails.getThumbnail(cr, id, MediaStore.Images.Thumbnails.FULL_SCREEN_KIND, null);
+        holder.imageIV.setImageBitmap(miniThumb);
         holder.imageIV.setOnClickListener(e -> openPicture(position));
     }
 

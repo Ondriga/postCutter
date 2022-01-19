@@ -2,6 +2,7 @@ package com.example.postcutter.functions;
 
 import android.app.Activity;
 import android.content.ContentUris;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -48,22 +49,7 @@ public class ImageAction {
     }
 
     public static void delete(Activity activity, String imgPath) {
-        String[] retCol = {MediaStore.Images.Media._ID};
-        Cursor cur = activity.getContentResolver().query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                retCol,
-                MediaStore.MediaColumns.DATA + "='" + imgPath + "'", null, null
-        );
-        if (cur.getCount() == 0) {
-            return;
-        }
-        cur.moveToFirst();
-        int id = cur.getInt(cur.getColumnIndex(MediaStore.MediaColumns._ID));
-        cur.close();
-
-        Uri uri = ContentUris.withAppendedId(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id
-        );
+        Uri uri = getUriFromRealPath(activity, imgPath);
         activity.getContentResolver().delete(uri, null, null);
     }
 
@@ -76,5 +62,22 @@ public class ImageAction {
 
         cursor.close();
         return path;
+    }
+
+    public static Uri getUriFromRealPath(Context context, String realPath) {
+        String[] retCol = {MediaStore.Images.Media._ID};
+        Cursor cur = context.getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                retCol,
+                MediaStore.MediaColumns.DATA + "='" + realPath + "'", null, null
+        );
+        if (cur.getCount() == 0) {
+            return null;
+        }
+        cur.moveToFirst();
+        int id = cur.getInt(cur.getColumnIndex(MediaStore.MediaColumns._ID));
+        cur.close();
+
+        return ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
     }
 }
