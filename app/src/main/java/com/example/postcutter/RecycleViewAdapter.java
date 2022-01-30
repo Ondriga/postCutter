@@ -1,13 +1,10 @@
 package com.example.postcutter;
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +41,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         long id = ContentUris.parseId(ImageAction.getUriFromRealPath(context, imagePathArrayList.get(position)));
         ContentResolver cr = context.getContentResolver();
-        Bitmap miniThumb = MediaStore.Images.Thumbnails.getThumbnail(cr, id, MediaStore.Images.Thumbnails.FULL_SCREEN_KIND, null);
+        Bitmap miniThumb = MediaStore.Images.Thumbnails.getThumbnail(cr, id, MediaStore.Images.Thumbnails.MINI_KIND, null);
         holder.imageIV.setImageBitmap(miniThumb);
         holder.imageIV.setOnClickListener(e -> openPicture(position));
     }

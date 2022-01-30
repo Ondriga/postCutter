@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import postCutter.Cutter;
+import postCutter.MyProgress;
 
 public class CutterActivity extends AppCompatActivity {
     private Cutter cutter;
@@ -74,7 +75,7 @@ public class CutterActivity extends AppCompatActivity {
     }
 
     private void setCutter() {
-        this.cutter = new Cutter();
+        this.cutter = new Cutter(this.loadingDialog.getProgress());
         SharedPreferences sharedPreferences = getSharedPreferences(SettingDialog.SHARED_PREFS, MODE_PRIVATE);
         boolean[] methodsPermissions = {false, false, false, false};
         for (int i = 0; i < sharedPreferences.getInt(SettingDialog.SUGGESTION_ACCURACY, SettingDialog.ACCURACY_DEFAULT); i++) {
@@ -137,6 +138,7 @@ public class CutterActivity extends AppCompatActivity {
 
         public void stopThread() {
             this.running.set(false);
+            cutter.stop();
             allowSuggestion = false;
         }
     }
