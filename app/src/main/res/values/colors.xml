@@ -11,6 +11,7 @@
     <color name="cropping_line_shadow">#90000000</color>
     <color name="cropping_line_secondary">#00FFFFFF</color>
     <color name="cropping_line_primary">#ff0000</color>
-    <color name="transparent_black">#44000000</color>
+    <color name="transparent_black">#88000000</color>
+    <color name="transparent_white">#bbffffff</color>
     <color name="transparent">#00000000</color>
 </resources>

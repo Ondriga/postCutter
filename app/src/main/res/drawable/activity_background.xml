@@ -3,16 +3,9 @@
     android:shape="rectangle">
 
     <gradient
-        android:startColor="#1adb4b"
-        android:centerColor="#fcfc21"
-        android:endColor="#faba2f"
-        android:angle="45" />
-
-    <!--TODO delete
-    <gradient
-        android:startColor="#c7c7c7"
-        android:centerColor="#c23511"
-        android:endColor="#c23511"
-        android:angle="225" />-->
+        android:startColor="#91908d"
+        android:centerColor="#c4c2bc"
+        android:endColor="#91908d"
+        android:angle="0" />
 
 </shape>

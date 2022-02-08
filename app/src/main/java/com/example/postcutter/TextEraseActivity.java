@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.postcutter.customViews.EraseView;
 import com.example.postcutter.dialogs.TextEraseMethodDialog;
@@ -36,7 +37,7 @@ public class TextEraseActivity extends AppCompatActivity {
 
         eraseView = findViewById(R.id.textErase_eraseView);
 
-        Button button = findViewById(R.id.textErase_button);
+        ImageButton button = findViewById(R.id.textErase_button);
         button.setOnClickListener(e -> doClick());
 
         originalImage = new Mat();

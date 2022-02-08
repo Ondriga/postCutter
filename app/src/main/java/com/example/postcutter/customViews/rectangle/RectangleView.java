@@ -21,7 +21,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class RectangleView extends FrameLayout {
 
-    private static final int MIN_RECTANGLE_SIDE = 80;
+    private static final int MIN_RECTANGLE_SIDE = 50;
     private static final int MAX_BREAK_POINT_DISTANCE = 20;
 
     private MyRectangle rectangle;
