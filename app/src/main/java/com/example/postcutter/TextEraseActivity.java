@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.postcutter.customViews.EraseView;

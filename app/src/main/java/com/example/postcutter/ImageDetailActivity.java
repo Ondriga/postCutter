@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -17,6 +18,9 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.postcutter.functions.ImageAction;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ImageDetailActivity extends AppCompatActivity {
     public static final String IMG_PATH = "imgPathSend";
@@ -47,9 +51,9 @@ public class ImageDetailActivity extends AppCompatActivity {
         } else {
             imagePath = intent.getStringExtra("imagePath");
         }
-        File imgFile = new File(imagePath);
-        imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-        imageView.setImage(ImageSource.bitmap(imageBitmap));
+
+        imageView.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
+        imageView.setImage(ImageSource.uri(imagePath));
 
         buttonCutter.setOnClickListener(e -> openCutterActivity());
         buttonTextErase.setOnClickListener(e -> openTextEraseActivity());
@@ -75,9 +79,8 @@ public class ImageDetailActivity extends AppCompatActivity {
         if (requestCode == RETURN_REQUEST_CODE && data != null) {
             imagePath = data.getStringExtra(IMG_RETURN_PATH);
 
-            File imgFile = new File(imagePath);
-            Bitmap imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            imageView.setImage(ImageSource.bitmap(imageBitmap));
+            imageView.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
+            imageView.setImage(ImageSource.uri(imagePath));
         }
     }
 

@@ -17,9 +17,7 @@ import androidx.annotation.Nullable;
 import com.example.postcutter.R;
 import com.example.postcutter.customViews.rectangle.CoordinateFloat;
 import com.example.postcutter.customViews.rectangle.RectangleView;
-import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.List;
 
 import postCutter.geometricShapes.Coordinate;

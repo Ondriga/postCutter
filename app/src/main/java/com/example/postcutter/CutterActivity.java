@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import postCutter.Cutter;
-import postCutter.MyProgress;
 
 public class CutterActivity extends AppCompatActivity {
     private Cutter cutter;
