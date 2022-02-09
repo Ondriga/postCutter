@@ -15,19 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.postcutter.functions.ImageAction;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.RecyclerViewHolder> {
     private final Context context;
     private final List<String> imagePathArrayList;
-    private final Picasso picasso;
 
     public RecycleViewAdapter(Context context, List<String> imagePathArrayList) {
         this.context = context;
         this.imagePathArrayList = imagePathArrayList;
-        picasso = Picasso.get();
     }
 
     @NonNull

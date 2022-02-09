@@ -6,7 +6,6 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
@@ -14,12 +13,12 @@ import com.example.postcutter.customViews.EraseView;
 import com.example.postcutter.dialogs.CutterSaveDialog;
 import com.example.postcutter.dialogs.LoadingDialog;
 import com.example.postcutter.dialogs.SettingDialog;
+import com.example.postcutter.functions.ImageAction;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -47,8 +46,7 @@ public class CutterActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(CutterActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
         path = getIntent().getStringExtra(ImageDetailActivity.IMG_PATH);
-        File file = new File(path);
-        imageBitmap = BitmapFactory.decodeFile(file.getPath());
+        imageBitmap = ImageAction.getImageOrientedCorrect(path);
 
         eraseView = findViewById(R.id.cutter_eraseView);
         ImageButton cutButton = findViewById(R.id.cutter_imageButton);

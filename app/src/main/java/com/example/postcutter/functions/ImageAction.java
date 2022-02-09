@@ -5,10 +5,11 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
-
-import com.example.postcutter.ImageDetailActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -79,5 +80,35 @@ public class ImageAction {
         cur.close();
 
         return ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+    }
+
+    public static Bitmap getImageOrientedCorrect(String path) {
+        File file = new File(path);
+        Bitmap srcBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        try {
+            ExifInterface exif = new ExifInterface(file.getAbsolutePath());
+            int exifRotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            int rotation = exif2degrees(exifRotation);
+            Matrix matrix = new Matrix();
+            if (rotation != 0){
+                matrix.preRotate(rotation);
+            }
+            return Bitmap.createBitmap(srcBitmap, 0, 0, srcBitmap.getWidth(), srcBitmap.getHeight(), matrix, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private static int exif2degrees(int exifOrientation) {
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            return 90;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            return 180;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            return 270;
+        }
+        return 0;
     }
 }

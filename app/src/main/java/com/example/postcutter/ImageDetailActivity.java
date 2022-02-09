@@ -5,9 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -18,9 +15,6 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.postcutter.functions.ImageAction;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class ImageDetailActivity extends AppCompatActivity {
     public static final String IMG_PATH = "imgPathSend";
@@ -43,7 +37,6 @@ public class ImageDetailActivity extends AppCompatActivity {
         ImageButton buttonShare = findViewById(R.id.imageDetail_share);
         ImageButton buttonImgDelete = findViewById(R.id.imageDetail_imgDelete);
 
-        Bitmap imageBitmap;
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getType() != null) {
             Uri imageUri = (Uri) intent.getData();

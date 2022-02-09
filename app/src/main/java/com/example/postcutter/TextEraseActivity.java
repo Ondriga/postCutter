@@ -3,19 +3,17 @@ package com.example.postcutter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
 import com.example.postcutter.customViews.EraseView;
 import com.example.postcutter.dialogs.TextEraseMethodDialog;
+import com.example.postcutter.functions.ImageAction;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
-
-import java.io.File;
 
 public class TextEraseActivity extends AppCompatActivity {
     private EraseView eraseView;
@@ -31,8 +29,7 @@ public class TextEraseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_text_erase);
 
         path = getIntent().getStringExtra(ImageDetailActivity.IMG_PATH);
-        File file = new File(path);
-        Bitmap imageBitmap = BitmapFactory.decodeFile(file.getPath());
+        Bitmap imageBitmap = ImageAction.getImageOrientedCorrect(path);
 
         eraseView = findViewById(R.id.textErase_eraseView);
 
