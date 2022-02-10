@@ -13,5 +13,8 @@
     <color name="cropping_line_primary">#ff0000</color>
     <color name="transparent_black">#88000000</color>
     <color name="transparent_white">#bbffffff</color>
+    <color name="transparent_lightWhite">#44ffffff</color>
     <color name="transparent">#00000000</color>
+    <color name="grey">#8A8A8A</color>
+    <color name="lightGrey">#b0b0b0</color>
 </resources>

@@ -1,18 +1,21 @@
 package com.example.postcutter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.postcutter.customViews.EraseView;
 import com.example.postcutter.dialogs.CutterSaveDialog;
 import com.example.postcutter.dialogs.LoadingDialog;
 import com.example.postcutter.dialogs.SettingDialog;
+import com.example.postcutter.functions.BarAnimationHandler;
 import com.example.postcutter.functions.ImageAction;
 
 import org.opencv.android.OpenCVLoader;
@@ -34,6 +37,8 @@ public class CutterActivity extends AppCompatActivity {
     private EraseView eraseView;
 
     private Bitmap imageBitmap;
+
+    private BarAnimationHandler barAnimationHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +70,21 @@ public class CutterActivity extends AppCompatActivity {
         });
 
         setCutter();
+
+        ConstraintLayout topBar = findViewById(R.id.cutter_topBar);
+        ConstraintLayout bottomBar = findViewById(R.id.cutter_bottomBar);
+        View screenBlocker = findViewById(R.id.cutter_screenBlocker);
+
+        BarAnimationHandler.Builder builder = new BarAnimationHandler.Builder();
+        barAnimationHandler = builder.topBar(topBar)
+                .bottomBar(bottomBar)
+                .screenBlocker(screenBlocker)
+                .build();
+
+        screenBlocker.setOnClickListener(e -> barAnimationHandler.showHide());
+
+        ConstraintLayout mainLayout = findViewById(R.id.cutter_mainLayout);
+        mainLayout.setOnClickListener(e -> barAnimationHandler.showHide());
 
         eraseView.loadPicture(imageBitmap);
         eraseView.activateBreakpoints(new ArrayList<>(), new ArrayList<>(), CutterActivity.this);
@@ -120,16 +140,18 @@ public class CutterActivity extends AppCompatActivity {
         @Override
         public void run() {
             cutter.loadPicture(this.picture);
-            if (running.get()) {
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        eraseView.setRectangle(cutter.getRectangle());
-                        eraseView.activateBreakpoints(cutter.getHorizontalLines(), cutter.getVerticalLines(), CutterActivity.this);
-                        allowSuggestion = true;
+                        if (running.get()) {
+                            eraseView.setRectangle(cutter.getRectangle());
+                            eraseView.activateBreakpoints(cutter.getHorizontalLines(), cutter.getVerticalLines(), CutterActivity.this);
+                            allowSuggestion = true;
+                        }
+                        barAnimationHandler.showHide();
                     }
                 });
-            }
             loadingDialog.stopLoadingDialog();
         }
 

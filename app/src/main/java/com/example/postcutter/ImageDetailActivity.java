@@ -1,6 +1,7 @@
 package com.example.postcutter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import android.widget.ImageButton;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.example.postcutter.functions.BarAnimationHandler;
 import com.example.postcutter.functions.ImageAction;
 
 import java.io.File;
@@ -52,6 +54,14 @@ public class ImageDetailActivity extends AppCompatActivity {
         buttonTextErase.setOnClickListener(e -> openTextEraseActivity());
         buttonShare.setOnClickListener(e -> shareImage());
         buttonImgDelete.setOnClickListener(e -> deleteImage());
+
+        ConstraintLayout bottomBar = findViewById(R.id.imageDetail_bottomBar);
+        BarAnimationHandler.Builder builder = new BarAnimationHandler.Builder();
+        BarAnimationHandler barAnimationHandler = builder.bottomBar(bottomBar).build();
+
+        ConstraintLayout mainLayout = findViewById(R.id.imageDetail_mainLayout);
+        mainLayout.setOnClickListener(e -> barAnimationHandler.showHide());
+        imageView.setOnClickListener(e -> barAnimationHandler.showHide());
     }
 
     private void openCutterActivity() {

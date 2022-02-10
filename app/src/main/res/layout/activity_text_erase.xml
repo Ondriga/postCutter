@@ -5,7 +5,8 @@
     android:id="@+id/textErase_mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/activity_background"
+    android:animateLayoutChanges="true"
+    android:background="@color/grey"
     tools:context=".TextEraseActivity">
 
     <com.example.postcutter.customViews.EraseView
@@ -17,10 +18,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/textErase_screenBlocker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent_lightWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/textErase_topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent_white"
+        android:background="@color/lightGrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -43,16 +55,45 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageButton
-        android:id="@+id/textErase_button"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="2dp"
-        android:background="@drawable/icon_background"
-        android:padding="20dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/textErase_bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/icon_text_delete" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="45dp"
+            android:background="@drawable/bottom_button_background_shadow"
+            app:layout_constraintBottom_toTopOf="@id/textErase_background_bottom"
+            app:layout_constraintEnd_toEndOf="@+id/textErase_button"
+            app:layout_constraintStart_toStartOf="@+id/textErase_button" />
+
+        <View
+            android:id="@+id/textErase_background_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/lightGrey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/textErase_button"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/icon_background"
+            android:padding="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_text_delete" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

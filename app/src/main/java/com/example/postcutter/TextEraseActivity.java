@@ -1,13 +1,16 @@
 package com.example.postcutter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.postcutter.customViews.EraseView;
 import com.example.postcutter.dialogs.TextEraseMethodDialog;
+import com.example.postcutter.functions.BarAnimationHandler;
 import com.example.postcutter.functions.ImageAction;
 
 import org.opencv.android.OpenCVLoader;
@@ -35,6 +38,22 @@ public class TextEraseActivity extends AppCompatActivity {
 
         ImageButton button = findViewById(R.id.textErase_button);
         button.setOnClickListener(e -> doClick());
+
+        ConstraintLayout topBar = findViewById(R.id.textErase_topBar);
+        ConstraintLayout bottomBar = findViewById(R.id.textErase_bottomBar);
+        View screenBlocker = findViewById(R.id.textErase_screenBlocker);
+
+        BarAnimationHandler.Builder builder = new BarAnimationHandler.Builder();
+        BarAnimationHandler barAnimationHandler = builder
+                .topBar(topBar)
+                .bottomBar(bottomBar)
+                .screenBlocker(screenBlocker)
+                .build();
+
+        screenBlocker.setOnClickListener(e -> barAnimationHandler.showHide());
+
+        ConstraintLayout mainLayout = findViewById(R.id.textErase_mainLayout);
+        mainLayout.setOnClickListener(e -> barAnimationHandler.showHide());
 
         originalImage = new Mat();
         Utils.bitmapToMat(imageBitmap, this.originalImage);
