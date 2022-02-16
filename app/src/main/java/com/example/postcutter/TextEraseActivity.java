@@ -58,6 +58,7 @@ public class TextEraseActivity extends AppCompatActivity {
         originalImage = new Mat();
         Utils.bitmapToMat(imageBitmap, this.originalImage);
         eraseView.loadPicture(imageBitmap);
+        eraseView.getRectangleView().setOnClickListener(e -> barAnimationHandler.showHide());
     }
 
     private void doClick() {

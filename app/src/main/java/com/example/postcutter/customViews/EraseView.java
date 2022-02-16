@@ -278,4 +278,8 @@ public class EraseView extends FrameLayout {
             Activity activity) {
         this.rectangleView.activateBreakpoints(horizontalBreakpoints, verticalBreakpoints, activity);
     }
+
+    public View getRectangleView() {
+        return this.rectangleView;
+    }
 }

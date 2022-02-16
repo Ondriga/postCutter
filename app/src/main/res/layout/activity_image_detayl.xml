@@ -22,7 +22,7 @@
         android:id="@+id/imageDetail_bottomBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent_white"
+        android:background="@color/transparent_lightWhite"
         android:padding="@dimen/dialog_button_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

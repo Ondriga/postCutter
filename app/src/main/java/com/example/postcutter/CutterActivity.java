@@ -85,6 +85,7 @@ public class CutterActivity extends AppCompatActivity {
 
         ConstraintLayout mainLayout = findViewById(R.id.cutter_mainLayout);
         mainLayout.setOnClickListener(e -> barAnimationHandler.showHide());
+        eraseView.getRectangleView().setOnClickListener(e -> barAnimationHandler.showHide());
 
         eraseView.loadPicture(imageBitmap);
         eraseView.activateBreakpoints(new ArrayList<>(), new ArrayList<>(), CutterActivity.this);
