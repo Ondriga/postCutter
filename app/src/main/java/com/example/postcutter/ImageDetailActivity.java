@@ -15,6 +15,7 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.postcutter.functions.BarAnimationHandler;
 import com.example.postcutter.functions.ImageAction;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
 
@@ -102,16 +103,15 @@ public class ImageDetailActivity extends AppCompatActivity {
     }
 
     private void deleteImage() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ImageDetailActivity.this);
-        builder.setMessage(R.string.delete_dialog_title)
-                .setPositiveButton(R.string.delte, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.delete_dialog_title)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                         ImageAction.delete(ImageDetailActivity.this, imagePath);
                         finish();
                     }
-                })
-                .setNegativeButton(R.string.cancel, null)
-                .create()
-                .show();
+                }).show();
     }
 }

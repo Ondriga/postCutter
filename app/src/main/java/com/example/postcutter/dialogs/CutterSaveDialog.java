@@ -1,19 +1,18 @@
 package com.example.postcutter.dialogs;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.view.LayoutInflater;
-import android.widget.Button;
 
 import com.example.postcutter.ImageDetailActivity;
 import com.example.postcutter.R;
 import com.example.postcutter.functions.ImageAction;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
 public class CutterSaveDialog {
-    private final AlertDialog dialog;
+    private final androidx.appcompat.app.AlertDialog dialog;
     private final Activity activity;
     private final Bitmap img;
     private final String imgPath;
@@ -23,23 +22,22 @@ public class CutterSaveDialog {
         this.img = img;
         this.imgPath = imgPath;
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-
-        LayoutInflater inflater = activity.getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.custom_cutter_save_dialog, null));
-
-        builder.setTitle(R.string.cutter_save_dialog_title);
-
-        dialog = builder.create();
-        dialog.show();
-
-        Button buttonSave = dialog.findViewById(R.id.cutterSaveDialog_button_save);
-        Button buttonSaveAsNew = dialog.findViewById(R.id.cutterSaveDialog_button_saveAsNew);
-        Button buttonCancel = dialog.findViewById(R.id.cutterSaveDialog_button_cancel);
-
-        buttonSave.setOnClickListener(e -> save());
-        buttonSaveAsNew.setOnClickListener(e -> saveAsNew());
-        buttonCancel.setOnClickListener(e -> cancel());
+        dialog = new MaterialAlertDialogBuilder(activity)
+                .setTitle(R.string.cutter_save_dialog_title)
+                .setPositiveButton(R.string.save_as_new, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveAsNew();
+                    }
+                })
+                .setNegativeButton(R.string.replace, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        save();
+                    }
+                })
+                .setNeutralButton(R.string.cancel, null)
+                .show();
     }
 
     private void save() {
@@ -52,9 +50,6 @@ public class CutterSaveDialog {
         closeActivity(path);
     }
 
-    private void cancel() {
-        dialog.dismiss();
-    }
 
     private void closeActivity(String path) {
         Intent intent = new Intent();

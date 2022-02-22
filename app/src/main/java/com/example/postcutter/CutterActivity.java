@@ -63,7 +63,7 @@ public class CutterActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(e -> startSettingDialog(dialog));
 
         dialog.getDialog().setOnDismissListener(dialog1 -> {
-            if(dialog.doReload()){
+            if (dialog.doReload()) {
                 setCutter();
                 processImage();
             }
@@ -142,17 +142,17 @@ public class CutterActivity extends AppCompatActivity {
         public void run() {
             cutter.loadPicture(this.picture);
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (running.get()) {
-                            eraseView.setRectangle(cutter.getRectangle());
-                            eraseView.activateBreakpoints(cutter.getHorizontalLines(), cutter.getVerticalLines(), CutterActivity.this);
-                            allowSuggestion = true;
-                        }
-                        barAnimationHandler.showHide();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (running.get()) {
+                        eraseView.setRectangle(cutter.getRectangle());
+                        eraseView.activateBreakpoints(cutter.getHorizontalLines(), cutter.getVerticalLines(), CutterActivity.this);
+                        allowSuggestion = true;
                     }
-                });
+                    barAnimationHandler.showHide();
+                }
+            });
             loadingDialog.stopLoadingDialog();
         }
 

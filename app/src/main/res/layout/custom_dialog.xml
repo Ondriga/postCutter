@@ -11,9 +11,10 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/dialog_progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/dialog_progressBar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/dialog_progressBar"
@@ -25,20 +26,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
-
-
-    <Button
-        android:id="@+id/dialog_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="15dp"
-        android:text="@string/dialog_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_progressBar" />
+        app:layout_constraintTop_toBottomOf="@id/dialog_textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
