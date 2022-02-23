@@ -36,7 +36,6 @@ public class SettingDialog {
         LayoutInflater inflater = activity.getLayoutInflater();
         dialog = new MaterialAlertDialogBuilder(activity)
                 .setView(inflater.inflate(R.layout.custom_settings_dialog, null))
-                .setTitle(R.string.settings_dialog_title)
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -52,6 +51,12 @@ public class SettingDialog {
 
                         editor.apply();
                         reload = oldAccuracySetting != suggestionAccuracy.getProgress();
+                    }
+                })
+                .setNeutralButton(R.string.reload, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        reload = true;
                     }
                 }).create();
     }

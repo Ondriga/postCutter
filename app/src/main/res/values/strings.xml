@@ -7,7 +7,7 @@
     <string name="save">save</string>
     <string name="cancel">cancel</string>
     <string name="settings_dialog_title">settings</string>
-    <string name="settings_dialog_text">Choose suggestion accuracy.</string>
+    <string name="settings_dialog_text">Edge calculation</string>
     <string name="text_erase_dialog_title">Choose method for text erase.</string>
     <string name="telea_method">Telea method</string>
     <string name="ns_method">NS method</string>
@@ -18,4 +18,7 @@
     <string name="cutter_save_dialog_title">How do you want to save?</string>
     <string name="cutter_title">Ohraničte oblasť pre orez</string>
     <string name="text_erase_title">Ohraničte oblasť pre odstránenie</string>
+    <string name="fast">fast</string>
+    <string name="accurate">Accurate</string>
+    <string name="reload">Reload</string>
 </resources>
