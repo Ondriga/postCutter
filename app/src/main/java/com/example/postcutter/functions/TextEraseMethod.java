@@ -13,7 +13,7 @@ import postCutter.geometricShapes.Coordinate;
 import postCutter.geometricShapes.rectangle.MyRectangle;
 
 public class TextEraseMethod {
-    private final static int AREA_AROUND_DETAIL = 60;
+    public final static int AREA_AROUND_DETAIL = 60;
 
     private final Bitmap image;
     private final MyRectangle rectangle;

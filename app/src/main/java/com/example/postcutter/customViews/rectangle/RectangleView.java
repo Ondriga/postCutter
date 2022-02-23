@@ -24,6 +24,9 @@ public class RectangleView extends FrameLayout {
     private static final int MIN_RECTANGLE_SIDE = 50;
     private static final int MAX_BREAK_POINT_DISTANCE = 20;
 
+    private int maxRectangleWidth = -1;
+    private int maxRectangleHeight = -1;
+
     private MyRectangle rectangle;
 
     private InnerComponent innerRectangle;
@@ -133,6 +136,13 @@ public class RectangleView extends FrameLayout {
         }
 
         this.rectangle.getCornerA().setY(newY);
+
+        if (this.maxRectangleHeight > 0 && this.rectangle.getHeight() > this.maxRectangleHeight) {
+            int difference = this.rectangle.getHeight() - this.maxRectangleHeight;
+            newY = this.rectangle.getCornerA().getY() + difference;
+            this.rectangle.getCornerA().setY(newY);
+        }
+
         changeViewDimensions();
     }
 
@@ -148,6 +158,13 @@ public class RectangleView extends FrameLayout {
         }
 
         this.rectangle.getCornerA().setX(newX);
+
+        if (this.maxRectangleWidth > 0 && this.rectangle.getWidth() > this.maxRectangleWidth) {
+            int difference = this.rectangle.getWidth() - this.maxRectangleWidth;
+            newX = this.rectangle.getCornerA().getX() + difference;
+            this.rectangle.getCornerA().setX(newX);
+        }
+
         changeViewDimensions();
     }
 
@@ -163,6 +180,13 @@ public class RectangleView extends FrameLayout {
         }
 
         this.rectangle.getCornerB().setY(newY);
+
+        if (this.maxRectangleHeight > 0 && this.rectangle.getHeight() > this.maxRectangleHeight) {
+            int difference = this.rectangle.getHeight() - this.maxRectangleHeight;
+            newY = this.rectangle.getCornerB().getY() - difference;
+            this.rectangle.getCornerB().setY(newY);
+        }
+
         changeViewDimensions();
     }
 
@@ -178,6 +202,13 @@ public class RectangleView extends FrameLayout {
         }
 
         this.rectangle.getCornerB().setX(newX);
+
+        if (this.maxRectangleWidth > 0 && this.rectangle.getWidth() > this.maxRectangleWidth) {
+            int difference = this.rectangle.getWidth() - this.maxRectangleWidth;
+            newX = this.rectangle.getCornerB().getX() - difference;
+            this.rectangle.getCornerB().setX(newX);
+        }
+
         changeViewDimensions();
     }
 
@@ -297,6 +328,11 @@ public class RectangleView extends FrameLayout {
 
     public Component getRightSide() {
         return rightSide;
+    }
+
+    public void setMaxRectangle(int maxWidth, int maxHeight) {
+        this.maxRectangleWidth = maxWidth;
+        this.maxRectangleHeight = maxHeight;
     }
 
     public MyRectangle getRectangleInNormalSize() {

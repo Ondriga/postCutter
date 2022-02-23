@@ -282,4 +282,8 @@ public class EraseView extends FrameLayout {
     public View getRectangleView() {
         return this.rectangleView;
     }
+
+    public void setMaxRectangle(int maxWidth, int maxHeight) {
+        rectangleView.setMaxRectangle(maxWidth, maxHeight);
+    }
 }

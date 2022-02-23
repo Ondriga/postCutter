@@ -8,7 +8,7 @@
     <string name="cancel">cancel</string>
     <string name="settings_dialog_title">settings</string>
     <string name="settings_dialog_text">Edge calculation</string>
-    <string name="text_erase_dialog_title">Choose method for text erase.</string>
+    <string name="text_erase_dialog_title">choose method for text erase</string>
     <string name="telea_method">Telea method</string>
     <string name="ns_method">NS method</string>
     <string name="replace">replace</string>

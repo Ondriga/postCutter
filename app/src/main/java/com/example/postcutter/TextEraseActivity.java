@@ -12,6 +12,7 @@ import com.example.postcutter.customViews.EraseView;
 import com.example.postcutter.dialogs.TextEraseMethodDialog;
 import com.example.postcutter.functions.BarAnimationHandler;
 import com.example.postcutter.functions.ImageAction;
+import com.example.postcutter.functions.TextEraseMethod;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
@@ -59,6 +60,10 @@ public class TextEraseActivity extends AppCompatActivity {
         Utils.bitmapToMat(imageBitmap, this.originalImage);
         eraseView.loadPicture(imageBitmap);
         eraseView.getRectangleView().setOnClickListener(e -> barAnimationHandler.showHide());
+
+        int maxWidth = (int) (getResources().getDimension(R.dimen.max_rectangle_width));
+        int maxHeight = (int) (getResources().getDimension(R.dimen.max_rectangle_height));
+        eraseView.setMaxRectangle(maxWidth, maxHeight);
     }
 
     private void doClick() {
