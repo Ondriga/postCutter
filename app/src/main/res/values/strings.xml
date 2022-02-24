@@ -9,14 +9,14 @@
     <string name="telea_method">Telea method</string>
     <string name="ns_method">NS method</string>
     <string name="save_as_new">save as new</string>
-    <string name="delete_dialog_title">Are you sure you want to delete this image?</string>
+    <string name="delete_dialog_title">Do you want to delete this image?</string>
     <string name="delete">delete</string>
-    <string name="cutter_save_dialog_title">How do you want to save?</string>
+    <string name="cutter_save_dialog_title">Do you want to save this image?</string>
     <string name="cutter_title">set area for crop</string>
-    <string name="text_erase_title">set area for erase (choose small area)</string>
+    <string name="text_erase_title">set area for content erase</string>
     <string name="fast">fast</string>
-    <string name="accurate">Accurate</string>
-    <string name="reload">Reload</string>
-    <string name="permission_granted_text">Permissions Granted.</string>
-    <string name="permission_denied_text">Permissions Denied, Permissions are required to use the app.</string>
+    <string name="accurate">accurate</string>
+    <string name="reload">reload</string>
+    <string name="permission_granted_text">Permissions granted.</string>
+    <string name="permission_denied_text">Permissions denied. Permissions are required to use the app.</string>
 </resources>

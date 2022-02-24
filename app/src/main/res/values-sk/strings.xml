@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PostCutter</string>
+    <string name="loading_text">Obrázok sa spracuváva…</string>
+    <string name="settings_suggestion_lines">pomocné hrany</string>
+    <string name="save">uložiť</string>
+    <string name="cancel">zrušiť</string>
+    <string name="settings_dialog_text">Výpočet hran orezu</string>
+    <string name="text_erase_dialog_title">nahradiť oblasť s:</string>
+    <string name="telea_method">Telea metódou</string>
+    <string name="ns_method">NS metódou</string>
+    <string name="save_as_new">uložiť ako nový</string>
+    <string name="delete_dialog_title">Chceš tento obrázok odstrániť?</string>
+    <string name="delete">odstrániť</string>
+    <string name="cutter_save_dialog_title">Uložiť obrázok?</string>
+    <string name="cutter_title">vyber oblasť orezu</string>
+    <string name="text_erase_title">vyber oblasť, ktorú chceš odstrániť</string>
+    <string name="fast">rýchlosť</string>
+    <string name="accurate">presnosť</string>
+    <string name="reload">obnoviť</string>
+    <string name="permission_granted_text">Povolenia udelené.</string>
+    <string name="permission_denied_text">Povolenia zamietnuté. Povolenia sú potrebné pre používanie aplikácie.</string>
+</resources>
