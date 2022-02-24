@@ -1,24 +1,22 @@
 <resources>
     <string name="app_name">PostCutter</string>
-    <string name="button_main_choose">choose picture</string>
-    <string name="loading_text">Image is processing.</string>
-    <string name="dialog_button">Cancel</string>
+    <string name="loading_text">Image is processing…</string>
     <string name="settings_suggestion_lines">suggestion lines</string>
     <string name="save">save</string>
     <string name="cancel">cancel</string>
-    <string name="settings_dialog_title">settings</string>
     <string name="settings_dialog_text">Edge calculation</string>
-    <string name="text_erase_dialog_title">choose method for text erase</string>
+    <string name="text_erase_dialog_title">replace area with:</string>
     <string name="telea_method">Telea method</string>
     <string name="ns_method">NS method</string>
-    <string name="replace">replace</string>
     <string name="save_as_new">save as new</string>
     <string name="delete_dialog_title">Are you sure you want to delete this image?</string>
     <string name="delete">delete</string>
     <string name="cutter_save_dialog_title">How do you want to save?</string>
-    <string name="cutter_title">Ohraničte oblasť pre orez</string>
-    <string name="text_erase_title">Ohraničte oblasť pre odstránenie</string>
+    <string name="cutter_title">set area for crop</string>
+    <string name="text_erase_title">set area for erase (choose small area)</string>
     <string name="fast">fast</string>
     <string name="accurate">Accurate</string>
     <string name="reload">Reload</string>
+    <string name="permission_granted_text">Permissions Granted.</string>
+    <string name="permission_denied_text">Permissions Denied, Permissions are required to use the app.</string>
 </resources>

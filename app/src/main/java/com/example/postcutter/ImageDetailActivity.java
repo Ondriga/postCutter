@@ -2,14 +2,18 @@ package com.example.postcutter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
-import android.app.AlertDialog;
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -18,6 +22,8 @@ import com.example.postcutter.functions.ImageAction;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 public class ImageDetailActivity extends AppCompatActivity {
     public static final String IMG_PATH = "imgPathSend";
@@ -40,16 +46,7 @@ public class ImageDetailActivity extends AppCompatActivity {
         ImageButton buttonShare = findViewById(R.id.imageDetail_share);
         ImageButton buttonImgDelete = findViewById(R.id.imageDetail_imgDelete);
 
-        Intent intent = getIntent();
-        if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getType() != null) {
-            Uri imageUri = (Uri) intent.getData();
-            imagePath = ImageAction.getRealPathFromURI(ImageDetailActivity.this, imageUri);
-        } else {
-            imagePath = intent.getStringExtra("imagePath");
-        }
-
-        imageView.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
-        imageView.setImage(ImageSource.uri(imagePath));
+        requestPermissions();
 
         buttonCutter.setOnClickListener(e -> openCutterActivity());
         buttonTextErase.setOnClickListener(e -> openTextEraseActivity());
@@ -63,6 +60,19 @@ public class ImageDetailActivity extends AppCompatActivity {
         ConstraintLayout mainLayout = findViewById(R.id.imageDetail_mainLayout);
         mainLayout.setOnClickListener(e -> barAnimationHandler.showHide());
         imageView.setOnClickListener(e -> barAnimationHandler.showHide());
+    }
+
+    private void prepareImage() {
+        Intent intent = getIntent();
+        if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getType() != null) {
+            Uri imageUri = (Uri) intent.getData();
+            imagePath = ImageAction.getRealPathFromURI(ImageDetailActivity.this, imageUri);
+        } else {
+            imagePath = intent.getStringExtra("imagePath");
+        }
+
+        imageView.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
+        imageView.setImage(ImageSource.uri(imagePath));
     }
 
     private void openCutterActivity() {
@@ -113,5 +123,34 @@ public class ImageDetailActivity extends AppCompatActivity {
                         finish();
                     }
                 }).show();
+    }
+
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(ImageDetailActivity.this, READ_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermissions() {
+        if (checkPermission()) {
+            prepareImage();
+        } else {
+            ActivityCompat.requestPermissions(ImageDetailActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults.length > 0) {
+                boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                if (storageAccepted) {
+                    Toast.makeText(this, getString(R.string.permission_granted_text), Toast.LENGTH_SHORT).show();
+                    prepareImage();
+                } else {
+                    Toast.makeText(this, getString(R.string.permission_denied_text), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        }
     }
 }

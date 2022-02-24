@@ -30,7 +30,7 @@ public class CutterSaveDialog {
                         saveAsNew();
                     }
                 })
-                .setNegativeButton(R.string.replace, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         save();

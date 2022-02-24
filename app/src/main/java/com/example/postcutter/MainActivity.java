@@ -1,6 +1,5 @@
 package com.example.postcutter;
 
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void requestPermissions() {
         if (checkPermission()) {
-            Toast.makeText(this, "Permissions granted..", Toast.LENGTH_SHORT).show();
             getImagePath();
         } else {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
@@ -88,10 +86,11 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0) {
                 boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                 if (storageAccepted) {
-                    Toast.makeText(this, "Permissions Granted..", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.permission_granted_text), Toast.LENGTH_SHORT).show();
                     getImagePath();
                 } else {
-                    Toast.makeText(this, "Permissions denined, Permissions are required to use the app..", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.permission_denied_text), Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
         }
