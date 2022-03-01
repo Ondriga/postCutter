@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/grey"
-    tools:context=".CutterActivity">
+    tools:context="postCutter.fe.postcutter.CutterActivity">
 
-    <com.example.postcutter.customViews.EraseView
+    <postCutter.fe.postcutter.customViews.EraseView
         android:id="@+id/cutter_eraseView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

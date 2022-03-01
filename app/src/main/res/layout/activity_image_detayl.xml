@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/black"
-    tools:context=".ImageDetailActivity">
+    tools:context="postCutter.fe.postcutter.ImageDetailActivity">
 
     <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
         android:id="@+id/idIVImage"

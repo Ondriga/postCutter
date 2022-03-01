@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PostCutter</string>
-    <string name="loading_text">Obrázok sa spracuváva…</string>
+    <string name="loading_text">Obrázok sa spracováva…</string>
     <string name="settings_suggestion_lines">pomocné hrany</string>
     <string name="save">uložiť</string>
     <string name="cancel">zrušiť</string>

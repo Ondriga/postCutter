@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.postcutter">
+    package="postCutter.fe.postcutter">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -15,12 +15,12 @@
         android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PostCutter">
-        <activity android:name=".TextEraseActivity"
+        <activity android:name="postCutter.fe.postcutter.TextEraseActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ImageDetailActivity"
+            android:name="postCutter.fe.postcutter.ImageDetailActivity"
             tools:ignore="AppLinkUrlError"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
@@ -30,12 +30,12 @@
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".CutterActivity"
+        <activity android:name="postCutter.fe.postcutter.CutterActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="postCutter.fe.postcutter.MainActivity">
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name="postCutter.fe.postcutter.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
