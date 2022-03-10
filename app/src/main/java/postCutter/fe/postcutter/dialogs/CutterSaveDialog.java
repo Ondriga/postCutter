@@ -24,19 +24,19 @@ public class CutterSaveDialog {
 
         dialog = new MaterialAlertDialogBuilder(activity)
                 .setTitle(R.string.cutter_save_dialog_title)
-                .setPositiveButton(R.string.save_as_new, new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.save_as_new, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         saveAsNew();
                     }
                 })
-                .setNegativeButton(R.string.save, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         save();
                     }
                 })
-                .setNeutralButton(R.string.cancel, null)
+                .setNegativeButton(R.string.cancel, null)
                 .show();
     }
 

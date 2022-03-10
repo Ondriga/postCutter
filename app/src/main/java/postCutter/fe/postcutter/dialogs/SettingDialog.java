@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import postCutter.fe.postcutter.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -68,6 +69,11 @@ public class SettingDialog {
         sharedPreferences = activity.getSharedPreferences(SHARED_PREFS, activity.MODE_PRIVATE);
         suggestionSwitch = dialog.findViewById(R.id.dialog_settings_switch);
         suggestionAccuracy = dialog.findViewById(R.id.dialog_settings_seekBar);
+
+        TextView title = dialog.findViewById(R.id.dialog_settings_text);
+        suggestionSwitch.setEnabled(true);
+        title.setTextColor(suggestionSwitch.getCurrentTextColor());
+        suggestionSwitch.setEnabled(false);
 
         if (allowSuggestion) {//if is one allowed, then it will be allow forever
             this.allowSuggestion = true;

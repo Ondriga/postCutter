@@ -35,19 +35,19 @@ public class TextEraseMethodDialog {
         dialog = new MaterialAlertDialogBuilder(activity)
                 .setView(inflater.inflate(R.layout.custom_text_erase_dialog, null))
                 .setTitle(R.string.text_erase_dialog_title)
-                .setPositiveButton(R.string.save_as_new, new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.save_as_new, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         saveAsNew();
                     }
                 })
-                .setNegativeButton(R.string.save, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         save();
                     }
                 })
-                .setNeutralButton(R.string.cancel, null)
+                .setNegativeButton(R.string.cancel, null)
                 .show();
 
         radioGroup = dialog.findViewById(R.id.textEraseDialog_radioGroup);

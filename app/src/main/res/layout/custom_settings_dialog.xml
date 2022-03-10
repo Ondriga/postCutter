@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:text="@string/settings_dialog_text"
         android:textAllCaps="true"
-        android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

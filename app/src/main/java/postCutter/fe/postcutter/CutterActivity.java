@@ -81,6 +81,7 @@ public class CutterActivity extends AppCompatActivity {
         barAnimationHandler = builder.topBar(topBar)
                 .bottomBar(bottomBar)
                 .screenBlocker(screenBlocker)
+                .showed(false)
                 .build();
 
         screenBlocker.setOnClickListener(e -> barAnimationHandler.showHide());
