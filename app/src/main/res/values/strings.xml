@@ -19,4 +19,10 @@
     <string name="reload">reload</string>
     <string name="permission_granted_text">Permissions granted.</string>
     <string name="permission_denied_text">Permissions denied. Permissions are required to use the app.</string>
+    <string name="next">next</string>
+    <string name="close">close</string>
+    <string name="help_detail_button_crop">"By first button, it is start automatic crop for image."</string>
+    <string name="help_detail_button_replace">"By second button, it is possible to remove text or watermark."</string>
+    <string name="help_detail_button_share">"By third button, it is possible to share image."</string>
+    <string name="help_detail_button_delete">"By fourth button, it is possible to permanently delete image."</string>
 </resources>

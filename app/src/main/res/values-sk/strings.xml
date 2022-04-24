@@ -20,4 +20,10 @@
     <string name="reload">obnoviť</string>
     <string name="permission_granted_text">Povolenia udelené.</string>
     <string name="permission_denied_text">Povolenia zamietnuté. Povolenia sú potrebné pre používanie aplikácie.</string>
+    <string name="next">ďalej</string>
+    <string name="close">zavrieť</string>
+    <string name="help_detail_button_crop">"Pomocou prvého tlačidla je možné obrázok orezať pomocou automatického návrhu."</string>
+    <string name="help_detail_button_replace">"Pomocou druhého tlačidla je možné odstrániť z obrázka text, alebo vodoznak."</string>
+    <string name="help_detail_button_share">"Pomocou tretieho tlačidla je možné obrázok zdielať."</string>
+    <string name="help_detail_button_delete">"Pomocou štvrtého tlačidla je možné obrázok natrvalo odstrániť."</string>
 </resources>

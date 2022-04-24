@@ -19,11 +19,15 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import postCutter.fe.postcutter.R;
 
+import postCutter.fe.postcutter.dialogs.HelpDialog;
 import postCutter.fe.postcutter.functions.BarAnimationHandler;
+import postCutter.fe.postcutter.functions.Help;
 import postCutter.fe.postcutter.functions.ImageAction;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
@@ -62,6 +66,19 @@ public class ImageDetailActivity extends AppCompatActivity {
         ConstraintLayout mainLayout = findViewById(R.id.imageDetail_mainLayout);
         mainLayout.setOnClickListener(e -> barAnimationHandler.showHide());
         imageView.setOnClickListener(e -> barAnimationHandler.showHide());
+
+        this.prepareHelp();
+    }
+
+    private void prepareHelp() {
+        List<Help> helps = new ArrayList<>();
+        helps.add(new Help(getResources().getString(R.string.help_detail_button_crop), R.drawable.detail__button_crop));
+        helps.add(new Help(getResources().getString(R.string.help_detail_button_replace), R.drawable.detail__button_replace));
+        helps.add(new Help(getResources().getString(R.string.help_detail_button_share), R.drawable.detail__button_share));
+        helps.add(new Help(getResources().getString(R.string.help_detail_button_delete), R.drawable.detail__button_delete));
+
+        HelpDialog helpDialog = new HelpDialog(this, helps);
+        helpDialog.show();
     }
 
     private void prepareImage() {
