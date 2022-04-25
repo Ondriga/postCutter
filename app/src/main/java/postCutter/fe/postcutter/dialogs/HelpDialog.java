@@ -35,6 +35,7 @@ public class HelpDialog {
         LayoutInflater inflater = activity.getLayoutInflater();
         this.dialogBuilder = new MaterialAlertDialogBuilder(activity)
                 .setCancelable(false)
+                .setTitle(R.string.help_title)
                 .setView(inflater.inflate(R.layout.help_dialog, null));
     }
 

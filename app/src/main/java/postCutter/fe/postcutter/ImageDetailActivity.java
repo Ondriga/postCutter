@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,12 +18,14 @@ import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+
 import postCutter.fe.postcutter.R;
 
 import postCutter.fe.postcutter.dialogs.HelpDialog;
 import postCutter.fe.postcutter.functions.BarAnimationHandler;
 import postCutter.fe.postcutter.functions.Help;
 import postCutter.fe.postcutter.functions.ImageAction;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
@@ -77,8 +80,12 @@ public class ImageDetailActivity extends AppCompatActivity {
         helps.add(new Help(getResources().getString(R.string.help_detail_button_share), R.drawable.detail__button_share));
         helps.add(new Help(getResources().getString(R.string.help_detail_button_delete), R.drawable.detail__button_delete));
 
-        HelpDialog helpDialog = new HelpDialog(this, helps);
-        helpDialog.show();
+        SharedPreferences sharedPreferences = getSharedPreferences(Help.SHARED_PREFS, MODE_PRIVATE);
+        if (sharedPreferences.getBoolean(Help.DETAIL_HELP, true)) {
+            sharedPreferences.edit().putBoolean(Help.DETAIL_HELP, false).commit();
+            HelpDialog helpDialog = new HelpDialog(this, helps);
+            helpDialog.show();
+        }
     }
 
     private void prepareImage() {

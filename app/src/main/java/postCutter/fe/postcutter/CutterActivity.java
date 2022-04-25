@@ -15,9 +15,11 @@ import postCutter.fe.postcutter.R;
 
 import postCutter.fe.postcutter.customViews.EraseView;
 import postCutter.fe.postcutter.dialogs.CutterSaveDialog;
+import postCutter.fe.postcutter.dialogs.HelpDialog;
 import postCutter.fe.postcutter.dialogs.LoadingDialog;
 import postCutter.fe.postcutter.dialogs.SettingDialog;
 import postCutter.fe.postcutter.functions.BarAnimationHandler;
+import postCutter.fe.postcutter.functions.Help;
 import postCutter.fe.postcutter.functions.ImageAction;
 
 import org.opencv.android.OpenCVLoader;
@@ -25,6 +27,7 @@ import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import postCutter.Cutter;
@@ -42,6 +45,8 @@ public class CutterActivity extends AppCompatActivity {
 
     private BarAnimationHandler barAnimationHandler;
 
+    private List<Help> helps = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         OpenCVLoader.initDebug();
@@ -51,6 +56,7 @@ public class CutterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cutter);
 
         ActivityCompat.requestPermissions(CutterActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        prepareHelp();
 
         path = getIntent().getStringExtra(ImageDetailActivity.IMG_PATH);
         imageBitmap = ImageAction.getImageOrientedCorrect(path);
@@ -63,6 +69,9 @@ public class CutterActivity extends AppCompatActivity {
 
         SettingDialog dialog = new SettingDialog(CutterActivity.this);
         settingsButton.setOnClickListener(e -> startSettingDialog(dialog));
+
+        ImageButton helpButton = findViewById(R.id.cutter_help_button);
+        helpButton.setOnClickListener(e -> showHelp());
 
         dialog.getDialog().setOnDismissListener(dialog1 -> {
             if (dialog.doReload()) {
@@ -93,6 +102,31 @@ public class CutterActivity extends AppCompatActivity {
         eraseView.loadPicture(imageBitmap);
         eraseView.activateBreakpoints(new ArrayList<>(), new ArrayList<>(), CutterActivity.this);
         processImage();
+    }
+
+    private void prepareHelp() {
+        this.helps.add(new Help(getResources().getString(R.string.help_crop_hide), R.drawable.crop__hide));
+        this.helps.add(new Help(getResources().getString(R.string.help_rectangle_resize), R.drawable.rectangle__resize));
+        this.helps.add(new Help(getResources().getString(R.string.help_rectangle_move), R.drawable.rectangle__move));
+        this.helps.add(new Help(getResources().getString(R.string.help_crop_show), R.drawable.crop__show));
+        this.helps.add(new Help(getResources().getString(R.string.help_crop_save), R.drawable.crop__button_save));
+        this.helps.add(new Help(getResources().getString(R.string.help_crop_settings), R.drawable.crop__button_settings));
+        this.helps.add(new Help(getResources().getString(R.string.help_crop_accurate), R.drawable.settings__accurate));
+        this.helps.add(new Help(getResources().getString(R.string.help_crop_help_lines), R.drawable.settings__help_lines));
+        this.helps.add(new Help(getResources().getString(R.string.help_crop_reload), R.drawable.settings__reload));
+    }
+
+    private void showHelpOnlyOne() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Help.SHARED_PREFS, MODE_PRIVATE);
+        if (sharedPreferences.getBoolean(Help.CROP_HELP, true)) {
+            sharedPreferences.edit().putBoolean(Help.CROP_HELP, false).commit();
+            showHelp();
+        }
+    }
+
+    private void showHelp() {
+        HelpDialog helpDialog = new HelpDialog(this, helps);
+        helpDialog.show();
     }
 
     private void setCutter() {
@@ -148,6 +182,7 @@ public class CutterActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    showHelpOnlyOne();
                     if (running.get()) {
                         eraseView.setRectangle(cutter.getRectangle());
                         eraseView.activateBreakpoints(cutter.getHorizontalLines(), cutter.getVerticalLines(), CutterActivity.this);
@@ -160,6 +195,7 @@ public class CutterActivity extends AppCompatActivity {
         }
 
         public void stopThread() {
+            showHelpOnlyOne();
             this.running.set(false);
             cutter.stop();
             allowSuggestion = false;

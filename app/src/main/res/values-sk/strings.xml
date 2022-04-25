@@ -2,10 +2,10 @@
 <resources>
     <string name="app_name">PostCutter</string>
     <string name="loading_text">Obrázok sa spracováva…</string>
-    <string name="settings_suggestion_lines">pomocné hrany</string>
+    <string name="settings_suggestion_lines">pomocník posunu</string>
     <string name="save">uložiť</string>
     <string name="cancel">zrušiť</string>
-    <string name="settings_dialog_text">Výpočet hran orezu</string>
+    <string name="settings_dialog_text">Výpočet hrán orezu</string>
     <string name="text_erase_dialog_title">nahradiť oblasť s:</string>
     <string name="telea_method">Telea metódou</string>
     <string name="ns_method">NS metódou</string>
@@ -22,8 +22,26 @@
     <string name="permission_denied_text">Povolenia zamietnuté. Povolenia sú potrebné pre používanie aplikácie.</string>
     <string name="next">ďalej</string>
     <string name="close">zavrieť</string>
+
+    <string name="help_title">Tutoriál</string>
+
     <string name="help_detail_button_crop">"Pomocou prvého tlačidla je možné obrázok orezať pomocou automatického návrhu."</string>
     <string name="help_detail_button_replace">"Pomocou druhého tlačidla je možné odstrániť z obrázka text, alebo vodoznak."</string>
-    <string name="help_detail_button_share">"Pomocou tretieho tlačidla je možné obrázok zdielať."</string>
+    <string name="help_detail_button_share">"Pomocou tretieho tlačidla je možné obrázok zdieľať."</string>
     <string name="help_detail_button_delete">"Pomocou štvrtého tlačidla je možné obrázok natrvalo odstrániť."</string>
+
+    <string name="help_rectangle_resize">"Pre zmenu veľkosti orámovania stačí potiahnuť jeden z ôsmich bodov v rohoch a na stredoch strán."</string>
+    <string name="help_rectangle_move">"Pre posunutie celého orámovania bez zmeny veľkosti posúvajte prstom po strede orámovania."</string>
+
+    <string name="help_crop_hide">"Ak je zobrazená horná a dolná lišta, s ohraničením orezu nie je možné manipulovať. Pre skrytie týchto líšt a sprístupnenia ohraničenia kliknite na obrazovku."</string>
+    <string name="help_crop_show">"Aby ste mohli orez uložiť, potrebujete zobraziť dolnú lištu. Kliknutím na obrazovku ju zobrazíte."</string>
+    <string name="help_crop_save">"Pre uloženie orezu stlačte tlačidlo na dolnej lište."</string>
+    <string name="help_crop_settings">"Pre otvorenie nastavení pre orez kliknite na tlačidlo napravo v hornej lište."</string>
+    <string name="help_crop_accurate">"Presnosť výpočtu nastavuje počet hranových funkcií, ktoré sa použijú pre nájdenie orezu. Čím viac fukcií sa použije, tým je väčšia pravdepodobnosť, že sa orez podarí nájsť správne. Zároveň ale výpočet trvá dlhšie."</string>
+    <string name="help_crop_help_lines">"Pomocník posunu pomáha zastaviť užívateľovi na nájdených hranách v obrázku pri manuálnom posune okrajmi orámovania."</string>
+    <string name="help_crop_reload">"Obnoviť opätovne spúšťa proces hľadania orezu."</string>
+
+    <string name="help_replace_hide">"Ak je zobrazená dolná lišta, s ohraničením nahradenia nie je možné manipulovať. Pre skrytie tejto lišty a sprístupnenie ohraničenia kliknite na obrazovku."</string>
+    <string name="help_replace_show">"Aby ste mohli obrázok s vybranou oblasťou na odstránenie uložiť, potrebujete zobraziť dolnú lištu. Kliknutím na obrazovku ju zobrazíte."</string>
+    <string name="help_replace_save">"Po vybratí oblasti pre nahradenie slačte tlačidlo na dolnej lište. Následne vyberte, ktorým z dvoch navrhovaných obrázkov bude oblasť nahradená."</string>
 </resources>

@@ -16,7 +16,7 @@ public class SettingDialog {
     public static final String SUGGESTION_SWITCH = "suggestionSwitch";
     public static final String SUGGESTION_ACCURACY = "suggestionAccuracy";
     public static final Boolean SWITCH_DEFAULT = true;
-    public static final int ACCURACY_DEFAULT = 2;
+    public static final int ACCURACY_DEFAULT = 4;
 
     private final Activity activity;
 
