@@ -2,11 +2,11 @@ package postCutter.fe.postcutter.dialogs;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -26,7 +26,7 @@ public class HelpDialog {
     private TextView text;
     private ImageView image;
     private TextView counter;
-    private Button button;
+    private AppCompatButton button;
 
     public HelpDialog(Activity activity, List<Help> helps) {
         this.activity = activity;
