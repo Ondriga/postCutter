@@ -17,7 +17,7 @@
     <string name="text_erase_title">vyber oblasť, ktorú chceš odstrániť</string>
     <string name="fast">rýchlosť</string>
     <string name="accurate">presnosť</string>
-    <string name="reload">obnoviť</string>
+    <string name="reload">opätovne navrhnúť</string>
     <string name="permission_granted_text">Povolenia udelené.</string>
     <string name="permission_denied_text">Povolenia zamietnuté. Povolenia sú potrebné pre používanie aplikácie.</string>
     <string name="next">ďalej</string>
@@ -44,4 +44,6 @@
     <string name="help_replace_hide">"Ak je zobrazená dolná lišta, s ohraničením nahradenia nie je možné manipulovať. Pre skrytie tejto lišty a sprístupnenie ohraničenia kliknite na obrazovku."</string>
     <string name="help_replace_show">"Aby ste mohli obrázok s vybranou oblasťou na odstránenie uložiť, potrebujete zobraziť dolnú lištu. Kliknutím na obrazovku ju zobrazíte."</string>
     <string name="help_replace_save">"Po vybratí oblasti pre nahradenie slačte tlačidlo na dolnej lište. Následne vyberte, ktorým z dvoch navrhovaných obrázkov bude oblasť nahradená."</string>
+
+    <string name="skip">preskočiť</string>
 </resources>

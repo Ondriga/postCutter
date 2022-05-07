@@ -16,7 +16,7 @@
     <string name="text_erase_title">set area for content erase</string>
     <string name="fast">fast</string>
     <string name="accurate">accurate</string>
-    <string name="reload">reload</string>
+    <string name="reload">suggest again</string>
     <string name="permission_granted_text">Permissions granted.</string>
     <string name="permission_denied_text">Permissions denied. Permissions are required to use the app.</string>
     <string name="next">next</string>
@@ -43,4 +43,6 @@
     <string name="help_replace_hide">"If the bottom bar is showed, then you couldn`t be able to manipulate with frame for replace. For this the bar click on display."</string>
     <string name="help_replace_show">"If you want to save the image with replaced are, you need press button on bottom bar. For show this bar click again on display."</string>
     <string name="help_replace_save">"After position the area for replace press button on bottom. Then choose one of two images by which the area will be replace."</string>
+
+    <string name="skip">skip</string>
 </resources>
