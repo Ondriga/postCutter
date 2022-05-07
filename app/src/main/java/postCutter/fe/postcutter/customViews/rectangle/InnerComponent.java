@@ -1,3 +1,10 @@
+/*
+ * Source code for the frontend of Bachelor thesis.
+ * InnerComponent class
+ *
+ * (C) Patrik Ondriga (xondri08)
+ */
+
 package postCutter.fe.postcutter.customViews.rectangle;
 
 import android.view.MotionEvent;
@@ -5,12 +12,23 @@ import android.view.View;
 
 import java.util.Calendar;
 
+/**
+ * Representing inner rectangle of crop/replace frame. Extending the Component class.
+ */
 public class InnerComponent extends Component {
+    /// Max time constant for touche to be consider as short click.
     private final static int CLICK_TIME = 200;
 
+    /// Time when the component was touched.
     private long startEventTime;
+    /// Parent View of this component View.
     private View parent;
 
+    /**
+     * Constructor.
+     *
+     * @param view UI View of this component.
+     */
     public InnerComponent(View view) {
         super(view);
         parent = (View) view.getParent();

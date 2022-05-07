@@ -1,3 +1,10 @@
+/*
+ * Source code for the frontend of Bachelor thesis.
+ * LoadingDialog class
+ *
+ * (C) Patrik Ondriga (xondri08)
+ */
+
 package postCutter.fe.postcutter.dialogs;
 
 import android.app.Activity;
@@ -8,29 +15,47 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import postCutter.fe.postcutter.R;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+/**
+ * Representing loading dialog during image computing.
+ */
 public class SettingDialog {
+    /// Constant of key for access to store values.
     public static final String SHARED_PREFS = "sharedPrefs";
+    /// Constant of key for "move helper" switch state.
     public static final String SUGGESTION_SWITCH = "suggestionSwitch";
+    /// Constant of key for "accuracy" value.
     public static final String SUGGESTION_ACCURACY = "suggestionAccuracy";
+    /// Constant of key for default state of "move helper" switch.
     public static final Boolean SWITCH_DEFAULT = true;
+    /// Constant of key for default "accuracy" value.
     public static final int ACCURACY_DEFAULT = 4;
 
+    /// Activity in which is this dialog used.
     private final Activity activity;
-
+    /// Dialog window.
     private final androidx.appcompat.app.AlertDialog dialog;
+    /// Store object.
     private SharedPreferences sharedPreferences;
-
+    /// "move helper" switch.
     private SwitchMaterial suggestionSwitch;
+    /// "move helper" slider.
     private SeekBar suggestionAccuracy;
-
+    /// Allow "move helper" state.
     private boolean allowSuggestion = false;
-
+    /// Suggest crop again after dialog close.
     private boolean reload = false;
+    /// "accuracy" value.
     private int oldAccuracySetting = ACCURACY_DEFAULT;
 
+    /**
+     * Constructor.
+     *
+     * @param activity Activity in which is this dialog used.
+     */
     public SettingDialog(Activity activity) {
         this.activity = activity;
 
@@ -62,6 +87,11 @@ public class SettingDialog {
                 }).create();
     }
 
+    /**
+     * Show dialog window.
+     *
+     * @param allowSuggestion allow change
+     */
     public void startDialog(boolean allowSuggestion) {
         dialog.show();
         reload = false;
@@ -85,10 +115,20 @@ public class SettingDialog {
         suggestionAccuracy.setProgress(oldAccuracySetting);
     }
 
+    /**
+     * Do suggestion again.
+     *
+     * @return true if do, otherwise false.
+     */
     public boolean doReload() {
         return reload;
     }
 
+    /**
+     * Getter for dialog object.
+     *
+     * @return dialog object.
+     */
     public androidx.appcompat.app.AlertDialog getDialog() {
         return dialog;
     }

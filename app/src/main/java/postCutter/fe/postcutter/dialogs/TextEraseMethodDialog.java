@@ -1,3 +1,10 @@
+/*
+ * Source code for the frontend of Bachelor thesis.
+ * TextEraseMethodDialog class
+ *
+ * (C) Patrik Ondriga (xondri08)
+ */
+
 package postCutter.fe.postcutter.dialogs;
 
 import android.app.Activity;
@@ -11,6 +18,7 @@ import postCutter.fe.postcutter.ImageDetailActivity;
 import postCutter.fe.postcutter.R;
 import postCutter.fe.postcutter.functions.ImageAction;
 import postCutter.fe.postcutter.functions.TextEraseMethod;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.opencv.core.Mat;
@@ -18,15 +26,31 @@ import org.opencv.core.Mat;
 import inpainting.Inpainter;
 import postCutter.geometricShapes.rectangle.MyRectangle;
 
+/**
+ * Representing dialog for save image text replace.
+ */
 public class TextEraseMethodDialog {
+    /// Dialog window.
     private final androidx.appcompat.app.AlertDialog dialog;
+    /// Activity in which is this dialog used.
     private final Activity activity;
+    /// Telea replace method.
     private final TextEraseMethod textEraseMethodTelea;
+    /// NS replace method.
     private final TextEraseMethod textEraseMethodNS;
+    /// Image path for replace.
     private final String imgPath;
-
+    /// Group for buttons with results of replaces methods.
     private final RadioGroup radioGroup;
 
+    /**
+     * Constructor.
+     *
+     * @param activity  Activity in which is this dialog used.
+     * @param img       image for replace.
+     * @param rectangle area for replace.
+     * @param imgPath   path of image for replace.
+     */
     public TextEraseMethodDialog(Activity activity, Mat img, MyRectangle rectangle, String imgPath) {
         this.activity = activity;
         this.imgPath = imgPath;
@@ -65,6 +89,11 @@ public class TextEraseMethodDialog {
         );
     }
 
+    /**
+     * Only replaced are from image.
+     *
+     * @return replaced are image.
+     */
     private Bitmap getImageFromMethod() {
         int methodId = radioGroup.getCheckedRadioButtonId();
         if (textEraseMethodTelea.getRadioButton().getId() == methodId) {
@@ -73,6 +102,9 @@ public class TextEraseMethodDialog {
         return textEraseMethodNS.getImage();
     }
 
+    /**
+     * Replace image on path by this new image.
+     */
     private void save() {
         String path = ImageAction.save(activity, getImageFromMethod(), imgPath);
 
@@ -84,6 +116,9 @@ public class TextEraseMethodDialog {
         activity.finish();
     }
 
+    /**
+     * Save image as new.
+     */
     private void saveAsNew() {
         String path = ImageAction.saveAsNew(activity, getImageFromMethod());
 

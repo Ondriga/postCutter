@@ -1,3 +1,10 @@
+/*
+ * Source code for the frontend of Bachelor thesis.
+ * EraseView class
+ *
+ * (C) Patrik Ondriga (xondri08)
+ */
+
 package postCutter.fe.postcutter.customViews;
 
 import android.app.Activity;
@@ -24,16 +31,40 @@ import postCutter.geometricShapes.Coordinate;
 import postCutter.geometricShapes.line.MyLine;
 import postCutter.geometricShapes.rectangle.MyRectangle;
 
+/**
+ * Representing crop/replace frame.
+ */
 public class EraseView extends FrameLayout {
+    /// Rectangle component.
     private final RectangleView rectangleView;
+    /// View for image.
     private final ImageView imageView;
+    /// Position and dimensions image on display.
     private MyRectangle imgOnScreen;
 
+    /**
+     * Shadow over rectangle component.
+     */
     private final View shadowTop;
+    /**
+     * Shadow on left from rectangle component.
+     */
     private final View shadowLeft;
+    /**
+     * Shadow under rectangle component.
+     */
     private final View shadowBottom;
+    /**
+     * Shadow on right from rectangle component.
+     */
     private final View shadowRight;
 
+    /**
+     * Constructor.
+     *
+     * @param context This value cannot be null.
+     * @param attrs   This value may be null.
+     */
     public EraseView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         inflate(getContext(), R.layout.erase_view, this);
@@ -47,6 +78,11 @@ public class EraseView extends FrameLayout {
         shadowRight = findViewById(R.id.erase_right_shadow);
     }
 
+    /**
+     * Load image. Wait until image loaded and then prepare rectangle component.
+     *
+     * @param imageBitmap image.
+     */
     public void loadPicture(Bitmap imageBitmap) {
         this.imageView.setImageBitmap(imageBitmap);
 
@@ -78,6 +114,11 @@ public class EraseView extends FrameLayout {
         });
     }
 
+    /**
+     * During moving with rectangle component this stay inside image borders.
+     *
+     * @param newCoordinate new position of rectangle.
+     */
     private void makeRectangleInLayout(CoordinateFloat newCoordinate) {
         if (imgOnScreen.getCornerA().getX() > rectangleView.getRectangle().getCornerA().getX() + newCoordinate.getX()) {
             newCoordinate.setX(imgOnScreen.getCornerA().getX() - rectangleView.getRectangle().getCornerA().getX());
@@ -93,6 +134,9 @@ public class EraseView extends FrameLayout {
         }
     }
 
+    /**
+     * Set click and move events listeners for components inside rectangle component.
+     */
     private void prepareComponentsForMove() {
         rectangleView.getInnerRectangle().getView().setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -232,18 +276,33 @@ public class EraseView extends FrameLayout {
         });
     }
 
+    /**
+     * Change height of View.
+     *
+     * @param view   inserting for change height.
+     * @param height new height.
+     */
     private void setViewHeight(View view, int height) {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
         params.height = height;
         view.setLayoutParams(params);
     }
 
+    /**
+     * Change width of View.
+     *
+     * @param view  inserting for change width.
+     * @param width new widht.
+     */
     private void setViewWidth(View view, int width) {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
         params.width = width;
         view.setLayoutParams(params);
     }
 
+    /**
+     * Change shadows positions and dimensions.
+     */
     private void setShadows() {
         MyRectangle rectangle = rectangleView.getRectangle();
 
@@ -264,14 +323,31 @@ public class EraseView extends FrameLayout {
         setViewHeight(shadowRight, rectangle.getHeight());
     }
 
+    /**
+     * Getter for rectangle of selected area in real image scale.
+     *
+     * @return rectangle in real image scale.
+     */
     public MyRectangle getRectangle() {
         return this.rectangleView.getRectangleInNormalSize();
     }
 
+    /**
+     * Setter for rectangle of selected area in real image scale.
+     *
+     * @param rectangle in real image scale.
+     */
     public void setRectangle(MyRectangle rectangle) {
         this.rectangleView.setRectangleInNormalSize(rectangle);
     }
 
+    /**
+     * Allowed jumping on edges.
+     *
+     * @param horizontalBreakpoints list of horizontal edges.
+     * @param verticalBreakpoints   list of vertical edges.
+     * @param activity              Activity in which is this component used.
+     */
     public void activateBreakpoints(
             List<MyLine> horizontalBreakpoints,
             List<MyLine> verticalBreakpoints,
@@ -279,10 +355,21 @@ public class EraseView extends FrameLayout {
         this.rectangleView.activateBreakpoints(horizontalBreakpoints, verticalBreakpoints, activity);
     }
 
+    /**
+     * Getter for rectangle component.
+     *
+     * @return rectangle component view.
+     */
     public View getRectangleView() {
         return this.rectangleView;
     }
 
+    /**
+     * Set restriction for max width and height for rectangle component.
+     *
+     * @param maxWidth  max width of rectangle.
+     * @param maxHeight max height of rectangle.
+     */
     public void setMaxRectangle(int maxWidth, int maxHeight) {
         rectangleView.setMaxRectangle(maxWidth, maxHeight);
     }

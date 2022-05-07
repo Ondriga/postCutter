@@ -1,3 +1,10 @@
+/*
+ * Source code for the frontend of Bachelor thesis.
+ * HelpDialog class
+ *
+ * (C) Patrik Ondriga (xondri08)
+ */
+
 package postCutter.fe.postcutter.dialogs;
 
 import android.app.Activity;
@@ -17,16 +24,32 @@ import java.util.List;
 import postCutter.fe.postcutter.R;
 import postCutter.fe.postcutter.functions.Help;
 
+/**
+ * Representing dialog for help tutorial.
+ */
 public class HelpDialog {
+    /// Activity in which is this dialog used.
     private final Activity activity;
+    /// List of help objects.
     private final List<Help> helps;
+    /// Dialog builder.
     private final MaterialAlertDialogBuilder dialogBuilder;
+    /// Dialog window.
     private AlertDialog dialog;
+    /// Index of help from list of helps.
     private int index = 0;
 
+    /// Text of help.
     private TextView text;
+    /// ImageView for help gif.
     private ImageView image;
 
+    /**
+     * Constructor.
+     *
+     * @param activity Activity in which is this dialog used.
+     * @param helps    List of helps.
+     */
     public HelpDialog(Activity activity, List<Help> helps) {
         this.activity = activity;
         this.helps = helps;
@@ -40,6 +63,9 @@ public class HelpDialog {
                 .setView(inflater.inflate(R.layout.help_dialog, null));
     }
 
+    /**
+     * Show dialog with help text and gif.
+     */
     public void show() {
         this.dialog = this.dialogBuilder.create();
 
@@ -57,6 +83,9 @@ public class HelpDialog {
         this.image = dialog.findViewById(R.id.help_dialog__image);
     }
 
+    /**
+     * Show next help message and gif. If all help messages was show, then close dialog window.
+     */
     private void next() {
         if (helps.size() > index) {
             Help help = helps.get(index++);
