@@ -15,7 +15,7 @@ Aplikácia je napísaná v programovacom jazyku *Java* a využíva knižnicu *Op
 # Aplikácia
 
 Aplikácia bola vytvorená v prostredí *Android Studio*. Pre preklad aplikácie je teda potrebné importovať tento projekt do tohto prostredia.
-Pre nainštalovanie aplikácie je možné použiť tento link [PostCutter](https://play.google.com/store/apps/details?id=postcutter.fe.postcutter).
+Pre nainštalovanie aplikácie je možné použiť tento link [PostCutter](https://play.google.com/store/apps/details?id=postcutter.fe.postcutter). Aplikáciu je možné nainštalovať na Android zariadenie s minimálnou verziou 8.0.
 
 # Licencia
 
